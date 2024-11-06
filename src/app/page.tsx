@@ -1,5 +1,5 @@
 import Image from "next/image";
-import styles from "../../styles/MainPage.module.css";
+import styles from "../../styles/mainpage/MainPage.module.css";
 export default function Home() {
   return <div className={styles.background}>
     <Image
