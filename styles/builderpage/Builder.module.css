@@ -1,0 +1,71 @@
+/* pages/CustomBuilder.module.css */
+.container {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo {
+    width: 50px;
+}
+
+.modePick {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.modeButton {
+    background-color: #444;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 4fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.occupations {
+    background-color: black;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid white;
+    grid-row: span 3;
+}
+
+.traits, .chosenTraits, .majorSkills {
+    background-color: black;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid white;
+}
+
+.buttons {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.button {
+    background-color: #666;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.title {
+    font-size: 20px;
+}
