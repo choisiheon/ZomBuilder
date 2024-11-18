@@ -1,13 +1,9 @@
-import Image from "next/image";
-import styles from "../../styles/mainpage/MainPage.module.css";
+import RecommendBuilder from "./recommend_builder/page";
+import CustomBuilder from "./builder/page";
 export default function Home() {
-  return <div className={styles.background}>
-    <Image
-        src="/image/mainpagebackground.png"
-        alt="메인 배경 이미지"
-        layout="fill"
-        objectFit="cover"
-        objectPosition="center"
-    />
+  return <div>
+    <div>
+      <RecommendBuilder></RecommendBuilder>
+    </div>
   </div>
 }

@@ -9,7 +9,7 @@ type Trait = {
 };
 
 // 기본 Trait 데이터 (예시)
-const positiveTraits: Trait[] = [
+const positiveTraits: Trait[] = [ 
     { name: "속도광", points: -1 },
     { name: "고양이의 눈", points: -2 },
     { name: "민첩한", points: -2 },
