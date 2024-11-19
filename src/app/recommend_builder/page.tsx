@@ -50,7 +50,7 @@ const RecommendBuilder: React.FC = () => {
 
     <div className={styles.modePick}>
         <button className={styles.modeButton}>
-          <img src="../image/modeLogo.png" alt="modeLogo" className={styles.modeLogo} />More Traits           
+          <img src="../image/modeLogo.png" alt="modeLogo" className={styles.modeLogo} />More Traits
         </button>
         <button className={styles.modeButton}>
           <img src="../image/modeLogo.png" alt="modeLogo" className={styles.modeLogo} />More Simple Traits (MST)
@@ -59,6 +59,22 @@ const RecommendBuilder: React.FC = () => {
           <img src="../image/modeLogo.png" alt="modeLogo" className={styles.modeLogo} />Simple Overhaul Traits and Occupations (SOTO)
         </button>
     </div>
+
+    <div className={styles.jobPick}>
+      <button className={styles.jobButton}>
+        <img src="../image/modeLogo.png" alt="jobImage" className={styles.modeLogo} />무직
+      </button>
+      <button className={styles.jobButton}>
+        <img src="../image/modeLogo.png" alt="jobImage" className={styles.modeLogo} />소방관
+      </button>
+    </div>
+
+    <div className={styles.searchContainer}>
+      <img src="../image/searchIcon.png" alt="Search Icon" className={styles.searchIcon} />
+      <input type="text" placeholder="Search for a Build" className={styles.searchBuildInput} />
+    </div>
+
+    
 
     <div className={styles.grid}>
 
