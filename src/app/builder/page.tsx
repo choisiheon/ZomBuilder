@@ -1,6 +1,8 @@
 // pages/custom-page.tsx
 import React from 'react';
+import Image from 'next/image'; // next/image에서 Image를 임포트
 import styles from '../../../styles/builderpage/Builder.module.css'; // 스타일을 위한 CSS 모듈 임포트
+import Link from 'next/link';
 
 // 각 Trait 아이템의 타입 정의
 type Trait = {
@@ -36,15 +38,62 @@ const negativeTraits: Trait[] = [
 const CustomBuilder: React.FC = () => {
     return (
         <div>
-            <header className={styles.header}>
-                <img src="/zomboid-logo.png" alt="Project Zomboid" className={styles.logo} />
-                <h1>커스텀 빌더</h1>
-            </header>
+            <div className={styles.mainHeader}>
+                {/* 좌측 상단 좀빌더 로고 */}
+                <div className={styles.zomBuilderLogo}>
+                    <Link href="/">
+                    <Image
+                        src="/image/zomboid-logo.png" // 절대 경로 사용
+                        alt="좀빌더 로고"
+                        layout="intrinsic"
+                        width={250} 
+                        height={100} 
+                        style={{ cursor: "pointer" }}
+                    />
+                    </Link>
+                </div>
+
+                {/* 우측 상단 인디스톤 로고 */}
+                <div className={styles.indieStoneLogo}>
+                    <Link href="https://projectzomboid.com/blog/about-us/"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        <Image
+                        src="/image/logo.png"
+                        alt="인디스톤 로고"
+                        layout="intrinsic"
+                        width={100} 
+                        height={100} 
+                        style={{ cursor: "pointer" }}
+                        />
+                    </Link>
+                </div>
+            </div>
+
+            <div className={styles.underHeader}>
+                <div className={styles.menuTitle}>
+                    <img src="../image/menuLogo.png" alt="menu" className={styles.menuLogo} />
+                    <h1>Custom Builder</h1>
+                </div>
+                <div className={styles.searchGroup}>
+                    <div className={styles.searchLabel}>All Search</div>
+                    <input type="text" placeholder="" className={styles.searchInput} />
+                </div>
+            </div>
 
             <div className={styles.modePick}>
-                <button className={styles.modeButton}>More Traits</button>
-                <button className={styles.modeButton}>More Simple Traits (MST)</button>
-                <button className={styles.modeButton}>Simple Overhaul Traits and Occupations (SOTO)</button>
+                <h3>Mode Pick:</h3>
+                <div className={styles.modeButtonGroup}>
+                    <button className={styles.modeButton}>
+                        <img src="../image/modeLogo.png" alt="modeLogo" className={styles.modeLogo} />More Traits           
+                    </button>
+                    <button className={styles.modeButton}>
+                        <img src="../image/modeLogo.png" alt="modeLogo" className={styles.modeLogo} />More Simple Traits (MST)
+                    </button>
+                    <button className={styles.modeButton}>
+                        <img src="../image/modeLogo.png" alt="modeLogo" className={styles.modeLogo} />Simple Overhaul Traits and Occupations (SOTO)
+                    </button>
+                </div>
             </div>
 
             <div className={styles.grid}>
@@ -87,11 +136,13 @@ const CustomBuilder: React.FC = () => {
                 </div>
             </div>
 
-            <div className={styles.buttons}>
-                <button>무작위</button>
-                <button>초기화</button>
-                <button>캡쳐하기</button>
-                <button>내 빌드 공유하기</button>
+            <div className={styles.buttonGroup}>
+                <button className={styles.button}>무작위</button>
+                <button className={styles.button}>초기화</button>
+                <button className={styles.button}>캡쳐하기</button>
+            </div>
+            <div className={styles.buildShareButtonPosition}>
+                <button className={styles.buildShareButton}>내 빌드 공유하기</button>
             </div>
         </div>
     );

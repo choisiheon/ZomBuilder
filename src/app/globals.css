@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #272625; /* 배경색을 원하는 색상으로 변경 */
+  --foreground: #ffffff; /* 텍스트 색상 */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #272625; /* 다크 모드에서도 동일한 배경색 */
+    --foreground: #ffffff; /* 다크 모드에서 밝은 텍스트 */
   }
 }
 
@@ -18,4 +18,7 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  max-width: 1920px; /* 최대 너비를 1920px로 제한 */
+  max-height: 1080px; /* 최대 높이를 1080px로 제한 */
+  margin: 0 auto;
 }

@@ -3,7 +3,8 @@ import CustomBuilder from "./builder/page";
 export default function Home() {
   return <div>
     <div>
-      <RecommendBuilder></RecommendBuilder>
+      {/* <RecommendBuilder></RecommendBuilder> */}
+      <CustomBuilder></CustomBuilder>
     </div>
   </div>
 }
