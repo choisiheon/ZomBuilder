@@ -38,34 +38,36 @@ const negativeTraits: Trait[] = [
 const CustomBuilder: React.FC = () => {
     return (
         <div>
-            {/* 좌측 상단 좀빌더 로고 */}
-            <div className={styles.zomBuilderLogo}>
-                <Link href="/">
-                <Image
-                    src="/image/zomboid-logo.png" // 절대 경로 사용
-                    alt="좀빌더 로고"
-                    layout="intrinsic"
-                    width={250} 
-                    height={100} 
-                    style={{ cursor: "pointer" }}
-                />
-                </Link>
-            </div>
-
-            {/* 우측 상단 인디스톤 로고 */}
-            <div className={styles.indieStoneLogo}>
-                <Link href="https://projectzomboid.com/blog/about-us/"
-                    target="_blank"
-                    rel="noopener noreferrer">
+            <div className={styles.mainHeader}>
+                {/* 좌측 상단 좀빌더 로고 */}
+                <div className={styles.zomBuilderLogo}>
+                    <Link href="/">
                     <Image
-                    src="/image/logo.png"
-                    alt="인디스톤 로고"
-                    layout="intrinsic"
-                    width={100} 
-                    height={100} 
-                    style={{ cursor: "pointer" }}
+                        src="/image/zomboid-logo.png" // 절대 경로 사용
+                        alt="좀빌더 로고"
+                        layout="intrinsic"
+                        width={250} 
+                        height={100} 
+                        style={{ cursor: "pointer" }}
                     />
-                </Link>
+                    </Link>
+                </div>
+
+                {/* 우측 상단 인디스톤 로고 */}
+                <div className={styles.indieStoneLogo}>
+                    <Link href="https://projectzomboid.com/blog/about-us/"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        <Image
+                        src="/image/logo.png"
+                        alt="인디스톤 로고"
+                        layout="intrinsic"
+                        width={100} 
+                        height={100} 
+                        style={{ cursor: "pointer" }}
+                        />
+                    </Link>
+                </div>
             </div>
 
             <div className={styles.underHeader}>
@@ -134,11 +136,13 @@ const CustomBuilder: React.FC = () => {
                 </div>
             </div>
 
-            <div className={styles.buttons}>
-                <button>무작위</button>
-                <button>초기화</button>
-                <button>캡쳐하기</button>
-                <button>내 빌드 공유하기</button>
+            <div className={styles.buttonGroup}>
+                <button className={styles.button}>무작위</button>
+                <button className={styles.button}>초기화</button>
+                <button className={styles.button}>캡쳐하기</button>
+            </div>
+            <div className={styles.buildShareButtonPosition}>
+                <button className={styles.buildShareButton}>내 빌드 공유하기</button>
             </div>
         </div>
     );
