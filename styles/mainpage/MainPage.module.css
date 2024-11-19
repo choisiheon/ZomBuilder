@@ -1,45 +1,115 @@
-@font-face {
-    font-family: Yes24;
-    src: url(/fonts/YES24MyoungjoR.otf) format('opentype');
-    font-weight: normal;
-    font-style: normal; 
-}
-
+/* 전체 배경 스타일 */
 .background {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;  /* 화면 전체 높이 */
-    width: 100vw;   /* 화면 전체 너비 */
-    overflow: hidden;
-    z-index: -1;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  margin: 0;
+  pointer-events: none;
+  user-select: none;
 }
 
-.leftLogo {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    z-index: 1; /* 배경보다 위에 표시 */
+/* 좌우측 상단 로고는 포인터 이벤트 활성화 */
+.zomBuilderLogo,
+.indieStoneLogo,
+.button,
+.buttonContainer {
+  pointer-events: auto;
 }
 
-.rightLogo {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 1; /* 배경보다 위에 표시 */
+/* 좀빌더 로고 */
+.zomBuilderLogo {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
 }
 
-.textBox {
-    position: absolute;
-    color: white;
-    font-size: 36px;
-    font-family: 'Yes24', sans-serif;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* 정중앙으로 이동 */
-    z-index: 2; /* 배경 이미지보다 위에 표시 */
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
+/* 인디스톤 로고 */
+.indieStoneLogo {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
+/* 중앙 텍스트 */
+.centerText {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  z-index: 20;
+}
+
+/* 버튼 컨테이너 */
+.buttonContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 80px;
+  z-index: 20;
+}
+
+/* 버튼 스타일 */
+.button {
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  background-color: #3f4040;
+  border: 2px solid white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.button:hover {
+  background-color: #555;
+  transform: scale(1.05);
+}
+
+/* 슬라이더 텍스트 포함 컨테이너 */
+.sliderContainer {
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%; /* 컨테이너 너비 */
+  height: 150px; /* 높이 */
+  overflow: hidden; /* 텍스트 넘침 방지 */
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0); /* 투명 배경 */
+}
+
+/* 슬라이더 텍스트 */
+.slider {
+  display: flex;
+  white-space: nowrap; /* 텍스트가 한 줄로 이어지게 */
+  gap: 50px; /* 텍스트 간 간격 */
+  align-items: center;
+}
+
+.sliderItem {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* 이미지와 텍스트 간 간격 */
+}
+
+.sliderItem span {
+  font-size: 40px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.7); /* 반투명 텍스트 */
+}
+
+.sliderItem img {
+  border-radius: 0%; /* 이미지를 둥글게 */
 }
