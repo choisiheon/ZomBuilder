@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import styles from "../../styles/MainPage.module.css";
+import styles from "../../styles/mainpage/MainPage.module.css";
 
 export default function Home() {
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -82,10 +82,10 @@ export default function Home() {
 
       {/* NewBuild, Recommend Builder 버튼 */}
       <div className={styles.buttonContainer}>
-        <Link href="/new-build">
+        <Link href="/builder">
           <button className={styles.button}>New Build</button>
         </Link>
-        <Link href="/recommend-builder">
+        <Link href="/recommend_builder">
           <button className={styles.button}>Recommend Builder</button>
         </Link>
       </div>
