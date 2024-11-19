@@ -1,37 +1,37 @@
+/* 전체 배경 스타일 */
 .background {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    background-color: white;
-    margin: 0;
-    pointer-events: none;
-    user-select: none;
-  }
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  margin: 0;
+  pointer-events: none;
+  user-select: none;
+}
 
-/* 좌우측 상단 로고들은 포인터이벤트 켜기 */
+/* 좌우측 상단 로고는 포인터 이벤트 활성화 */
 .zomBuilderLogo,
 .indieStoneLogo,
 .button,
 .buttonContainer {
-  pointer-events: auto; /* 로고들 클릭 가능하도록 */
+  pointer-events: auto;
 }
-  
+
 /* 좀빌더 로고 */
 .zomBuilderLogo {
   position: absolute;
-  top: 20px; 
-  left: 20px; 
-  z-index: 10; 
+  top: 20px;
+  left: 20px;
+  z-index: 10;
 }
 
 /* 인디스톤 로고 */
 .indieStoneLogo {
   position: absolute;
-  top: 20px; 
-  right: 20px; 
-  z-index: 10; 
+  top: 20px;
+  right: 20px;
+  z-index: 10;
 }
-
 
 /* 중앙 텍스트 */
 .centerText {
@@ -43,7 +43,7 @@
   font-weight: bold;
   color: white;
   text-align: center;
-  z-index: 20; /* 배경 이미지 위에 표시되도록 설정 */
+  z-index: 20;
 }
 
 /* 버튼 컨테이너 */
@@ -53,7 +53,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
-  gap: 80px; /* 버튼 사이 간격 */
+  gap: 80px;
   z-index: 20;
 }
 
@@ -63,11 +63,11 @@
   font-size: 18px;
   font-weight: bold;
   color: white;
-  background-color: #3F4040; /* 버튼 배경색 */
-  border: 2px solid white; 
+  background-color: #3f4040;
+  border: 2px solid white;
   border-radius: 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .button:hover {
@@ -78,79 +78,39 @@
 /* 슬라이더 텍스트 포함 컨테이너 */
 .sliderContainer {
   position: absolute;
-  top: 70%; /* 버튼 아래 */
+  top: 70%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 30%; /* 가로 30% - 테스트용 */
-  height: 150px; /* 박스 높이 */
-  overflow: hidden; /* 텍스트가 박스 밖으로 나오지 않도록 */
-  background-color: rgba(0, 0, 0, 0); /* 배경색 투명 */
-  border: none;
-  border-radius: 10px;
+  width: 100%; /* 컨테이너 너비 */
+  height: 150px; /* 높이 */
+  overflow: hidden; /* 텍스트 넘침 방지 */
   z-index: 20;
   display: flex;
-  flex-direction: column; /* 세로 방향 */
-  justify-content: space-between; /* 줄 간 간격 */
-  align-items: center; /* 수평 중앙 정렬 */
-  padding: 10px 0; /* 내부 여백 */
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0); /* 투명 배경 */
 }
 
-/* 개별 슬라이더 줄 */
-.sliderRow {
-  position: relative;
-  width: 100%; /* 컨테이너 너비를 채움 */
-  overflow: hidden; /* 텍스트 넘침 방지 */
-  height: 40px; /* 각 줄 높이 */
-}
-
-/* 슬라이더 애니메이션 */
+/* 슬라이더 텍스트 */
 .slider {
-  display: inline-block;
-  white-space: nowrap; /* 텍스트 한 줄로 */
-  animation: slide 10s linear infinite; /* 애니메이션 설정 */
+  display: flex;
+  white-space: nowrap; /* 텍스트가 한 줄로 이어지게 */
+  gap: 50px; /* 텍스트 간 간격 */
+  align-items: center;
 }
 
-/* 역방향 슬라이더 애니메이션 (오른쪽 -> 왼쪽) */
-.sliderReverse {
-  display: inline-block;
-  white-space: nowrap;
-  animation: slideReverse 10s linear infinite;
+.sliderItem {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* 이미지와 텍스트 간 간격 */
 }
 
-/* 텍스트 슬라이드 애니메이션 */
-@keyframes slide {
-  0% {
-    transform: translateX(-100%); /* 텍스트가 오른쪽 밖에서 시작 */
-  }
-  100% {
-    transform: translateX(100%); /* 텍스트가 왼쪽 밖으로 이동 */
-  }
-}
-
-/* 슬라이드 애니메이션 (오른쪽 -> 왼쪽) */
-@keyframes slideReverse {
-  0% {
-    transform: translateX(100%); /* 텍스트가 왼쪽 밖에서 시작 */
-  }
-  100% {
-    transform: translateX(-100%); /* 텍스트가 오른쪽 밖으로 이동 */
-  }
-}
-
-/* 슬라이더 텍스트 */
-.slider span {
-  display: inline-block;
-  margin: 0 20px; /* 텍스트 간 간격 */
-  font-size: 18px;
+.sliderItem span {
+  font-size: 40px;
   font-weight: bold;
-  color: white;
+  color: rgba(255, 255, 255, 0.7); /* 반투명 텍스트 */
 }
 
-/* 슬라이더 텍스트 */
-.sliderReverse span {
-  display: inline-block;
-  margin: 0 20px; /* 텍스트 간 간격 */
-  font-size: 18px;
-  font-weight: bold;
-  color: white;
+.sliderItem img {
+  border-radius: 0%; /* 이미지를 둥글게 */
 }
+
