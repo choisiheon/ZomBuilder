@@ -1,148 +1,211 @@
 .builderpage {
-    max-width: 1920px; /* 최대 너비를 1920px로 제한 */
-    max-height: 1080px; /* 최대 높이를 1080px로 제한 */
+    max-width: 1920px;
+    /* 최대 너비를 1920px로 제한 */
+    max-height: 1080px;
+    /* 최대 높이를 1080px로 제한 */
     margin: 0 auto;
 }
 
 /* 좌우측 상단 로고 */
 .mainHeader {
-    display: flex; /* Flexbox로 자식 요소 배치 */
-    justify-content: space-between; /* 양쪽 끝으로 배치 */
-    align-items: center; /* 모든 요소를 수직 중앙 정렬 */
+    display: flex;
+    /* Flexbox로 자식 요소 배치 */
+    justify-content: space-between;
+    /* 양쪽 끝으로 배치 */
+    align-items: center;
+    /* 모든 요소를 수직 중앙 정렬 */
     margin: 20px 20px 0;
 }
 
 /* 헤더 영역 */
 .underHeader {
-    display: flex; /* Flexbox로 자식 요소 배치 */
-    justify-content: space-between; /* 양쪽 끝으로 배치 */
-    align-items: center; /* 모든 요소를 수직 중앙 정렬 */
-    border-bottom: 2px solid rgba(255, 255, 255, 0.25); /* 투명도를 0.25로 설정 */
-    padding: 5px 0 5px 10px; /* 내부 여백 (위아래 5px, 좌우 10px) */
+    display: flex;
+    /* Flexbox로 자식 요소 배치 */
+    justify-content: space-between;
+    /* 양쪽 끝으로 배치 */
+    align-items: center;
+    /* 모든 요소를 수직 중앙 정렬 */
+    border-bottom: 2px solid rgba(255, 255, 255, 0.25);
+    /* 투명도를 0.25로 설정 */
+    padding: 5px 0 5px 10px;
+    /* 내부 여백 (위아래 5px, 좌우 10px) */
     margin: 20px 20px 0;
 }
 
 .menuLogo {
-    margin-left: -5px; /* 왼쪽으로 10px 이동 */
+    margin-left: -5px;
+    /* 왼쪽으로 10px 이동 */
 }
 
 .menuTitle {
-    display: flex; /* 로고와 제목을 한 줄로 배치 */
-    align-items: center; /* 수직 중앙 정렬 */
-    gap: 10px; /* 로고와 제목 간격 */
+    display: flex;
+    /* 로고와 제목을 한 줄로 배치 */
+    align-items: center;
+    /* 수직 중앙 정렬 */
+    gap: 10px;
+    /* 로고와 제목 간격 */
 }
-  
+
 .menuTitle h1 {
-    margin: 0; /* 기본 여백 제거 */
-    line-height: 1; /* 텍스트의 줄 간격 조정 */
+    margin: 0;
+    /* 기본 여백 제거 */
+    line-height: 1;
+    /* 텍스트의 줄 간격 조정 */
 }
 
 /* 검색 창 */
 .searchGroup {
     display: flex;
-    flex-direction: column; /* 텍스트와 입력 필드를 세로로 정렬 */
-    align-items: flex-end; /* 전체 그룹을 오른쪽 정렬 */
-    gap: 5px; /* 텍스트와 입력 필드 간 간격 */
-    width: auto; /* 그룹의 너비를 내용에 맞춤 */
+    flex-direction: column;
+    /* 텍스트와 입력 필드를 세로로 정렬 */
+    align-items: flex-end;
+    /* 전체 그룹을 오른쪽 정렬 */
+    gap: 5px;
+    /* 텍스트와 입력 필드 간 간격 */
+    width: auto;
+    /* 그룹의 너비를 내용에 맞춤 */
 }
 
 .searchLabel {
-    align-self: flex-start; /* 텍스트를 입력 필드의 왼쪽 위에 위치 */
-    color: #fff; /* 텍스트 색상 */
-    font-size: 14px; /* 텍스트 크기 */
-    margin: 0; /* 불필요한 여백 제거 */
+    align-self: flex-start;
+    /* 텍스트를 입력 필드의 왼쪽 위에 위치 */
+    color: #fff;
+    /* 텍스트 색상 */
+    font-size: 14px;
+    /* 텍스트 크기 */
+    margin: 0;
+    /* 불필요한 여백 제거 */
 }
 
 .searchInput {
     background-color: #3F4040;
-    border: 1px solid #fff; /* 테두리 색상 */
-    border-radius: 5px; /* 둥근 모서리 */
-    padding: 5px 10px; /* 내부 여백 */
-    color: #fff; /* 텍스트 색상 */
-    font-size: 14px; /* 입력 텍스트 크기 */
-    width: 400px; /* 고정 너비 설정 */
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25); /* 드롭 섀도우 추가 */
+    border: 1px solid #fff;
+    /* 테두리 색상 */
+    border-radius: 5px;
+    /* 둥근 모서리 */
+    padding: 5px 10px;
+    /* 내부 여백 */
+    color: #fff;
+    /* 텍스트 색상 */
+    font-size: 14px;
+    /* 입력 텍스트 크기 */
+    width: 400px;
+    /* 고정 너비 설정 */
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    /* 드롭 섀도우 추가 */
 }
 
 .searchInputGroup {
     display: flex;
-    justify-content: flex-end; /* 아래쪽으로 정렬 */
-    height: 100%; /* 부모의 전체 높이를 사용 */
-    padding-bottom: 10px; /* 아래쪽 여백 추가 (선택 사항) */
-    position: relative; /* 다른 위치 속성과 호환을 위해 설정 */
+    justify-content: flex-end;
+    /* 아래쪽으로 정렬 */
+    height: 100%;
+    /* 부모의 전체 높이를 사용 */
+    padding-bottom: 10px;
+    /* 아래쪽 여백 추가 (선택 사항) */
+    position: relative;
+    /* 다른 위치 속성과 호환을 위해 설정 */
     gap: 5px;
-  }
+}
 
 /* Mode Pick */
 .modePick {
     display: flex;
-    flex-direction: column; /* 제목과 버튼 그룹을 세로로 정렬 */
-    gap: 10px; /* 제목과 버튼 간 간격 */
-    background-color: #3F4040; /* 배경색 */
-    border-radius: 10px; /* 둥근 모서리 */
-    padding: 10px 10px; /* 위아래 여백 줄임 */
-    margin : 10px 20px; /* 위아래 간격 */
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25); /* 드롭 섀도우 추가 */
+    flex-direction: column;
+    /* 제목과 버튼 그룹을 세로로 정렬 */
+    gap: 10px;
+    /* 제목과 버튼 간 간격 */
+    background-color: #3F4040;
+    /* 배경색 */
+    border-radius: 10px;
+    /* 둥근 모서리 */
+    padding: 10px 10px;
+    /* 위아래 여백 줄임 */
+    margin: 10px 20px;
+    /* 위아래 간격 */
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    /* 드롭 섀도우 추가 */
 }
 
 .modePick h3 {
-    margin: 0; /* 제목 기본 마진 제거 */
+    margin: 0;
+    /* 제목 기본 마진 제거 */
 }
 
 .modeButtonGroup {
-    display: flex; /* 버튼들을 한 줄로 정렬 */
-    gap: 80px; /* 버튼 간 간격 */
+    display: flex;
+    /* 버튼들을 한 줄로 정렬 */
+    gap: 80px;
+    /* 버튼 간 간격 */
 }
 
 .modeButton {
     display: inline-flex;
     align-items: center;
     cursor: pointer;
-    gap: 5px; /* 텍스트와 아이콘 간 간격 */
-    background-color: #3F4040; /* 버튼 배경색 */
-    color: #fff; /* 글자 색 */
-    border: none; /* 테두리 제거 */
+    gap: 5px;
+    /* 텍스트와 아이콘 간 간격 */
+    background-color: #3F4040;
+    /* 버튼 배경색 */
+    color: #fff;
+    /* 글자 색 */
+    border: none;
+    /* 테두리 제거 */
 }
 
 .modeLogo {
-    width: 25px; 
-    height: 25px; 
-    object-fit: contain; /* 이미지 비율 유지 */
+    width: 25px;
+    height: 25px;
+    object-fit: contain;
+    /* 이미지 비율 유지 */
 }
 
 /* 레이아웃 및 주요 영역 */
 .grid {
     display: grid;
-    grid-template-columns: repeat(3, 4fr); /* 3열 그리드 */
-    grid-template-rows: auto; /* 행 높이 자동 조정 */
-    gap: 96px; /* 열 간격 유지 */
-    row-gap: 5px; /* 행 간격 제거 */
-    margin-top: 47px;
-    margin-right: 72px;
-    margin-left: 72px;
-}
-
-.title {
-    font-size: 20px;
-    margin: 0px;
+    grid-template-columns: 1fr 0.9fr 0.9fr;
+    grid-template-rows: 1fr 5.1fr 1fr 5.1fr;
+    gap: 10px 94px;
+    margin: 99px 122px 0 122px;
 }
 
 .occupations {
-    padding: 10px; /* 내부 여백 감소 */
-    border-radius: 5px;
+    grid-column: 1 / 2;
+    grid-row: 2 / 5;
+    padding: 10px;
+    border-radius: 8px;
     border: 1px solid white;
-    grid-row: span 3;
-    width: 530px;
-    height: 828px;
+    color: white;
 }
 
-.traits, .chosenTraits, .majorSkills {
-    padding: 15px;
-    border-radius: 5px;
+.positiveTraits,
+.negativeTraits,
+.chosenTraits,
+.majorSkills {
+    padding: 10px;
+    border-radius: 8px;
     border: 1px solid white;
-    width: 474px;
-    height: 354px;
-    margin-bottom: 40px;
+    color: white;
+}
+
+.positiveTraits {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+}
+
+.chosenTraits {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+}
+
+.negativeTraits {
+    grid-column: 2 / 3;
+    grid-row: 4 / 5;
+}
+
+.majorSkills {
+    grid-column: 3 / 4;
+    grid-row: 4 / 5;
 }
 
 /* 버튼 */
@@ -150,7 +213,8 @@
     background-color: #3F4040;
     color: #fff;
     padding: 10px 15px;
-    border: 1px solid #fff; /* 테두리 색상 */
+    border: 1px solid #fff;
+    /* 테두리 색상 */
     border-radius: 5px;
     cursor: pointer;
     width: 120px;
@@ -160,8 +224,8 @@
 .buttonGroup {
     display: flex;
     justify-content: flex-end;
-    margin: -20px 72px 20px 0;
-    gap: 74px;
+    margin: 20px 122px 20px 0;
+    gap: 56px;
 }
 
 .buildShareButton {
@@ -178,5 +242,5 @@
 .buildShareButtonPosition {
     display: flex;
     justify-content: flex-end;
-    margin-right: 72px;
+    margin-right: 122px;
 }

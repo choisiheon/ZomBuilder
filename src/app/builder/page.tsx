@@ -101,15 +101,15 @@ const CustomBuilder: React.FC = () => {
 
             <div className={styles.grid}>
 
-                <h2 className={styles.title}>직업</h2>
-                <h2 className={styles.title}>긍정 특성</h2>
-                <h2 className={styles.title}>선택한 특성</h2>
+                <h2 className={styles.jobTitle}>직업 선택</h2>
+                <h2 className={styles.positiveTitle}>긍정 특성</h2>
+                <h2 className={styles.selectedTraitsTitle}>선택된 특성</h2>
 
                 <div className={styles.occupations}>
                     <p>무직</p>
                 </div>
 
-                <div className={styles.traits}>
+                <div className={styles.positiveTraits}>
                     <ul>
                         {positiveTraits.map((trait, index) => (
                             <li key={index}>
@@ -122,10 +122,10 @@ const CustomBuilder: React.FC = () => {
                 <div className={styles.chosenTraits}>
                 </div>
 
-                <h2 className={styles.title}>부정 특성</h2>
-                <h2 className={styles.title}>Major Skills</h2>
+                <h2 className={styles.negativeTitle}>부정 특성</h2>
+                <h2 className={styles.acquiredSkillsTitle}>취득 기술</h2>
 
-                <div className={styles.traits}>
+                <div className={styles.negativeTraits}>
                     <ul>
                         {negativeTraits.map((trait, index) => (
                             <li key={index}>
