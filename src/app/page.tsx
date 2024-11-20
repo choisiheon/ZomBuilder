@@ -92,25 +92,52 @@ export default function Home() {
 
       {/* 슬라이더 */}
       <div className={styles.sliderContainer}>
-        <div
-          className={styles.slider}
-          ref={sliderRef}
-          style={{ transform: `translateX(${count}px)` }}
-        >
-          {Array(10)
-            .fill(sliderData)
-            .flat()
-            .map((item, index) => (
-              <div key={index} className={styles.sliderItem}>
-                <Image
-                  src={item.image}
-                  alt={item.text}
-                  width={40}
-                  height={40}
-                />
-                <span>{item.text}</span>
-              </div>
-            ))}
+        {/* 첫 번째 라인 슬라이더 */}
+        <div className={styles.sliderWrapper} style={{ transform: 'rotate(-25deg)' }}>
+          <div
+            className={styles.slider}
+            ref={sliderRef}
+            style={{ transform: `translateX(${count}px)` }}
+          >
+            {Array(10)
+              .fill(sliderData)
+              .flat()
+              .map((item, index) => (
+                <div key={index} className={styles.sliderItem}>
+                  <Image
+                    src={item.image}
+                    alt={item.text}
+                    width={40}
+                    height={40}
+                  />
+                  <span>{item.text}</span>
+                </div>
+              ))}
+          </div>
+        </div>
+
+        {/* 두 번째 라인 슬라이더 */}
+        <div className={styles.sliderWrapper} style={{ transform: 'rotate(20deg)' }}>
+          <div
+            className={styles.slider}
+            ref={sliderRef}
+            style={{ transform: `translateX(${count}px)` }}
+          >
+            {Array(10)
+              .fill(sliderData)
+              .flat()
+              .map((item, index) => (
+                <div key={index} className={styles.sliderItem}>
+                  <Image
+                    src={item.image}
+                    alt={item.text}
+                    width={40}
+                    height={40}
+                  />
+                  <span>{item.text}</span>
+                </div>
+              ))}
+          </div>
         </div>
       </div>
     </div>
