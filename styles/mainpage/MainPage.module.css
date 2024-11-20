@@ -1,6 +1,5 @@
 /* 전체 배경 스타일 */
 .background {
-  position: relative;
   width: 100vw;
   height: 100vh;
   background-color: white;

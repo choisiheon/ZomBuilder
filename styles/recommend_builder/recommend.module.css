@@ -1,6 +1,6 @@
 /* 전체 컨테이너 */
-.container {
-  max-width: 1980px;
+.recommendpage {
+  max-width: 1920px;
   /* 최대 너비 */
   margin: 0 auto;
   /* 가운데 정렬 */
@@ -10,53 +10,22 @@
   /* 자식 요소의 절대 위치를 기준으로 설정 */
 }
 
-/* 헤더 영역 */
-.header {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 40px;
-  /* 내부 여백 */
-  box-sizing: border-box;
-}
-
-/* 좌측 로고 */
-.zomBuilderLogo {
-  position: absolute;
-  top: 20px;
-  /* 상단 고정 */
-  left: 10px;
-  /* 좌측 여백 설정 */
-  z-index: 10;
-  /* 다른 요소 위에 표시 */
-}
-
-/* 우측 로고 */
-.indieStoneLogo {
-  position: absolute;
-  top: 20px;
-  /* 상단 고정 */
-  right: 10px;
-  /* 우측 여백 설정 */
-  z-index: 10;
-  /* 다른 요소 위에 표시 */
+/* 좌우측 상단 로고 */
+.mainHeader {
+  display: flex; /* Flexbox로 자식 요소 배치 */
+  justify-content: space-between; /* 양쪽 끝으로 배치 */
+  align-items: center; /* 모든 요소를 수직 중앙 정렬 */
+  margin: 20px 0px;
 }
 
 /* 헤더 영역 */
 .underHeader {
-  display: flex;
-  /* Flexbox로 자식 요소 배치 */
-  justify-content: space-between;
-  /* 양쪽 끝으로 배치 */
-  align-items: center;
-  /* 모든 요소를 수직 중앙 정렬 */
-  border-bottom: 2px solid rgba(255, 255, 255, 0.25);
-  /* 투명도를 0.4로 설정 */
-  padding: 5px 10px;
-  /* 위아래 여백 */
-  margin-top: 100px;
-  /* 로고 아래로 이동 */
+  display: flex; /* Flexbox로 자식 요소 배치 */
+  justify-content: space-between; /* 양쪽 끝으로 배치 */
+  align-items: center; /* 모든 요소를 수직 중앙 정렬 */
+  border-bottom: 2px solid rgba(255, 255, 255, 0.25); /* 투명도를 0.25로 설정 */
+  padding: 5px 10px; /* 내부 여백 (위아래 5px, 좌우 10px) */
+  margin: 20px 0;
 }
 
 .menuTitle {
@@ -78,43 +47,37 @@
 /* 검색 창 */
 .searchGroup {
   display: flex;
-  flex-direction: column;
-  /* 텍스트와 입력 필드를 세로로 정렬 */
-  align-items: flex-end;
-  /* 전체 그룹을 오른쪽 정렬 */
-  gap: 5px;
-  /* 텍스트와 입력 필드 간 간격 */
-  width: auto;
-  /* 그룹의 너비를 내용에 맞춤 */
+  flex-direction: column; /* 텍스트와 입력 필드를 세로로 정렬 */
+  align-items: flex-end; /* 전체 그룹을 오른쪽 정렬 */
+  gap: 5px; /* 텍스트와 입력 필드 간 간격 */
+  width: auto; /* 그룹의 너비를 내용에 맞춤 */
 }
 
 .searchLabel {
-  align-self: flex-start;
-  /* 텍스트를 입력 필드의 왼쪽 위에 위치 */
-  color: #fff;
-  /* 텍스트 색상 */
-  font-size: 14px;
-  /* 텍스트 크기 */
-  margin: 0;
-  /* 불필요한 여백 제거 */
+  align-self: flex-start; /* 텍스트를 입력 필드의 왼쪽 위에 위치 */
+  color: #fff; /* 텍스트 색상 */
+  font-size: 14px; /* 텍스트 크기 */
+  margin: 0; /* 불필요한 여백 제거 */
 }
 
 .searchInput {
   background-color: #3F4040;
-  border: 1px solid #fff;
-  /* 테두리 색상 */
-  border-radius: 5px;
-  /* 둥근 모서리 */
-  padding: 5px 10px;
-  /* 내부 여백 */
-  color: #fff;
-  /* 텍스트 색상 */
-  font-size: 14px;
-  /* 입력 텍스트 크기 */
-  width: 400px;
-  /* 고정 너비 설정 */
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-  /* 드롭 섀도우 추가 */
+  border: 1px solid #fff; /* 테두리 색상 */
+  border-radius: 5px; /* 둥근 모서리 */
+  padding: 5px 10px; /* 내부 여백 */
+  color: #fff; /* 텍스트 색상 */
+  font-size: 14px; /* 입력 텍스트 크기 */
+  width: 400px; /* 고정 너비 설정 */
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25); /* 드롭 섀도우 추가 */
+}
+
+.searchInputGroup {
+  display: flex;
+  justify-content: flex-end; /* 아래쪽으로 정렬 */
+  height: 100%; /* 부모의 전체 높이를 사용 */
+  padding-bottom: 10px; /* 아래쪽 여백 추가 (선택 사항) */
+  position: relative; /* 다른 위치 속성과 호환을 위해 설정 */
+  gap: 5px;
 }
 
 /* Mode Pick */

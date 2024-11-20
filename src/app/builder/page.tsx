@@ -11,7 +11,7 @@ type Trait = {
 };
 
 // 기본 Trait 데이터 (예시)
-const positiveTraits: Trait[] = [ 
+const positiveTraits: Trait[] = [
     { name: "속도광", points: -1 },
     { name: "고양이의 눈", points: -2 },
     { name: "민첩한", points: -2 },
@@ -37,19 +37,19 @@ const negativeTraits: Trait[] = [
 
 const CustomBuilder: React.FC = () => {
     return (
-        <div>
+        <div className={styles.builderpage}>
             <div className={styles.mainHeader}>
                 {/* 좌측 상단 좀빌더 로고 */}
                 <div className={styles.zomBuilderLogo}>
                     <Link href="/">
-                    <Image
-                        src="/image/zomboid-logo.png" // 절대 경로 사용
-                        alt="좀빌더 로고"
-                        layout="intrinsic"
-                        width={250} 
-                        height={100} 
-                        style={{ cursor: "pointer" }}
-                    />
+                        <Image
+                            src="/image/zomboid-logo.png" // 절대 경로 사용
+                            alt="좀빌더 로고"
+                            layout="intrinsic"
+                            width={250}
+                            height={100}
+                            style={{ cursor: "pointer" }}
+                        />
                     </Link>
                 </div>
 
@@ -59,12 +59,12 @@ const CustomBuilder: React.FC = () => {
                         target="_blank"
                         rel="noopener noreferrer">
                         <Image
-                        src="/image/logo.png"
-                        alt="인디스톤 로고"
-                        layout="intrinsic"
-                        width={100} 
-                        height={100} 
-                        style={{ cursor: "pointer" }}
+                            src="/image/logo.png"
+                            alt="인디스톤 로고"
+                            layout="intrinsic"
+                            width={100}
+                            height={100}
+                            style={{ cursor: "pointer" }}
                         />
                     </Link>
                 </div>
@@ -77,7 +77,10 @@ const CustomBuilder: React.FC = () => {
                 </div>
                 <div className={styles.searchGroup}>
                     <div className={styles.searchLabel}>All Search</div>
-                    <input type="text" placeholder="" className={styles.searchInput} />
+                    <div className={styles.searchInputGroup}>
+                        <input type="text" placeholder="" className={styles.searchInput} />
+                        <img src="../image/searchIcon.png" alt="search" className={styles.searchInputIcon} />
+                    </div>
                 </div>
             </div>
 
@@ -85,7 +88,7 @@ const CustomBuilder: React.FC = () => {
                 <h3>Mode Pick:</h3>
                 <div className={styles.modeButtonGroup}>
                     <button className={styles.modeButton}>
-                        <img src="../image/modeLogo.png" alt="modeLogo" className={styles.modeLogo} />More Traits           
+                        <img src="../image/modeLogo.png" alt="modeLogo" className={styles.modeLogo} />More Traits
                     </button>
                     <button className={styles.modeButton}>
                         <img src="../image/modeLogo.png" alt="modeLogo" className={styles.modeLogo} />More Simple Traits (MST)

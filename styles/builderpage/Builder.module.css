@@ -1,3 +1,9 @@
+.builderpage {
+    max-width: 1920px; /* 최대 너비를 1920px로 제한 */
+    max-height: 1080px; /* 최대 높이를 1080px로 제한 */
+    margin: 0 auto;
+}
+
 /* 좌우측 상단 로고 */
 .mainHeader {
     display: flex; /* Flexbox로 자식 요소 배치 */
@@ -11,9 +17,9 @@
     display: flex; /* Flexbox로 자식 요소 배치 */
     justify-content: space-between; /* 양쪽 끝으로 배치 */
     align-items: center; /* 모든 요소를 수직 중앙 정렬 */
-    border-bottom: 4px solid rgba(255, 255, 255, 0.4); /* 투명도를 0.4로 설정 */
-    padding: 5px 10px; /* 내부 여백 (위아래 5px, 좌우 10px) */
-    margin: 60px 20px 0;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.25); /* 투명도를 0.25로 설정 */
+    padding: 5px 0 5px 10px; /* 내부 여백 (위아래 5px, 좌우 10px) */
+    margin: 20px 20px 0;
 }
 
 .menuLogo {
@@ -50,12 +56,22 @@
 .searchInput {
     background-color: #3F4040;
     border: 1px solid #fff; /* 테두리 색상 */
-    border-radius: 4px; /* 둥근 모서리 */
+    border-radius: 5px; /* 둥근 모서리 */
     padding: 5px 10px; /* 내부 여백 */
     color: #fff; /* 텍스트 색상 */
     font-size: 14px; /* 입력 텍스트 크기 */
     width: 400px; /* 고정 너비 설정 */
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25); /* 드롭 섀도우 추가 */
 }
+
+.searchInputGroup {
+    display: flex;
+    justify-content: flex-end; /* 아래쪽으로 정렬 */
+    height: 100%; /* 부모의 전체 높이를 사용 */
+    padding-bottom: 10px; /* 아래쪽 여백 추가 (선택 사항) */
+    position: relative; /* 다른 위치 속성과 호환을 위해 설정 */
+    gap: 5px;
+  }
 
 /* Mode Pick */
 .modePick {
@@ -63,9 +79,10 @@
     flex-direction: column; /* 제목과 버튼 그룹을 세로로 정렬 */
     gap: 10px; /* 제목과 버튼 간 간격 */
     background-color: #3F4040; /* 배경색 */
-    border-radius: 4px; /* 둥근 모서리 */
+    border-radius: 10px; /* 둥근 모서리 */
     padding: 10px 10px; /* 위아래 여백 줄임 */
     margin : 10px 20px; /* 위아래 간격 */
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25); /* 드롭 섀도우 추가 */
 }
 
 .modePick h3 {
