@@ -163,45 +163,38 @@
 /* 레이아웃 및 주요 영역 */
 .grid {
     display: grid;
-    grid-template-columns: repeat(3, 4fr);
-    /* 3열 그리드 */
+    grid-template-columns: 1fr 0.9fr 0.9fr;
     grid-template-rows: auto;
-    /* 행 높이 자동 조정 */
-    gap: 96px;
-    /* 열 간격 유지 */
-    row-gap: 5px;
-    /* 행 간격 제거 */
-    margin-top: 47px;
-    margin-right: 72px;
-    margin-left: 72px;
+    gap: 10px 94px;
+    margin: 99px 122px 0 122px;
 }
 
-.title {
-    font-size: 20px;
-    margin: 0px;
+.jobTitle,
+.positiveTitle,
+.selectedTraitsTitle,
+.negativeTitle,
+.acquiredSkillsTitle {
+    height: 10px;
 }
 
 .occupations {
+    grid-column: 1 / 2;
+    grid-row: 2 / 5;
     padding: 10px;
-    /* 내부 여백 감소 */
-    border-radius: 5px;
+    border-radius: 8px;
     border: 1px solid white;
-    grid-row: span 3;
-    width: 530px;
-    height: 828px;
+    color: white;
 }
 
-/* Traits, ChosenTraits, MajorSkills 박스 */
-.traits,
+.positiveTraits,
+.negativeTraits,
 .chosenTraits,
 .majorSkills {
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 8px;
     border: 1px solid white;
-    width: 474px;
-    height: 354px;
-    /* 고정 높이 */
-    margin-bottom: 40px;
+    color: white;
+    height: 380px;
     overflow-y: auto;
     /* 세로 스크롤 활성화 */
     overflow-x: hidden;
@@ -209,7 +202,8 @@
 }
 
 /* 스크롤바 숨기기 */
-.traits::-webkit-scrollbar,
+.positiveTraits::-webkit-scrollbar,
+.negativeTraits::-webkit-scrollbar,
 .chosenTraits::-webkit-scrollbar,
 .majorSkills::-webkit-scrollbar {
     display: none;
@@ -217,16 +211,27 @@
 }
 
 /* Firefox 전용 스크롤바 숨기기 */
-.traits {
+.positiveTraits  {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
     scrollbar-width: none;
     /* 스크롤바 숨기기 */
 }
 
 .chosenTraits {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
     scrollbar-width: none;
 }
 
+.negativeTraits {
+    grid-column: 2 / 3;
+    grid-row: 4 / 5;
+}
+
 .majorSkills {
+    grid-column: 3 / 4;
+    grid-row: 4 / 5;
     scrollbar-width: none;
 }
 
@@ -284,11 +289,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
 }
 
 /* 총 점수 스타일 */
 .totalPoints {
+    margin-top: 30px;
     font-size: 16px;
     font-weight: bold;
     color: #ff4747;
@@ -343,8 +349,8 @@
 .buttonGroup {
     display: flex;
     justify-content: flex-end;
-    margin: -20px 72px 20px 0;
-    gap: 74px;
+    margin: 20px 122px 20px 0;
+    gap: 56px;
 }
 
 .buildShareButton {
@@ -361,5 +367,5 @@
 .buildShareButtonPosition {
     display: flex;
     justify-content: flex-end;
-    margin-right: 72px;
+    margin-right: 122px;
 }
