@@ -18,7 +18,5 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
-  max-width: 1920px; /* 최대 너비를 1920px로 제한 */
-  max-height: 1080px; /* 최대 높이를 1080px로 제한 */
-  margin: 0 auto;
+  margin: 0;
 }

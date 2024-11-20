@@ -47,7 +47,7 @@ export default function Home() {
       <div className={styles.zomBuilderLogo}>
         <Link href="/">
           <Image
-            src="/image/zombuilderlogo.png"
+            src="/image/zomboid-logo.png"
             alt="좀빌더 로고"
             layout="intrinsic"
             width={250}
@@ -65,7 +65,7 @@ export default function Home() {
           rel="noopener noreferrer"
         >
           <Image
-            src="/image/indiestonelogo.png"
+            src="/image/logo.png"
             alt="인디스톤 로고"
             layout="intrinsic"
             width={100}

@@ -55,14 +55,15 @@ const negativeTraits: Trait[] = [
 
 const RecommendBuilder: React.FC = () => {
   return (
-    <div className={styles.container}>
-      <header className={styles.header}>
-        {/* 좌측 로고 */}
+    <div className={styles.recommendpage}>
+      <div className={styles.mainHeader}>
+        {/* 좌측 상단 좀빌더 로고 */}
         <div className={styles.zomBuilderLogo}>
           <Link href="/">
             <Image
-              src="/image/zomboid-logo.png"
+              src="/image/zomboid-logo.png" // 절대 경로 사용
               alt="좀빌더 로고"
+              layout="intrinsic"
               width={250}
               height={100}
               style={{ cursor: "pointer" }}
@@ -70,23 +71,22 @@ const RecommendBuilder: React.FC = () => {
           </Link>
         </div>
 
-        {/* 우측 로고 */}
+        {/* 우측 상단 인디스톤 로고 */}
         <div className={styles.indieStoneLogo}>
-          <Link
-            href="https://projectzomboid.com/blog/about-us/"
+          <Link href="https://projectzomboid.com/blog/about-us/"
             target="_blank"
-            rel="noopener noreferrer"
-          >
+            rel="noopener noreferrer">
             <Image
               src="/image/logo.png"
               alt="인디스톤 로고"
+              layout="intrinsic"
               width={100}
               height={100}
               style={{ cursor: "pointer" }}
             />
           </Link>
         </div>
-      </header>
+      </div>
 
       <div className={styles.underHeader}>
         <div className={styles.menuTitle}>
@@ -95,7 +95,10 @@ const RecommendBuilder: React.FC = () => {
         </div>
         <div className={styles.searchGroup}>
           <div className={styles.searchLabel}>All Search</div>
-          <input type="text" placeholder="" className={styles.searchInput} />
+          <div className={styles.searchInputGroup}>
+            <input type="text" placeholder="" className={styles.searchInput} />
+            <img src="../image/searchIcon.png" alt="search" className={styles.searchInputIcon} />
+          </div>
         </div>
       </div>
 
