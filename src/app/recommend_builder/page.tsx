@@ -3,29 +3,41 @@ import Image from 'next/image'; // next/image에서 Image를 임포트
 import Link from 'next/link';
 import styles from "../../../styles/recommend_builder/recommend.module.css";
 
-type Job = {
-  job: string;
-}
-
 // 각 Trait 아이템의 타입 정의
 type Trait = {
   name: string;
   points: number;
 };
 
-// 기본 Job 데이터 (예시)
-const job = [
-  { job: "무직", image: "../image/Job/Jobless.png" },
-  { job: "소방관", image: "../image/Job/Firefighter.png" },
-  { job: "경찰관", image: "../image/Job/Police.png" },
-  { job: "공원경비원", image: "../image/Job/Sheriff.png" },
-  { job: "건축인부" },
-  { job: "목수" },
-  { job: "무직" },
-  { job: "주방장" },
-  { job: "정비사" },
-  { job: "농부" },
-  { job: "어부" },
+// 직업 데이터 타입 정의
+type Job = {
+  job: string;
+  image?: string; // 이미지는 선택적
+};
+
+// 샘플 데이터 (DB에서 받아올 예정)
+const Jobs: Job[] = [
+  { job: "무직", image: "/image/Job/Jobless.png" },
+  { job: "소방관", image: "/image/Job/Firefighter.png" },
+  { job: "경찰관", image: "/image/Job/Police.png" },
+  { job: "공원경비원", image: "/image/Job/Sheriff.png" },
+  { job: "건축인부", image: "/image/Job/ConstructionWorker.png" },
+  { job: "목수", image: "/image/Job/Carpenter.png" },
+  { job: "주방장", image: "/image/Job/Chef.png" },
+  { job: "정비사", image: "/image/Job/Mechanic.png" },
+  { job: "농부", image: "/image/Job/Farmer.png" },
+  { job: "어부", image: "/image/Job/Fisherman.png" },
+  { job: "의사", image: "/image/Job/Doctor.png" },
+  { job: "필라테스 강사", image: "/image/Job/PilatesInstructor.png" },
+  { job: "전기공", image: "/image/Job/Electrician.png" },
+  { job: "기술자", image: "/image/Job/Technician.png" },
+  { job: "용접공", image: "/image/Job/Welder.png" },
+  { job: "자동차 정비사", image: "/image/Job/AutoMechanic.png" },
+  { job: "홈도둑", image: "/image/Job/Burglar.png" },
+  { job: "벌목꾼", image: "/image/Job/Lumberjack.png" },
+  { job: "간호사", image: "/image/Job/Nurse.png" },
+  { job: "햄버거 조리사", image: "/image/Job/BurgerCook.png" },
+  { job: "경비원", image: "/image/Job/SecurityGuard.png" },
 ];
 
 // 기본 Trait 데이터 (예시)
@@ -118,10 +130,12 @@ const RecommendBuilder: React.FC = () => {
       </div>
 
       <div className={styles.jobPick}>
-        {job.map((job, index) => (
+        {Jobs.map((job, index) => (
           <button key={index} className={styles.jobButton}>
-            <img src={job.image} alt={""} className={styles.jobImage} />
-            {job.job}
+            {job.image && (
+              <img src={job.image} alt={job.job} className={styles.jobImage} />
+            )}
+            <span className={styles.jobName}>{job.job}</span>
           </button>
         ))}
       </div>

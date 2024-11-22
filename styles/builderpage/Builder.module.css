@@ -300,6 +300,11 @@
     color: #ff4747;
 }
 
+/* 선택된 항목 스타일 */
+.selected {
+    opacity: 0.5; /* 반투명 처리 */
+}
+
 /* 비활성화된 Trait 스타일 */
 .disabled {
     opacity: 0.5; /* 반투명 처리 */
