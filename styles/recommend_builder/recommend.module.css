@@ -10,22 +10,55 @@
   /* 자식 요소의 절대 위치를 기준으로 설정 */
 }
 
+/* 글꼴 지정 */
+.menuTitle,
+.modePick h3,
+.jobName,
+.modeButton {
+  font-family: 'GangwonEduPowerExtraBoldA', sans-serif;
+}
+
+.searchLabel {
+  font-family: 'KCC-Hanbit', sans-serif;
+}
+
+.youtuberTitle,
+.positiveTitle,
+.negativeTitle {
+  font-family: 'Paperlogy-8ExtraBold', sans-serif;
+}
+
 /* 좌우측 상단 로고 */
 .mainHeader {
-  display: flex; /* Flexbox로 자식 요소 배치 */
-  justify-content: space-between; /* 양쪽 끝으로 배치 */
-  align-items: center; /* 모든 요소를 수직 중앙 정렬 */
+  display: flex;
+  /* Flexbox로 자식 요소 배치 */
+  justify-content: space-between;
+  /* 양쪽 끝으로 배치 */
+  align-items: center;
+  /* 모든 요소를 수직 중앙 정렬 */
   margin: 20px 0px;
 }
 
 /* 헤더 영역 */
 .underHeader {
-  display: flex; /* Flexbox로 자식 요소 배치 */
-  justify-content: space-between; /* 양쪽 끝으로 배치 */
-  align-items: center; /* 모든 요소를 수직 중앙 정렬 */
-  border-bottom: 2px solid rgba(255, 255, 255, 0.25); /* 투명도를 0.25로 설정 */
-  padding: 5px 10px; /* 내부 여백 (위아래 5px, 좌우 10px) */
+  display: flex;
+  /* Flexbox로 자식 요소 배치 */
+  justify-content: space-between;
+  /* 양쪽 끝으로 배치 */
+  align-items: center;
+  /* 모든 요소를 수직 중앙 정렬 */
+  border-bottom: 2px solid rgba(255, 255, 255, 0.25);
+  /* 투명도를 0.25로 설정 */
+  padding: 5px 10px;
+  /* 내부 여백 (위아래 5px, 좌우 10px) */
   margin: 20px 0;
+}
+
+.menuLogo {
+  width: 40px;
+  height: 40px;
+  margin-left: -5px;
+  margin-top: 20px;
 }
 
 .menuTitle {
@@ -33,7 +66,7 @@
   /* 로고와 제목을 한 줄로 배치 */
   align-items: center;
   /* 수직 중앙 정렬 */
-  gap: 10px;
+  gap: 5px;
   /* 로고와 제목 간격 */
 }
 
@@ -42,41 +75,61 @@
   /* 기본 여백 제거 */
   line-height: 1;
   /* 텍스트의 줄 간격 조정 */
+  margin-top: 30px;
 }
 
 /* 검색 창 */
 .searchGroup {
   display: flex;
-  flex-direction: column; /* 텍스트와 입력 필드를 세로로 정렬 */
-  align-items: flex-end; /* 전체 그룹을 오른쪽 정렬 */
-  gap: 5px; /* 텍스트와 입력 필드 간 간격 */
-  width: auto; /* 그룹의 너비를 내용에 맞춤 */
+  flex-direction: column;
+  /* 텍스트와 입력 필드를 세로로 정렬 */
+  align-items: flex-end;
+  /* 전체 그룹을 오른쪽 정렬 */
+  gap: 5px;
+  /* 텍스트와 입력 필드 간 간격 */
+  width: auto;
+  /* 그룹의 너비를 내용에 맞춤 */
 }
 
 .searchLabel {
-  align-self: flex-start; /* 텍스트를 입력 필드의 왼쪽 위에 위치 */
-  color: #fff; /* 텍스트 색상 */
-  font-size: 14px; /* 텍스트 크기 */
-  margin: 0; /* 불필요한 여백 제거 */
+  align-self: flex-start;
+  /* 텍스트를 입력 필드의 왼쪽 위에 위치 */
+  color: #fff;
+  /* 텍스트 색상 */
+  font-size: 14px;
+  /* 텍스트 크기 */
+  margin: 0;
+  /* 불필요한 여백 제거 */
 }
 
 .searchInput {
   background-color: #3F4040;
-  border: 1px solid #fff; /* 테두리 색상 */
-  border-radius: 5px; /* 둥근 모서리 */
-  padding: 5px 10px; /* 내부 여백 */
-  color: #fff; /* 텍스트 색상 */
-  font-size: 14px; /* 입력 텍스트 크기 */
-  width: 400px; /* 고정 너비 설정 */
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25); /* 드롭 섀도우 추가 */
+  border: 1px solid #fff;
+  /* 테두리 색상 */
+  border-radius: 5px;
+  /* 둥근 모서리 */
+  padding: 5px 10px;
+  /* 내부 여백 */
+  color: #fff;
+  /* 텍스트 색상 */
+  font-size: 14px;
+  /* 입력 텍스트 크기 */
+  width: 400px;
+  /* 고정 너비 설정 */
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  /* 드롭 섀도우 추가 */
 }
 
 .searchInputGroup {
   display: flex;
-  justify-content: flex-end; /* 아래쪽으로 정렬 */
-  height: 100%; /* 부모의 전체 높이를 사용 */
-  padding-bottom: 10px; /* 아래쪽 여백 추가 (선택 사항) */
-  position: relative; /* 다른 위치 속성과 호환을 위해 설정 */
+  justify-content: flex-end;
+  /* 아래쪽으로 정렬 */
+  height: 100%;
+  /* 부모의 전체 높이를 사용 */
+  padding-bottom: 10px;
+  /* 아래쪽 여백 추가 (선택 사항) */
+  position: relative;
+  /* 다른 위치 속성과 호환을 위해 설정 */
   gap: 5px;
 }
 
@@ -113,7 +166,7 @@
 
 .modeButton {
   display: inline-flex;
-  align-items: center;
+  align-items: flex-end;
   cursor: pointer;
   gap: 5px;
   /* 텍스트와 아이콘 간 간격 */
@@ -135,11 +188,16 @@
 .jobPick {
   display: flex;
   margin: 15px 0px;
-  flex-wrap: wrap; /* 여러 줄로 정렬 가능 */
-  justify-content: center; /* 수평 중앙 정렬 */
-  align-items: center; /* 수직 중앙 정렬 */
-  gap: 15px; /* 버튼 간 간격 */
-  padding: 10px; /* 전체 여백 */
+  flex-wrap: wrap;
+  /* 여러 줄로 정렬 가능 */
+  justify-content: center;
+  /* 수평 중앙 정렬 */
+  align-items: center;
+  /* 수직 중앙 정렬 */
+  gap: 15px;
+  /* 버튼 간 간격 */
+  padding: 10px;
+  /* 전체 여백 */
   border: 1px solid white;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
@@ -147,31 +205,46 @@
 
 .jobButton {
   display: flex;
-  flex-direction: row; /* 이미지와 텍스트를 한 줄로 배치 */
-  align-items: center; /* 수직 중앙 정렬 */
-  justify-content: center; /* 수평 중앙 정렬 */
-  background: none; /* 버튼 배경색 제거 */
-  border: none; /* 버튼 테두리 제거 */
-  color: white; /* 텍스트 색상 */
-  font-size: 14px; /* 텍스트 크기 */
-  font-weight: bold; /* 텍스트 굵기 */
-  cursor: pointer; /* 마우스 커서 */
-  gap: 5px; /* 이미지와 텍스트 간 간격 */
-  padding: 5px; /* 클릭 영역 확보 */
+  flex-direction: row;
+  /* 이미지와 텍스트를 한 줄로 배치 */
+  align-items: center;
+  /* 수직 중앙 정렬 */
+  justify-content: center;
+  /* 수평 중앙 정렬 */
+  background: none;
+  /* 버튼 배경색 제거 */
+  border: none;
+  /* 버튼 테두리 제거 */
+  color: white;
+  /* 텍스트 색상 */
+  font-size: 14px;
+  /* 텍스트 크기 */
+  font-weight: bold;
+  /* 텍스트 굵기 */
+  cursor: pointer;
+  /* 마우스 커서 */
+  gap: 5px;
+  /* 이미지와 텍스트 간 간격 */
+  padding: 5px;
+  /* 클릭 영역 확보 */
 }
 
 .jobButton:hover {
-  color: #aaa; /* 호버 시 텍스트 색상 변경 */
+  color: #aaa;
+  /* 호버 시 텍스트 색상 변경 */
 }
 
 .jobImage {
-  width: 30px; /* 이미지 크기 */
+  width: 30px;
+  /* 이미지 크기 */
   height: 30px;
-  object-fit: contain; /* 이미지 비율 유지 */
+  object-fit: contain;
+  /* 이미지 비율 유지 */
 }
 
 .jobName {
-  margin: 0; /* 기본 마진 제거 */
+  margin: 0;
+  /* 기본 마진 제거 */
 }
 
 .searchContainer {
@@ -225,79 +298,75 @@
 /* 전체 그리드 레이아웃 */
 .gridMain {
   display: grid;
-  grid-template-columns: 2fr 2fr 1fr 1fr;
-  /* 가로: 1, 2, 3, 4 */
-  grid-template-rows: 1fr 2fr 2fr;
-  /* 세로: 1, 2, 3 */
-  gap: 20px;
+  grid-template-columns: 1fr 0.55fr 0.55fr;
+  grid-template-rows: auto;
+  gap: 10px 50px;
   /* 그리드 간격 */
-  margin-bottom: 30px;
+  margin: 30px 0 70px 0;
 }
 
 /* 상단 텍스트 */
-.youtuberTitle {
-  grid-column: 1 / 3;
-  /* 가로 1~2 */
-  grid-row: 1 / 2;
-  /* 세로 1 */
-  color: white;
-  display: flex;
-  align-items: flex-end;
-}
-
-.positiveTitle {
-  grid-column: 3 / 4;
-  /* 가로 3 */
-  grid-row: 1 / 2;
-  /* 세로 1 */
-  color: white;
-  display: flex;
-  align-items: flex-end;
-}
-
+.youtuberTitle,
+.positiveTitle,
 .negativeTitle {
-  grid-column: 4 / 5;
-  /* 가로 4 */
-  grid-row: 1 / 2;
-  /* 세로 1 */
-  color: white;
-  display: flex;
-  align-items: flex-end;
+  height: 10px;
 }
 
 /* 유튜버 추천 빌드 - 첫 번째 박스 */
 .youtubeRecommendationTop {
-  grid-column: 1 / 3;
-  /* 가로 1~2 */
+  grid-column: 1 / 2;
   grid-row: 2 / 3;
-  /* 세로 2 */
-  padding: 10px;
+  display: grid;
+  grid-template-columns: 0.7fr 1fr;
+  grid-template-rows: auto;
   border-radius: 8px;
   border: 1px solid white;
-  /* 테두리 */
   color: white;
+  padding: 10px;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 /* 유튜버 추천 빌드 - 두 번째 박스 */
 .youtubeRecommendationBottom {
-  grid-column: 1 / 3;
-  /* 가로 1~2 */
+  grid-column: 1 / 2;
   grid-row: 3 / 4;
-  /* 세로 3 */
-  padding: 10px;
+  display: grid;
+  grid-template-columns: 0.7fr 1fr;
+  grid-template-rows: auto;
+  border-radius: 8px;
   border: 1px solid white;
-  /* 테두리 */
-  border-radius: 5px;
-
   color: white;
+  padding: 10px;
+  gap: 10px;
+  padding: 10px;
+}
+
+.youtubeContent {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  width: 100%;
+  height: 100%;
+  display: flex; /* 동영상을 가운데 정렬 */
+  justify-content: center;
+  align-items: center;
+}
+
+.youtubeContent iframe {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 박스 내에 맞게 조정 */
+}
+
+.positiveTraits,
+.negativeTraits {
+  height: 340px;
 }
 
 /* 긍정 특성 */
 .positiveTraits {
-  grid-column: 3 / 4;
-  /* 가로 3 */
+  grid-column: 2 / 3;
   grid-row: 2 / 4;
-  /* 세로 2~3 */
   padding: 20px;
   border-radius: 5px;
   border: 1px solid white;
@@ -312,10 +381,8 @@
 
 /* 부정 특성 */
 .negativeTraits {
-  grid-column: 4 / 5;
-  /* 가로 4 */
+  grid-column: 3 / 4;
   grid-row: 2 / 4;
-  /* 세로 2~3 */
   padding: 20px;
   border-radius: 5px;
   border: 1px solid white;
@@ -325,15 +392,22 @@
 
 .gridBottom {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 가로 2칸 */
-  grid-template-rows: repeat(3, 1fr); /* 세로 3칸 */
-  gap: 20px; /* 박스 간 간격 */
+  grid-template-columns: repeat(2, 1fr);
+  /* 가로 2칸 */
+  grid-template-rows: repeat(3, 1fr);
+  /* 세로 3칸 */
+  gap: 50px 100px;
+  /* 박스 간 간격 */
+  margin-bottom: 40px;
 }
 
 .builderBox {
-  color: white; /* 텍스트 색상 */
+  color: white;
+  /* 텍스트 색상 */
   display: flex;
-  border-radius: 5px; /* 둥근 모서리 */
+  border-radius: 5px;
+  /* 둥근 모서리 */
   border: 1px solid white;
-  height: 100px; /* 박스 높이 */
+  height: 158px;
+  /* 박스 높이 */
 }

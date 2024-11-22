@@ -1,9 +1,34 @@
 .builderpage {
     max-width: 1920px;
     /* 최대 너비를 1920px로 제한 */
-    max-height: 1080px;
-    /* 최대 높이를 1080px로 제한 */
     margin: 0 auto;
+    position: relative;
+    /* 자식 요소의 절대 위치를 기준으로 설정 */
+}
+
+/* 글꼴 지정 */
+.searchLabel {
+    font-family: 'KCC-Hanbit', sans-serif;
+}
+
+.menuTitle,
+.modePick h3,
+.modeButton {
+    font-family: 'GangwonEduPowerExtraBoldA', sans-serif;
+}
+
+.jobTitle,
+.positiveTitle,
+.selectedTraitsTitle,
+.negativeTitle,
+.acquiredSkillsTitle {
+    font-family: 'Paperlogy-8ExtraBold', sans-serif;
+}
+
+.button,
+.buildShareButton,
+.traitName {
+    font-family: 'GabiaGosran-Regular', sans-serif;
 }
 
 /* 좌우측 상단 로고 */
@@ -33,8 +58,10 @@
 }
 
 .menuLogo {
+    width: 40px;
+    height: 40px;
     margin-left: -5px;
-    /* 왼쪽으로 10px 이동 */
+    margin-top: 20px;
 }
 
 .menuTitle {
@@ -42,7 +69,7 @@
     /* 로고와 제목을 한 줄로 배치 */
     align-items: center;
     /* 수직 중앙 정렬 */
-    gap: 10px;
+    gap: 5px;
     /* 로고와 제목 간격 */
 }
 
@@ -51,6 +78,7 @@
     /* 기본 여백 제거 */
     line-height: 1;
     /* 텍스트의 줄 간격 조정 */
+    margin-top: 30px;
 }
 
 /* 검색 창 */
@@ -141,7 +169,7 @@
 
 .modeButton {
     display: inline-flex;
-    align-items: center;
+    align-items: flex-end;
     cursor: pointer;
     gap: 5px;
     /* 텍스트와 아이콘 간 간격 */
@@ -211,7 +239,7 @@
 }
 
 /* Firefox 전용 스크롤바 숨기기 */
-.positiveTraits  {
+.positiveTraits {
     grid-column: 2 / 3;
     grid-row: 2 / 3;
     scrollbar-width: none;
@@ -307,9 +335,17 @@
 
 /* 비활성화된 Trait 스타일 */
 .disabled {
+    opacity: 0.5;
+    /* 반투명 처리 */
+    pointer-events: none;
+    /* 클릭 불가능 */
+    cursor: not-allowed;
+    /* 마우스 커서 변경 */
+}
+
+/* 선택된 항목 스타일 */
+.selected {
     opacity: 0.5; /* 반투명 처리 */
-    pointer-events: none; /* 클릭 불가능 */
-    cursor: not-allowed; /* 마우스 커서 변경 */
 }
 
 /* 설명 박스 (Tooltip) */
@@ -373,4 +409,5 @@
     display: flex;
     justify-content: flex-end;
     margin-right: 122px;
+    margin-bottom: 20px;
 }
