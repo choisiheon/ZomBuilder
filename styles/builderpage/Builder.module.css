@@ -358,6 +358,13 @@
     /* 마우스 커서 변경 */
 }
 
+.alert {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
 /* 설명 박스 (Tooltip) */
 /* 툴팁 스타일 */
 .tooltip {

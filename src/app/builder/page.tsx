@@ -190,6 +190,7 @@ const CustomBuilder: React.FC = () => {
             // 활성 특성 처리
             const activeTraits = job.active_trait.split(',').map((trait) => trait.trim());
             const newDisabledTraits: string[] = [];
+            const updatedSelectedTraits: Trait[] = [];
 
             activeTraits.forEach((activeTraitName) => {
                 const matchingTrait =
@@ -212,20 +213,17 @@ const CustomBuilder: React.FC = () => {
                         )
                     );
 
-                    // 해당 특성의 비활성화된 특성을 수집
+                    updatedSelectedTraits.push({ ...matchingTrait, selected: true });
                     const disabled = matchingTrait.disabled_traits.split(',').map((t) => t.trim());
                     newDisabledTraits.push(...disabled);
                 }
             });
 
-            // 비활성화 상태 업데이트
+            setSelectedTraits(updatedSelectedTraits); // 직업에 의해 활성화된 특성 저장
             setDisabledTraits((prev) => Array.from(new Set([...prev, ...newDisabledTraits])));
-
-            // MajorSkills 업데이트
             updateMajorSkills(job, [...positiveTraits, ...negativeTraits]);
         }
     };
-
 
     // 특성 선택 핸들러
     const handleTraitSelect = (trait: Trait) => {
@@ -243,6 +241,9 @@ const CustomBuilder: React.FC = () => {
                 traits.map((t) => (t.id === trait.id ? { ...t, selected: true } : t))
             );
         }
+
+        // 선택된 특성 추가
+        setSelectedTraits((prev) => [...prev, { ...trait, selected: true }]);
 
         // 포인트 업데이트
         setTotalPoints((prev) => prev + trait.points);
@@ -274,6 +275,9 @@ const CustomBuilder: React.FC = () => {
                 traits.map((t) => (t.id === trait.id ? { ...t, selected: false } : t))
             );
         }
+
+        // 선택된 특성에서 제거
+        setSelectedTraits((prev) => prev.filter((t) => t.id !== trait.id));
 
         // 포인트 업데이트
         setTotalPoints((prev) => prev - trait.points);
@@ -315,6 +319,9 @@ const CustomBuilder: React.FC = () => {
     const handleMouseLeave = () => {
         setHoveredTrait(null); // 툴팁 내용 초기화
     };
+
+    // 선택된 특성 ID를 추출하여 ','로 연결
+    const traitIds = selectedTraits.map((trait) => trait.id).join(",");
 
     // 초기화 핸들러
     const handleReset = () => {
@@ -544,8 +551,22 @@ const CustomBuilder: React.FC = () => {
                 <button className={styles.button}>캡쳐하기</button>
             </div>
             <div className={styles.buildShareButtonPosition}>
-                <Link href="/insertBuild">
-                    <button className={styles.buildShareButton}>내 빌드 공유하기</button>
+                <Link
+                    href={{
+                        pathname: "/insertBuild",
+                        query: {
+                            job_id: selectedJob, // 선택된 직업의 ID
+                            trait_ids: traitIds, // 선택된 특성의 ID를 ','로 연결
+                        },
+                    }}
+                    passHref
+                >
+                    <button
+                        className={styles.buildShareButton}
+                        disabled={selectedJob === null || selectedTraits.length === 0}
+                    >
+                        내 빌드 공유하기
+                    </button>
                 </Link>
             </div>
             {/* 설명 박스 */}

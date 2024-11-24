@@ -1,25 +1,27 @@
 "use client";
 
-import React, { useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 
 const CommentPage: React.FC = () => {
-    const searchParams = useSearchParams();
-    const job_id = searchParams.get("job_id"); // URL에서 job_id 가져오기
-    const trait_ids = searchParams.get("trait_ids"); // URL에서 trait_ids 가져오기
+    const searchParams = useSearchParams(); // 쿼리 파라미터 가져오기
+    const router = useRouter(); // 리다이렉트에 사용
+    const jobId = searchParams.get("job_id");
+    const traitIds = searchParams.get("trait_ids");
 
-    const [comment, setComment] = useState<string>(""); // 코멘트 입력 상태
-    const [password, setPassword] = useState<string>(""); // 패스워드 입력 상태
-    const [errorMessage, setErrorMessage] = useState<string | null>(null); // 에러 메시지 상태
-    const [successMessage, setSuccessMessage] = useState<string | null>(null); // 성공 메시지 상태
+    const [comment, setComment] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
 
-    const jobId = job_id ? parseInt(job_id, 10) : null; // 직업 ID
-    const traits = trait_ids ? trait_ids.split(",").map((id) => parseInt(id, 10)) : []; // 특성 ID 배열
+    useEffect(() => {
+        if (!jobId || !traitIds) {
+            alert("URL에 필요한 데이터가 없습니다.");
+            router.push("/"); // 데이터가 없으면 홈으로 리다이렉트
+        }
+    }, [jobId, traitIds, router]);
 
-    // POST 요청 함수
-    const postToServer = async () => {
-        if (!jobId || traits.length === 0 || !comment || !password) {
-            setErrorMessage("모든 필드를 입력해주세요.");
+    const handlePost = async () => {
+        if (!jobId || !traitIds || !comment || !password) {
+            alert("모든 필드를 입력해주세요!");
             return;
         }
 
@@ -30,97 +32,70 @@ const CommentPage: React.FC = () => {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    job_id: jobId, // 전달받은 직업 ID
-                    trait_id: traits.join(","), // 전달받은 특성 ID (콤마 구분)
-                    comment, // 코멘트
-                    password, // 패스워드
+                    job_id: Number(jobId), // job_id를 숫자로 변환
+                    trait_id: traitIds, // trait_ids 그대로 전달
+                    comment,
+                    password,
                 }),
             });
 
             if (response.ok) {
-                setSuccessMessage("데이터가 성공적으로 제출되었습니다!");
-                setComment("");
-                setPassword("");
+                alert("성공적으로 제출되었습니다!");
+                router.push("/"); // 성공 후 홈으로 이동
             } else {
                 const errorData = await response.json();
-                setErrorMessage(`오류 발생: ${errorData.message}`);
+                alert(`오류 발생: ${errorData.message || "서버 문제입니다."}`);
             }
         } catch (error) {
-            setErrorMessage("서버와의 통신 중 문제가 발생했습니다.");
+            console.error("Error submitting data:", error);
+            alert("서버와의 통신 중 문제가 발생했습니다.");
         }
     };
 
-    // 제출 핸들러
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        postToServer();
-    };
-
     return (
-        <div style={{ maxWidth: "400px", margin: "50px auto", textAlign: "center", fontFamily: "Arial, sans-serif" }}>
-            <h1>코멘트와 패스워드 입력</h1>
-            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
-                {/* 읽어온 직업 ID와 특성 ID */}
-                <div>
-                    <p><strong>직업 ID:</strong> {jobId || "없음"}</p>
-                    <p><strong>특성 ID:</strong> {traits.length > 0 ? traits.join(", ") : "없음"}</p>
-                </div>
-
-                {/* 코멘트 입력 */}
-                <textarea
-                    placeholder="코멘트를 입력하세요"
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                    style={{
-                        padding: "10px",
-                        fontSize: "16px",
-                        border: "1px solid #ccc",
-                        borderRadius: "5px",
-                        resize: "none",
-                    }}
-                    rows={5}
-                ></textarea>
-
-                {/* 패스워드 입력 */}
-                <input
-                    type="password"
-                    placeholder="패스워드를 입력하세요"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    style={{
-                        padding: "10px",
-                        fontSize: "16px",
-                        border: "1px solid #ccc",
-                        borderRadius: "5px",
-                    }}
-                />
-
-                {/* 에러 메시지 */}
-                {errorMessage && (
-                    <p style={{ color: "red", fontSize: "14px" }}>{errorMessage}</p>
-                )}
-
-                {/* 성공 메시지 */}
-                {successMessage && (
-                    <p style={{ color: "green", fontSize: "14px" }}>{successMessage}</p>
-                )}
-
-                {/* 제출 버튼 */}
-                <button
-                    type="submit"
-                    style={{
-                        padding: "10px",
-                        fontSize: "16px",
-                        backgroundColor: "#0070f3",
-                        color: "#fff",
-                        border: "none",
-                        borderRadius: "5px",
-                        cursor: "pointer",
-                    }}
-                >
-                    제출
-                </button>
-            </form>
+        <div style={{ maxWidth: "400px", margin: "50px auto", textAlign: "center" }}>
+            <h1>코멘트 입력</h1>
+            <p><strong>직업 ID:</strong> {jobId || "알 수 없음"}</p>
+            <p><strong>특성 IDs:</strong> {traitIds || "알 수 없음"}</p>
+            <textarea
+                placeholder="코멘트를 입력하세요"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                rows={5}
+                style={{
+                    width: "100%",
+                    padding: "10px",
+                    marginBottom: "10px",
+                    borderRadius: "5px",
+                    border: "1px solid #ccc",
+                }}
+            />
+            <input
+                type="password"
+                placeholder="비밀번호를 입력하세요"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                style={{
+                    width: "100%",
+                    padding: "10px",
+                    marginBottom: "10px",
+                    borderRadius: "5px",
+                    border: "1px solid #ccc",
+                }}
+            />
+            <button
+                onClick={handlePost}
+                style={{
+                    padding: "10px 20px",
+                    backgroundColor: "#0070f3",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                }}
+            >
+                제출
+            </button>
         </div>
     );
 };
