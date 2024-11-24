@@ -212,6 +212,11 @@
     border-radius: 8px;
     border: 1px solid white;
     color: white;
+    height: 855px; 
+    overflow-y: auto;
+    /* 세로 스크롤 활성화 */
+    overflow-x: hidden;
+    /* 가로 스크롤 숨김 */
 }
 
 .positiveTraits,
@@ -230,6 +235,7 @@
 }
 
 /* 스크롤바 숨기기 */
+.occupations::-webkit-scrollbar,
 .positiveTraits::-webkit-scrollbar,
 .negativeTraits::-webkit-scrollbar,
 .chosenTraits::-webkit-scrollbar,
@@ -261,6 +267,15 @@
     grid-column: 3 / 4;
     grid-row: 4 / 5;
     scrollbar-width: none;
+}
+
+.occupationsList {
+    list-style: none;
+    /* 기본 리스트 스타일 제거 */
+    padding: 0;
+    /* 기본 여백 제거 */
+    margin: 0;
+    /* 기본 마진 제거 */
 }
 
 /* Traits 목록 스타일 */
@@ -341,11 +356,6 @@
     /* 클릭 불가능 */
     cursor: not-allowed;
     /* 마우스 커서 변경 */
-}
-
-/* 선택된 항목 스타일 */
-.selected {
-    opacity: 0.5; /* 반투명 처리 */
 }
 
 /* 설명 박스 (Tooltip) */
