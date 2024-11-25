@@ -488,7 +488,7 @@ const CustomBuilder: React.FC = () => {
                                     />
                                     <span className={styles.traitName}>{trait.trait_name}</span>
                                     {/* 0보다 작으면 빨간, 0보다 크면 초록 */}
-                                    <span className={`${styles.traitPoints} ${trait.points > 0 ? styles.positiveTraitPoints : styles.negativeTraitPoints}`}>{trait.points > 0 ? `+ ${trait.points}` : `- ${Math.abs(trait.points)}`}
+                                    <span className={`${styles.traitPoints} ${trait.points > 0 ? styles.negativeTraitPoints : styles.positiveTraitPoints}`}>{trait.points > 0 ? `+ ${trait.points}` : `- ${Math.abs(trait.points)}`}
                                     </span>
                                 </li>
                             ))}

@@ -21,6 +21,7 @@
 .positiveTitle,
 .selectedTraitsTitle,
 .negativeTitle,
+.totalPoints,
 .acquiredSkillsTitle {
     font-family: 'Paperlogy-8ExtraBold', sans-serif;
 }
