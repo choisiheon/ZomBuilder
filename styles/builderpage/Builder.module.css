@@ -27,6 +27,7 @@
 
 .button,
 .buildShareButton,
+.jobName,
 .traitName {
     font-family: 'GabiaGosran-Regular', sans-serif;
 }
@@ -288,6 +289,16 @@
     /* 기본 마진 제거 */
 }
 
+.traitsList > li {
+    display: flex;
+    margin-bottom: 3px;
+}
+
+.occupationsList > li {
+    display: flex;
+    margin-bottom: 10px;
+}
+
 /* 각각의 Trait 아이템 */
 .traitItem {
     display: flex;
@@ -303,6 +314,19 @@
     /* 호버 시 배경색 변경 */
 }
 
+.jobIcon {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.jobName {
+    font-size: 20px;
+    line-height: 30px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
 /* Trait 아이콘 */
 .traitIcon {
     width: 24px;
@@ -316,14 +340,20 @@
     /* 이름 부분 확장 */
     font-size: 16px;
     font-weight: bold;
-    color: #ffffff;
 }
 
 /* Trait 점수 */
-.traitPoints {
+.positiveTraitPoints {
     font-size: 16px;
     font-weight: bold;
     color: #ff4747;
+    /* 빨간색 점수 */
+}
+
+.negativeTraitPoints {
+    font-size: 16px;
+    font-weight: bold;
+    color: #24CB61;
     /* 빨간색 점수 */
 }
 

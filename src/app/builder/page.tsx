@@ -436,8 +436,8 @@ const CustomBuilder: React.FC = () => {
                                 onMouseLeave={handleMouseLeave}
                                 style={{ cursor: 'pointer' }}
                             >
-                                <img src={`../image/job/${job.image}`} alt={job.name} className={styles.traitIcon} />
-                                <span className={styles.traitName}>{job.name}</span>
+                                <img src={`../image/job/${job.image}`} alt={job.name} className={styles.jobIcon} />
+                                <span className={styles.jobName}>{job.name}</span>
                             </li>
                         ))}
                     </ul>
@@ -462,7 +462,7 @@ const CustomBuilder: React.FC = () => {
                             >
                                 <img src={`../image/trait/${trait.image}`} alt={trait.trait_name} className={styles.traitIcon} />
                                 <span className={styles.traitName}>{trait.trait_name}</span>
-                                <span className={styles.traitPoints}>{trait.points}</span>
+                                <span className={styles.positiveTraitPoints}>{trait.points > 0 ? `+ ${trait.points}` : `- ${Math.abs(trait.points)}`}</span>
                             </li>
                         ))}
                     </ul>
@@ -487,7 +487,9 @@ const CustomBuilder: React.FC = () => {
                                         className={styles.traitIcon}
                                     />
                                     <span className={styles.traitName}>{trait.trait_name}</span>
-                                    <span className={styles.traitPoints}>{trait.points}</span>
+                                    {/* 0보다 작으면 빨간, 0보다 크면 초록 */}
+                                    <span className={`${styles.traitPoints} ${trait.points > 0 ? styles.positiveTraitPoints : styles.negativeTraitPoints}`}>{trait.points > 0 ? `+ ${trait.points}` : `- ${Math.abs(trait.points)}`}
+                                    </span>
                                 </li>
                             ))}
                     </ul>
@@ -520,7 +522,7 @@ const CustomBuilder: React.FC = () => {
                                     className={styles.traitIcon}
                                 />
                                 <span className={styles.traitName}>{trait.trait_name}</span>
-                                <span className={styles.traitPoints}>{trait.points}</span>
+                                <span className={styles.negativeTraitPoints}>{trait.points > 0 ? `+ ${trait.points}` : `- ${Math.abs(trait.points)}`}</span>
                             </li>
                         ))}
                     </ul>

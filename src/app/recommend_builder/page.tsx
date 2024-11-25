@@ -19,7 +19,7 @@ type Job = {
 
 // 샘플 데이터 (DB에서 받아올 예정)
 const Jobs: Job[] = [
-  { job: "무직", image: "/image/Job/Jobless.png" },
+  { job: "무직", image: "/image/Job/Unemployed.png" },
   { job: "소방관", image: "/image/Job/Firefighter.png" },
   { job: "경찰관", image: "/image/Job/Police.png" },
   { job: "공원경비원", image: "/image/Job/Sheriff.png" },
@@ -30,15 +30,15 @@ const Jobs: Job[] = [
   { job: "농부", image: "/image/Job/Farmer.png" },
   { job: "어부", image: "/image/Job/Fisherman.png" },
   { job: "의사", image: "/image/Job/Doctor.png" },
-  { job: "필라테스 강사", image: "/image/Job/PilatesInstructor.png" },
+  { job: "필라테스 강사", image: "/image/Job/FitnessInstructor.png" },
   { job: "전기공", image: "/image/Job/Electrician.png" },
-  { job: "기술자", image: "/image/Job/Technician.png" },
-  { job: "용접공", image: "/image/Job/Welder.png" },
-  { job: "자동차 정비사", image: "/image/Job/AutoMechanic.png" },
+  { job: "기술자", image: "/image/Job/Engineer.png" },
+  { job: "용접공", image: "/image/Job/Metalwarker.png" },
+  { job: "자동차 정비사", image: "/image/Job/Repairman.png" },
   { job: "홈도둑", image: "/image/Job/Burglar.png" },
   { job: "벌목꾼", image: "/image/Job/Lumberjack.png" },
   { job: "간호사", image: "/image/Job/Nurse.png" },
-  { job: "햄버거 조리사", image: "/image/Job/BurgerCook.png" },
+  { job: "햄버거 조리사", image: "/image/Job/BurgerFlipper.png" },
   { job: "경비원", image: "/image/Job/SecurityGuard.png" },
 ];
 
@@ -164,7 +164,11 @@ const RecommendBuilder: React.FC = () => {
         <h2 className={styles.negativeTitle}>부정 특성</h2>
         {/* 유튜버 추천 빌드 */}
         <div className={styles.youtubeRecommendationTop}>
+          <img src="../image/youtubeLogo.png" alt="youtubeLogo" className={styles.youtubeLogo} />
           <h3>{youtubeTitleTop}</h3>
+          <h4 className={styles.youtuberBuildVersion}>Build 40.0.1</h4>
+          <h4 className={styles.youtuberPick}>Youtuber Pick</h4>
+          <h4 className={styles.youtuberJob}>좀도둑</h4>
           <div className={styles.youtubeContent}>
             {videoIdTop ? (
               <iframe
@@ -180,7 +184,11 @@ const RecommendBuilder: React.FC = () => {
           </div>
         </div>
         <div className={styles.youtubeRecommendationBottom}>
+          <img src="../image/youtubeLogo.png" alt="youtubeLogo" className={styles.youtubeLogo} />
           <h3>{youtubeTitleBottom}</h3>
+          <h4 className={styles.youtuberBuildVersion}>Build 40.0.1</h4>
+          <h4 className={styles.youtuberPick}>Youtuber Pick</h4>
+          <h4 className={styles.youtuberJob}>좀도둑</h4>
           <div className={styles.youtubeContent}>
             {videoIdBottom ? (
               <iframe
