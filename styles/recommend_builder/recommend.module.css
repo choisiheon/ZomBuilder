@@ -24,13 +24,15 @@
 
 .youtuberTitle,
 .positiveTitle,
-.negativeTitle {
+.negativeTitle,
+.buildTitle {
   font-family: 'Paperlogy-8ExtraBold', sans-serif;
 }
 
 .youtubeRecommendationTop,
 .youtubeRecommendationBottom,
-.traitName {
+.traitName,
+.searchBuildInput {
     font-family: 'GabiaGosran-Regular', sans-serif;
 }
 
@@ -402,8 +404,7 @@
 }
 
 .youtuberJob {
-  background-color: #3F4040;
-  /* 배경색 */
+  background-color: #3F4040; /* 배경색 */
   border-radius: 5px;
   grid-column: 2 / 3;
   grid-row: 1 / 2;
@@ -505,14 +506,57 @@
 }
 
 .builderBox {
-  color: white;
-  /* 텍스트 색상 */
+  color: white; /* 텍스트 색상 */
   display: flex;
-  border-radius: 5px;
-  /* 둥근 모서리 */
+  border-radius: 5px; /* 둥근 모서리 */
   border: 1px solid white;
-  height: 158px;
-  /* 박스 높이 */
+  height: 158px; /* 박스 높이 */
+  padding: 10px;
+}
+
+.buildTitle {
+  font-size: 25px;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modalButtons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.modalButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  background: #ddd;
+}
+
+.modalButton:hover {
+  background: #ccc;
 }
 
 /* 설명 박스 (Tooltip) */

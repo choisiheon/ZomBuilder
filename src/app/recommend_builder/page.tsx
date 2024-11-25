@@ -50,6 +50,7 @@ const RecommendBuilder: React.FC = () => {
   const [hoveredDescription, setHoveredDescription] = useState<string | null>(null); // 현재 설명
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 }); // 설명 위치
   const [filteredPosts, setFilteredPosts] = useState<Post[]>([]); // 필터링된 게시글
+  const [searchText, setSearchText] = useState<string>(""); // 검색 텍스트 상태 추가
   const [selectedJobId, setSelectedJobId] = useState<number | null>(null); // 선택한 직업 ID
   const [selectedTraitIds, setSelectedTraitIds] = useState<number[]>([]); // 선택한 특성 ID
 
@@ -124,7 +125,8 @@ const RecommendBuilder: React.FC = () => {
       const traitIds = post.trait_id.split(",").map(Number);
       const hasJob = selectedJobId === null || post.job_id === selectedJobId;
       const hasTrait = selectedTraitIds.every((id) => traitIds.includes(id));
-      return hasJob && hasTrait;
+      const matchesSearch = post.comment.toLowerCase().includes(searchText.toLowerCase()); // 검색 텍스트 필터링 추가
+      return hasJob && hasTrait && matchesSearch;
     });
     setFilteredPosts(filtered);
   };
@@ -160,7 +162,7 @@ const RecommendBuilder: React.FC = () => {
   // 필터링 업데이트
   useEffect(() => {
     filterPosts();
-  }, [selectedJobId, selectedTraitIds, posts]);
+  }, [selectedJobId, selectedTraitIds, posts, searchText]);
 
   // 설명 툴팁 설정
   const handleMouseEnter = (description: string, event: React.MouseEvent) => {
@@ -216,6 +218,7 @@ const RecommendBuilder: React.FC = () => {
         </div>
       </div>
 
+      {/* 메뉴바 설정부분 */}
       <div className={styles.underHeader}>
         <div className={styles.menuTitle}>
           <img src="../image/menuLogo.png" alt="menu" className={styles.menuLogo} />
@@ -234,12 +237,12 @@ const RecommendBuilder: React.FC = () => {
       <div className={styles.modePick}>
         <h3>Mode Pick:</h3>
         <div className={styles.modeButtonGroup}>
-          <button className={styles.modeButton}
+          <button className={`${styles.modeButton} ${currentMode === "X" ? styles.selected : ""}`}
             onClick={() => handleModeChange("X")}
           >
             <img src="../image/modeLogo.png" alt="modeLogo" className={styles.modeLogo} />Vanilla
           </button>
-          <button className={styles.modeButton}
+          <button className={`${styles.modeButton} ${currentMode === "O" ? styles.selected : ""}`}
             onClick={() => handleModeChange("O")}
           >
             <img src="../image/modeLogo.png" alt="modeLogo" className={styles.modeLogo} />More Simple Traits (MST) & Simple Overhaul Traits and Occupations (SOTO)
@@ -264,10 +267,18 @@ const RecommendBuilder: React.FC = () => {
         ))}
       </div>
 
+      {/* 추천빌드 검색창 */}
       <div className={styles.searchContainer}>
         <img src="../image/searchIcon.png" alt="Search Icon" className={styles.searchIcon} />
-        <input type="text" placeholder="Search for a Build" className={styles.searchBuildInput} />
+        <input
+          type="text"
+          placeholder="Search for a Build"
+          className={styles.searchBuildInput}
+          value={searchText} // 입력 값을 상태와 연결
+          onChange={(e) => setSearchText(e.target.value)} // 상태 업데이트
+        />
       </div>
+
 
       <div className={styles.gridMain}>
         <h2 className={styles.youtuberTitle}>유튜브 인기 추천 빌드</h2>
@@ -315,6 +326,7 @@ const RecommendBuilder: React.FC = () => {
             )}
           </div>
         </div>
+
         {/* 긍정 특성 */}
         <div className={styles.positiveTraits}>
           <ul className={styles.traitsList}>
@@ -355,14 +367,21 @@ const RecommendBuilder: React.FC = () => {
           </ul>
         </div>
       </div>
+
       {/* 게시글 표시 */}
       <div className={styles.gridBottom}>
         {filteredPosts.map((post) => (
           <div key={post.id} className={styles.builderBox}>
-            <h3>{post.comment}</h3>
+            <div className={styles.buildTitle}>
+              {post.comment}
+            </div>
+            <h4 className={styles.BuildVersion}>Build 40.0.1</h4>
+            <h4 className={styles.Pick}>Youtuber Pick</h4>
+            <h4 className={styles.job}>좀도둑</h4>
           </div>
         ))}
       </div>
+
       {/* 설명 툴팁 */}
       {hoveredDescription && (
         <div

@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image'; // next/image에서 Image를 임포트
 import styles from '../../../styles/builderpage/Builder.module.css'; // 스타일을 위한 CSS 모듈 임포트
 import Link from 'next/link';
+import Modal from '../Modal_Builder/page'; // 모달 컴포넌트 임포트
 
 // 직업 데이터 타입 정의
 type Job = {
@@ -56,6 +57,8 @@ const CustomBuilder: React.FC = () => {
     const [isOverLimit, setIsOverLimit] = useState<boolean>(false); // 경고 상태
     const [hoveredTrait, setHoveredTrait] = useState<string | null>(null); // 설명
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 }); // 설명 표시 위치설정
+    const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
+    const [modalData, setModalData] = useState<{ job_id: number | null; trait_ids: string } | null>(null);
 
     const fetchJobs = async (mode: string) => {
         setCurrentMode(mode);
@@ -320,8 +323,21 @@ const CustomBuilder: React.FC = () => {
         setHoveredTrait(null); // 툴팁 내용 초기화
     };
 
-    // 선택된 특성 ID를 추출하여 ','로 연결
-    const traitIds = selectedTraits.map((trait) => trait.id).join(",");
+    const handleShareBuild = () => {
+        if (!selectedJob || selectedTraits.length === 0) {
+            alert("직업과 특성을 선택하세요.");
+            return;
+        }
+
+        const traitIds = selectedTraits.map((trait) => trait.id).join(',');
+        setModalData({ job_id: selectedJob, trait_ids: traitIds });
+        setIsModalOpen(true); // 모달 열기
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setModalData(null);
+    };
 
     // 초기화 핸들러
     const handleReset = () => {
@@ -553,24 +569,17 @@ const CustomBuilder: React.FC = () => {
                 <button className={styles.button}>캡쳐하기</button>
             </div>
             <div className={styles.buildShareButtonPosition}>
-                <Link
-                    href={{
-                        pathname: "/insertBuild",
-                        query: {
-                            job_id: selectedJob, // 선택된 직업의 ID
-                            trait_ids: traitIds, // 선택된 특성의 ID를 ','로 연결
-                        },
-                    }}
-                    passHref
+                <button
+                    className={styles.buildShareButton}
+                    onClick={handleShareBuild}
+                    disabled={selectedJob === null || selectedTraits.length === 0}
                 >
-                    <button
-                        className={styles.buildShareButton}
-                        disabled={selectedJob === null || selectedTraits.length === 0}
-                    >
-                        내 빌드 공유하기
-                    </button>
-                </Link>
+                    내 빌드 공유하기
+                </button>
             </div>
+            {isModalOpen && modalData && (
+                <Modal job_id={modalData.job_id} trait_ids={modalData.trait_ids} onClose={closeModal} />
+            )}
             {/* 설명 박스 */}
             {hoveredTrait && (
                 <div
