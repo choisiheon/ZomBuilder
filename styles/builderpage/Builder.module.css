@@ -27,6 +27,7 @@
 
 .button,
 .buildShareButton,
+.jobName,
 .traitName {
     font-family: 'GabiaGosran-Regular', sans-serif;
 }
@@ -212,6 +213,11 @@
     border-radius: 8px;
     border: 1px solid white;
     color: white;
+    height: 855px; 
+    overflow-y: auto;
+    /* 세로 스크롤 활성화 */
+    overflow-x: hidden;
+    /* 가로 스크롤 숨김 */
 }
 
 .positiveTraits,
@@ -230,6 +236,7 @@
 }
 
 /* 스크롤바 숨기기 */
+.occupations::-webkit-scrollbar,
 .positiveTraits::-webkit-scrollbar,
 .negativeTraits::-webkit-scrollbar,
 .chosenTraits::-webkit-scrollbar,
@@ -263,6 +270,15 @@
     scrollbar-width: none;
 }
 
+.occupationsList {
+    list-style: none;
+    /* 기본 리스트 스타일 제거 */
+    padding: 0;
+    /* 기본 여백 제거 */
+    margin: 0;
+    /* 기본 마진 제거 */
+}
+
 /* Traits 목록 스타일 */
 .traitsList {
     list-style: none;
@@ -271,6 +287,16 @@
     /* 기본 여백 제거 */
     margin: 0;
     /* 기본 마진 제거 */
+}
+
+.traitsList > li {
+    display: flex;
+    margin-bottom: 3px;
+}
+
+.occupationsList > li {
+    display: flex;
+    margin-bottom: 10px;
 }
 
 /* 각각의 Trait 아이템 */
@@ -288,6 +314,19 @@
     /* 호버 시 배경색 변경 */
 }
 
+.jobIcon {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.jobName {
+    font-size: 20px;
+    line-height: 30px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
 /* Trait 아이콘 */
 .traitIcon {
     width: 24px;
@@ -301,14 +340,20 @@
     /* 이름 부분 확장 */
     font-size: 16px;
     font-weight: bold;
-    color: #ffffff;
 }
 
 /* Trait 점수 */
-.traitPoints {
+.positiveTraitPoints {
     font-size: 16px;
     font-weight: bold;
     color: #ff4747;
+    /* 빨간색 점수 */
+}
+
+.negativeTraitPoints {
+    font-size: 16px;
+    font-weight: bold;
+    color: #24CB61;
     /* 빨간색 점수 */
 }
 
@@ -328,6 +373,11 @@
     color: #ff4747;
 }
 
+/* 선택된 항목 스타일 */
+.selected {
+    opacity: 0.5; /* 반투명 처리 */
+}
+
 /* 비활성화된 Trait 스타일 */
 .disabled {
     opacity: 0.5;
@@ -338,9 +388,11 @@
     /* 마우스 커서 변경 */
 }
 
-/* 선택된 항목 스타일 */
-.selected {
-    opacity: 0.5; /* 반투명 처리 */
+.alert {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
 /* 설명 박스 (Tooltip) */
