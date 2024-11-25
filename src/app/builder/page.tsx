@@ -587,5 +587,4 @@ const CustomBuilder: React.FC = () => {
     );
 };
 
-
 export default CustomBuilder;
