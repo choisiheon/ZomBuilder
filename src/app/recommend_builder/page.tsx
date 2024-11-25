@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Modal from "../Modal_Recommend/page";
 import Image from 'next/image'; // next/image에서 Image를 임포트
 import Link from 'next/link';
 import styles from "../../../styles/recommend_builder/recommend.module.css";
@@ -53,6 +54,8 @@ const RecommendBuilder: React.FC = () => {
   const [searchText, setSearchText] = useState<string>(""); // 검색 텍스트 상태 추가
   const [selectedJobId, setSelectedJobId] = useState<number | null>(null); // 선택한 직업 ID
   const [selectedTraitIds, setSelectedTraitIds] = useState<number[]>([]); // 선택한 특성 ID
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 
+  const [modalData, setModalData] = useState<{ id: number; jobId: number; traitIds: string; } | null>(null); // 모달
 
   const [youtubeTitleTop, setYoutubeTitleTop] = useState("한국인이 좋아하는 속도 프로젝트 좀보이드 공략");
   const [youtubeTitleBottom, setYoutubeTitleBottom] = useState("영상 하나로 끝내는 프로젝트 좀보이드 공략");
@@ -173,6 +176,21 @@ const RecommendBuilder: React.FC = () => {
   // 설명 툴팁 숨기기
   const handleMouseLeave = () => {
     setHoveredDescription(null);
+  };
+
+  // 모달
+  const openModal = (post: Post) => {
+    setModalData({
+      id: post.id,
+      jobId: post.job_id,
+      traitIds: post.trait_id,
+    });
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setModalData(null);
   };
 
   // 유튜브 URL에서 ID 추출 함수
@@ -371,7 +389,7 @@ const RecommendBuilder: React.FC = () => {
       {/* 게시글 표시 */}
       <div className={styles.gridBottom}>
         {filteredPosts.map((post) => (
-          <div key={post.id} className={styles.builderBox}>
+          <div key={post.id} className={styles.builderBox} onClick={() => openModal(post)}>
             <div className={styles.buildTitle}>
               {post.comment}
             </div>
@@ -381,6 +399,15 @@ const RecommendBuilder: React.FC = () => {
           </div>
         ))}
       </div>
+      {/* 모달 */}
+      {isModalOpen && modalData && (
+        <Modal
+          id={modalData.id}
+          jobId={modalData.jobId}
+          traitIds={modalData.traitIds}
+          onClose={closeModal}
+        />
+      )}
 
       {/* 설명 툴팁 */}
       {hoveredDescription && (

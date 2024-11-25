@@ -412,7 +412,7 @@ const CustomBuilder: React.FC = () => {
                     {["X", "O"].map((modeKey) => (
                         <button
                             key={modeKey}
-                            className={styles.modeButton}
+                            className={`${styles.modeButton} ${currentMode === modeKey ? styles.selected : ''}`}
                             onClick={() => {
                                 fetchJobs(modeKey);
                                 fetchTraits(modeKey);
