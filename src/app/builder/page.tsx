@@ -5,6 +5,8 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image'; // next/image에서 Image를 임포트
 import styles from '../../../styles/builderpage/Builder.module.css'; // 스타일을 위한 CSS 모듈 임포트
 import Link from 'next/link';
+import Modal from '../Modal_Builder/page';
+import { useSearchParams } from "next/navigation"; // 모달 컴포넌트 임포트
 
 // 직업 데이터 타입 정의
 type Job = {
@@ -41,6 +43,9 @@ type MajorSkill = {
 };
 
 const CustomBuilder: React.FC = () => {
+    const [isFetched, setIsFetched] = useState(false);
+    const searchParams = useSearchParams(); // 쿼리 파라미터 가져오기
+    const [postId, setPostId] = useState<number | null>(null); // 게시글 ID 상태
     const [jobs, setJobs] = useState<Job[]>([]); // 직업 선택
     const [currentMode, setCurrentMode] = useState<string>('X'); // 현재 선택된 모드 표시
     const [positiveTraits, setPositiveTraits] = useState<Trait[]>([]); // 긍정 특성
@@ -56,6 +61,8 @@ const CustomBuilder: React.FC = () => {
     const [isOverLimit, setIsOverLimit] = useState<boolean>(false); // 경고 상태
     const [hoveredTrait, setHoveredTrait] = useState<string | null>(null); // 설명
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 }); // 설명 표시 위치설정
+    const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
+    const [modalData, setModalData] = useState<{ job_id: number | null; trait_ids: string; mode: string } | null>(null);
 
     const fetchJobs = async (mode: string) => {
         setCurrentMode(mode);
@@ -108,6 +115,78 @@ const CustomBuilder: React.FC = () => {
         fetchJobs("X"); // 초기 모드는 "X"
         fetchTraits("X");
     }, []);
+
+    //빌드 데이터 가져오기
+    // 빌드 데이터 가져오기
+    useEffect(() => {
+        const id = searchParams.get("id");
+        if (!id) return;
+
+        fetch(`https://server.zombuilder.com/post/rPosts/${id}`)
+            .then((response) => response.json())
+            .then((data) => {
+                if (!data.success || !data.data) {
+                    console.warn("API 응답이 예상한 형식이 아닙니다.");
+                    return;
+                }
+
+                const { job_id, trait_id, modecheck } = data.data;
+
+                console.log("받아온 modecheck:", modecheck);
+                console.log("받아온 job_id:", job_id);
+                console.log("받아온 trait_id:", trait_id);
+
+                // 모드 설정
+                if (modecheck === "X" || modecheck === "O") {
+                    setCurrentMode(modecheck); // 모드 설정
+                } else {
+                    console.warn("유효하지 않은 modecheck 값:", modecheck);
+                    return;
+                }
+
+                // 모드 데이터 로드 후 직업 및 특성 설정
+                fetchJobs(modecheck); // 모드에 따른 직업 불러오기
+                fetchTraits(modecheck); // 모드에 따른 특성 불러오기
+
+                // 직업 및 특성 데이터가 로드되면 선택
+                const interval = setInterval(() => {
+                    if (jobs.length > 0 && positiveTraits.length > 0 && negativeTraits.length > 0) {
+                        clearInterval(interval); // 데이터 로드 완료 시 타이머 제거
+
+                        // 직업 선택
+                        if (job_id) {
+                            const job = jobs.find((j) => j.id === job_id);
+                            if (job) {
+                                console.log("선택된 직업:", job);
+                                handleJobSelect(job);
+                            } else {
+                                console.warn(`job_id ${job_id}에 해당하는 직업을 찾을 수 없습니다.`);
+                            }
+                        }
+
+                        // 특성 선택
+                        if (trait_id) {
+                            const traitIds = trait_id.split(",").map((id:string) => Number(id.trim()));
+                            traitIds.forEach((traitId :number) => {
+                                const trait =
+                                    positiveTraits.find((t) => t.id === traitId) ||
+                                    negativeTraits.find((t) => t.id === traitId);
+
+                                if (trait) {
+                                    console.log("선택된 특성:", trait);
+                                    handleTraitSelect(trait);
+                                } else {
+                                    console.warn(`trait_id ${traitId}에 해당하는 특성을 찾을 수 없습니다.`);
+                                }
+                            });
+                        }
+                    }
+                }, 100); // 100ms 간격으로 데이터 로드 상태 확인
+            })
+            .catch((error) => console.error("Error fetching post data:", error));
+    }, [searchParams.get("id"), jobs.length, positiveTraits.length, negativeTraits.length]);
+
+
 
     // effect 데이터 가공
     const updateMajorSkills = (job: Job | null, traits: Trait[]) => {
@@ -163,7 +242,7 @@ const CustomBuilder: React.FC = () => {
             setSelectedJob(null);
             setTotalPoints((prev) => prev - job.point); // 직업 포인트 차감
 
-            // 초기화: 직업으로 추가된 특성과 비활성화 상태 초기화
+            // 특성과 상태 초기화
             setPositiveTraits((traits) =>
                 traits.map((t) => ({ ...t, selected: false, locked: false }))
             );
@@ -171,21 +250,22 @@ const CustomBuilder: React.FC = () => {
                 traits.map((t) => ({ ...t, selected: false, locked: false }))
             );
             setDisabledTraits([]); // 비활성화 상태 초기화
-
+            setSelectedTraits([]); // 선택된 특성 초기화
             updateMajorSkills(null, []); // 직업 초기화 시 majorSkills 초기화
         } else {
             // 새 직업 선택
             setSelectedJob(job.id);
-            setTotalPoints(job.point); // 직업 포인트 추가 (직업 변경 시 초기화)
+            setTotalPoints(job.point); // 직업 포인트 추가
 
-            // 초기화: 모든 특성의 선택 상태 초기화
+            // 초기화
             setPositiveTraits((traits) =>
                 traits.map((t) => ({ ...t, selected: false, locked: false }))
             );
             setNegativeTraits((traits) =>
                 traits.map((t) => ({ ...t, selected: false, locked: false }))
             );
-            setDisabledTraits([]); // 비활성화 상태 초기화
+            setDisabledTraits([]);
+            setSelectedTraits([]);
 
             // 활성 특성 처리
             const activeTraits = job.active_trait.split(',').map((trait) => trait.trim());
@@ -198,6 +278,7 @@ const CustomBuilder: React.FC = () => {
                     negativeTraits.find((t) => t.trait_name === activeTraitName);
 
                 if (matchingTrait) {
+                    // 활성화된 특성을 선택 및 잠금
                     setPositiveTraits((traits) =>
                         traits.map((t) =>
                             t.trait_name === activeTraitName
@@ -219,16 +300,18 @@ const CustomBuilder: React.FC = () => {
                 }
             });
 
-            setSelectedTraits(updatedSelectedTraits); // 직업에 의해 활성화된 특성 저장
+            setSelectedTraits(updatedSelectedTraits); // 직업 활성 특성을 선택된 특성으로 저장
             setDisabledTraits((prev) => Array.from(new Set([...prev, ...newDisabledTraits])));
-            updateMajorSkills(job, [...positiveTraits, ...negativeTraits]);
+            updateMajorSkills(job, [...positiveTraits, ...negativeTraits]); // Major Skills 업데이트
         }
     };
+
 
     // 특성 선택 핸들러
     const handleTraitSelect = (trait: Trait) => {
         if (disabledTraits.includes(trait.trait_name) || trait.locked || trait.selected) {
-            return; // 비활성화되었거나 잠겼거나 이미 선택된 특성은 선택 불가
+            console.warn(`특성 ${trait.trait_name}은 선택 불가.`);
+            return; // 이미 선택되었거나 잠긴 특성은 선택 불가
         }
 
         // 선택된 특성 상태 업데이트
@@ -258,6 +341,7 @@ const CustomBuilder: React.FC = () => {
             [...positiveTraits, { ...trait, selected: true }]
         );
     };
+
 
     // 특성 선택 취소 핸들러
     const handleTraitDeselect = (trait: Trait) => {
@@ -320,8 +404,22 @@ const CustomBuilder: React.FC = () => {
         setHoveredTrait(null); // 툴팁 내용 초기화
     };
 
-    // 선택된 특성 ID를 추출하여 ','로 연결
-    const traitIds = selectedTraits.map((trait) => trait.id).join(",");
+    // 모달 데이터
+    const handleShareBuild = () => {
+        if (!selectedJob || selectedTraits.length === 0) {
+            alert("직업과 특성을 선택하세요.");
+            return;
+        }
+
+        const traitIds = selectedTraits.map((trait) => trait.id).join(',');
+        setModalData({ job_id: selectedJob, trait_ids: traitIds, mode: currentMode });
+        setIsModalOpen(true); // 모달 열기
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setModalData(null);
+    };
 
     // 초기화 핸들러
     const handleReset = () => {
@@ -361,8 +459,8 @@ const CustomBuilder: React.FC = () => {
                 {/* 우측 상단 인디스톤 로고 */}
                 <div className={styles.indieStoneLogo}>
                     <Link href="https://projectzomboid.com/blog/about-us/"
-                        target="_blank"
-                        rel="noopener noreferrer">
+                          target="_blank"
+                          rel="noopener noreferrer">
                         <Image
                             src="/image/logo.png"
                             alt="인디스톤 로고"
@@ -396,7 +494,7 @@ const CustomBuilder: React.FC = () => {
                     {["X", "O"].map((modeKey) => (
                         <button
                             key={modeKey}
-                            className={styles.modeButton}
+                            className={`${styles.modeButton} ${currentMode === modeKey ? styles.selected : ''}`}
                             onClick={() => {
                                 fetchJobs(modeKey);
                                 fetchTraits(modeKey);
@@ -488,7 +586,7 @@ const CustomBuilder: React.FC = () => {
                                     />
                                     <span className={styles.traitName}>{trait.trait_name}</span>
                                     {/* 0보다 작으면 빨간, 0보다 크면 초록 */}
-                                    <span className={`${styles.traitPoints} ${trait.points > 0 ? styles.positiveTraitPoints : styles.negativeTraitPoints}`}>{trait.points > 0 ? `+ ${trait.points}` : `- ${Math.abs(trait.points)}`}
+                                    <span className={`${styles.traitPoints} ${trait.points > 0 ? styles.negativeTraitPoints : styles.positiveTraitPoints}`}>{trait.points > 0 ? `+ ${trait.points}` : `- ${Math.abs(trait.points)}`}
                                     </span>
                                 </li>
                             ))}
@@ -533,12 +631,27 @@ const CustomBuilder: React.FC = () => {
                     <div className={styles.traitsList}>
                         {majorSkills.map((skill) => (
                             <li key={skill.name} className={styles.skillItem}>
-                                <strong>{skill.name}</strong>: {skill.points}
+                                <img src={`../image/skill/${skill.name}.png`} alt={skill.name} className={styles.traitIcon} />
+                                <span className={styles.skillName}>{skill.name}</span>
+                                <span className={styles.skillPointGroup}>
+                                    {/* 포인트가 2로 나누어 떨어지는 경우, 이미지1 */}
+                                    {Math.floor(skill.points / 2) > 0 &&
+                                        [...Array(Math.min(Math.floor(skill.points / 2), 5))].map((_, index) => (
+                                            <img key={`image1-${index}`} src="../image/skill/nemo2.png" alt="image1" className={styles.skillPointIcon} />
+                                        ))
+                                    }
+
+                                    {/* 포인트가 소수점인 경우, 이미지2 */}
+                                    {skill.points % 2 !== 0 && skill.points < 11 && (
+                                        <img src="../image/skill/nemo1.png" alt="image2" className={styles.skillPointIcon2} />
+                                    )}
+                                </span>
                                 {skill.points > 10 && (
                                     <span className={styles.warningIcon} title="값이 10을 초과했습니다!">
                                         ⚠️
                                     </span>
                                 )}
+                                <span className={styles.skillPoints}>{skill.points}</span>
                             </li>
                         ))}
                     </div>
@@ -553,24 +666,17 @@ const CustomBuilder: React.FC = () => {
                 <button className={styles.button}>캡쳐하기</button>
             </div>
             <div className={styles.buildShareButtonPosition}>
-                <Link
-                    href={{
-                        pathname: "/insertBuild",
-                        query: {
-                            job_id: selectedJob, // 선택된 직업의 ID
-                            trait_ids: traitIds, // 선택된 특성의 ID를 ','로 연결
-                        },
-                    }}
-                    passHref
+                <button
+                    className={styles.buildShareButton}
+                    onClick={handleShareBuild}
+                    disabled={selectedJob === null || selectedTraits.length === 0}
                 >
-                    <button
-                        className={styles.buildShareButton}
-                        disabled={selectedJob === null || selectedTraits.length === 0}
-                    >
-                        내 빌드 공유하기
-                    </button>
-                </Link>
+                    내 빌드 공유하기
+                </button>
             </div>
+            {isModalOpen && modalData && (
+                <Modal job_id={modalData.job_id} trait_ids={modalData.trait_ids} mode={modalData.mode} onClose={closeModal} />
+            )}
             {/* 설명 박스 */}
             {hoveredTrait && (
                 <div

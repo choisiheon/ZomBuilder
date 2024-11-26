@@ -4,6 +4,14 @@
   opacity: 0.8;
 }
 
+.sliderWrapper {
+  font-family: 'LeeSeoyun', sans-serif;
+}
+
+.button {
+  font-family: 'GabiaGosran-Regular', sans-serif;
+}
+
 /* 전체 배경 스타일 */
 .background {
   width: 100vw;
