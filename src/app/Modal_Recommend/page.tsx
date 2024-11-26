@@ -4,11 +4,12 @@ import React, { useState } from "react";
 import styles from "../../../styles/Modal_Recommend/modal.module.css";
 
 type ModalProps = {
-  id: number; // 게시글 ID 추가
-  jobId: number;
-  traitIds: string;
+  id: number; // 게시글 삭제시 필요
+  jobId: number; // 빌드 가져오기 기능시 필요
+  traitIds: string; // 빌드 가져오기 기능시 필요
   onClose: () => void;
 };
+
 
 const Modal: React.FC<ModalProps> = ({ id, jobId, traitIds, onClose }) => {
   const [password, setPassword] = useState<string>("");
@@ -30,7 +31,7 @@ const Modal: React.FC<ModalProps> = ({ id, jobId, traitIds, onClose }) => {
 
       if (response.ok) {
         alert("해당 빌드가 삭제되었습니다!");
-        onClose(); // 모달 닫기
+        onClose(); 
       } else {
         const errorData = await response.json();
         alert(`오류 발생: ${errorData.message || "서버 문제입니다."}`);
@@ -40,6 +41,11 @@ const Modal: React.FC<ModalProps> = ({ id, jobId, traitIds, onClose }) => {
       alert("서버와의 통신 중 문제가 발생했습니다.");
     }
   };
+
+  const handleFetchBuild = () => {
+    const url = `/custom-page?job_id=${jobId}&trait_ids=${traitIds}`;
+    window.location.href = url; // 해당 URL로 이동
+};
 
   return (
     <div className={styles.modalOverlay}>
@@ -65,7 +71,7 @@ const Modal: React.FC<ModalProps> = ({ id, jobId, traitIds, onClose }) => {
         </div>
         {/* 빌드 가져오기 버튼 */}
         <div className={styles.modalButtonGroup}>
-          <button className={styles.fetchBuildButton}>
+          <button className={styles.fetchBuildButton} onClick={handleFetchBuild}>
             빌드 가져오기
           </button>
         </div>

@@ -122,13 +122,13 @@ const RecommendBuilder: React.FC = () => {
     }
   };
 
-  // 게시글 필터링
+  // 직업, 특성, 검색으로 인한 게시글 필터링
   const filterPosts = () => {
     const filtered = posts.filter((post) => {
       const traitIds = post.trait_id.split(",").map(Number);
       const hasJob = selectedJobId === null || post.job_id === selectedJobId;
       const hasTrait = selectedTraitIds.every((id) => traitIds.includes(id));
-      const matchesSearch = post.comment.toLowerCase().includes(searchText.toLowerCase()); // 검색 텍스트 필터링 추가
+      const matchesSearch = post.comment.toLowerCase().includes(searchText.toLowerCase()); 
       return hasJob && hasTrait && matchesSearch;
     });
     setFilteredPosts(filtered);
