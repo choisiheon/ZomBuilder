@@ -16,7 +16,7 @@ const Modal: React.FC<ModalProps> = ({ job_id, trait_ids, mode, onClose }) => {
 
     const handlePost = async () => {
         if (!job_id || !trait_ids || !comment || !password) {
-            alert("모든 필드를 입력해주세요!");
+            alert("빌드 제목과 비밀번호를 모두 입력해주세요!");
             return;
         }
 
@@ -34,7 +34,7 @@ const Modal: React.FC<ModalProps> = ({ job_id, trait_ids, mode, onClose }) => {
             });
 
             if (response.ok) {
-                alert("성공적으로 제출되었습니다!");
+                alert(`"${comment}" 빌드가 등록되었습니다!`);
                 onClose(); // 모달 닫기
             } else {
                 const errorData = await response.json();
@@ -52,14 +52,14 @@ const Modal: React.FC<ModalProps> = ({ job_id, trait_ids, mode, onClose }) => {
                 <h1 className={styles.modalHeader}>내 빌드 공유하기</h1>
                 <input
                     type="text"
-                    placeholder="코멘트 입력"
+                    placeholder="빌드 제목 입력"
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     className={styles.modalInput}
                 />
                 <input
                     type="password"
-                    placeholder="수정 및 삭제 비밀번호 설정"
+                    placeholder="삭제시 비밀번호 설정"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className={styles.modalInput}
