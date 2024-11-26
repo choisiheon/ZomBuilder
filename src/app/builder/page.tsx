@@ -63,6 +63,7 @@ const CustomBuilder: React.FC = () => {
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 }); // 설명 표시 위치설정
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
     const [modalData, setModalData] = useState<{ job_id: number | null; trait_ids: string; mode: string } | null>(null);
+    const [searchQuery, setSearchQuery] = useState<string>(''); // 검색어 상태
 
     const fetchJobs = async (mode: string) => {
         setCurrentMode(mode);
@@ -116,7 +117,6 @@ const CustomBuilder: React.FC = () => {
         fetchTraits("X");
     }, []);
 
-    //빌드 데이터 가져오기
     // 빌드 데이터 가져오기
     useEffect(() => {
         const id = searchParams.get("id");
@@ -166,8 +166,8 @@ const CustomBuilder: React.FC = () => {
 
                         // 특성 선택
                         if (trait_id) {
-                            const traitIds = trait_id.split(",").map((id:string) => Number(id.trim()));
-                            traitIds.forEach((traitId :number) => {
+                            const traitIds = trait_id.split(",").map((id: string) => Number(id.trim()));
+                            traitIds.forEach((traitId: number) => {
                                 const trait =
                                     positiveTraits.find((t) => t.id === traitId) ||
                                     negativeTraits.find((t) => t.id === traitId);
@@ -235,6 +235,36 @@ const CustomBuilder: React.FC = () => {
         setIsOverLimit(isLimitExceeded);
     };
 
+    // 검색 버튼 클릭 시 실행되는 핸들러
+    const handleSearchClick = () => {
+        if (searchQuery.trim() === '') {
+            alert("검색어를 입력하세요.");
+            return;
+        }
+
+        // 직업 검색
+        const matchingJob = jobs.find((job) => job.name.toLowerCase() === searchQuery.toLowerCase());
+        if (matchingJob) {
+            handleJobSelect(matchingJob); // 직업 선택 처리
+        }
+
+        // 긍정 및 부정 특성 검색
+        const matchingTrait =
+            positiveTraits.find((trait) => trait.trait_name.toLowerCase() === searchQuery.toLowerCase()) ||
+            negativeTraits.find((trait) => trait.trait_name.toLowerCase() === searchQuery.toLowerCase());
+
+        if (matchingTrait) {
+            handleTraitSelect(matchingTrait); // 특성 선택 처리
+        }
+
+        // 결과 없을 경우 알림
+        if (!matchingJob && !matchingTrait) {
+            alert("일치하는 직업 또는 특성을 찾을 수 없습니다.");
+        }
+
+        setSearchQuery(''); // 검색어 초기화
+    };
+
     // 직업 선택 핸들러
     const handleJobSelect = (job: Job) => {
         if (selectedJob === job.id) {
@@ -266,6 +296,12 @@ const CustomBuilder: React.FC = () => {
             );
             setDisabledTraits([]);
             setSelectedTraits([]);
+
+            // 획득 기술 초기화
+            setMajorSkills([
+                { name: "체력", points: 5 },
+                { name: "근력", points: 5 },
+            ]);
 
             // 활성 특성 처리
             const activeTraits = job.active_trait.split(',').map((trait) => trait.trim());
@@ -459,8 +495,8 @@ const CustomBuilder: React.FC = () => {
                 {/* 우측 상단 인디스톤 로고 */}
                 <div className={styles.indieStoneLogo}>
                     <Link href="https://projectzomboid.com/blog/about-us/"
-                          target="_blank"
-                          rel="noopener noreferrer">
+                        target="_blank"
+                        rel="noopener noreferrer">
                         <Image
                             src="/image/logo.png"
                             alt="인디스톤 로고"
@@ -478,12 +514,17 @@ const CustomBuilder: React.FC = () => {
                     <img src="../image/menuLogo.png" alt="menu" className={styles.menuLogo} />
                     <h1>Custom Builder</h1>
                 </div>
-                <div className={styles.searchGroup}>
-                    <div className={styles.searchLabel}>All Search</div>
-                    <div className={styles.searchInputGroup}>
-                        <input type="text" placeholder="" className={styles.searchInput} />
+                <div className={styles.searchInputGroup}>
+                    <input
+                        type="text"
+                        placeholder="직업 또는 특성 이름을 입력하세요"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)} // 검색어 상태 업데이트
+                        className={styles.searchInput}
+                    />
+                    <button className={styles.searchButton} onClick={handleSearchClick}>
                         <img src="../image/searchIcon.png" alt="search" className={styles.searchInputIcon} />
-                    </div>
+                    </button>
                 </div>
             </div>
 
@@ -496,6 +537,10 @@ const CustomBuilder: React.FC = () => {
                             key={modeKey}
                             className={`${styles.modeButton} ${currentMode === modeKey ? styles.selected : ''}`}
                             onClick={() => {
+                                setMajorSkills([
+                                    { name: "체력", points: 5 },
+                                    { name: "근력", points: 5 },
+                                ]); // 모드 변경 시 획득 기술 초기화
                                 fetchJobs(modeKey);
                                 fetchTraits(modeKey);
                             }}
@@ -686,9 +731,19 @@ const CustomBuilder: React.FC = () => {
                         top: `${tooltipPosition.y}px`,
                     }}
                 >
-                    {
-                        hoveredTrait
-                    }
+                    <div
+                        dangerouslySetInnerHTML={{
+                            __html: hoveredTrait
+                                .replace(/\n/g, '<br />') // \n을 <br />로 변환
+                                .replace(/다,/g, '다<br />') // "다," 뒤에 다<br /> 추가
+                                .replace(/움,/g, '움<br />') // "움," 뒤에 움<br /> 추가
+                                .replace(/득,/g, '득<br />') // "득," 뒤에 득<br /> 추가
+                                .replace(/자,/g, '자<br />') // "자," 뒤에 자<br /> 추가
+                                .replace(/, \+/g, '<br />+') // ", +" 뒤에 <br />+ 추가
+                                .replace(/, \-/g, '<br />-') // ", -" 뒤에 <br />- 추가
+                                .replace(/\), /g, ')<br />') // ")," 뒤에 )<br /> 추가
+                        }}
+                    />
                 </div>
             )}
         </div>
