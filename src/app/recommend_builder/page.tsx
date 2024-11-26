@@ -128,7 +128,7 @@ const RecommendBuilder: React.FC = () => {
       const traitIds = post.trait_id.split(",").map(Number);
       const hasJob = selectedJobId === null || post.job_id === selectedJobId;
       const hasTrait = selectedTraitIds.every((id) => traitIds.includes(id));
-      const matchesSearch = post.comment.toLowerCase().includes(searchText.toLowerCase()); 
+      const matchesSearch = post.comment.toLowerCase().includes(searchText.toLowerCase()); // 검색 텍스트 필터링 추가
       return hasJob && hasTrait && matchesSearch;
     });
     setFilteredPosts(filtered);
@@ -388,17 +388,26 @@ const RecommendBuilder: React.FC = () => {
 
       {/* 게시글 표시 */}
       <div className={styles.gridBottom}>
-        {filteredPosts.map((post) => (
-          <div key={post.id} className={styles.builderBox} onClick={() => openModal(post)}>
+        {filteredPosts.map((post, index) => (
+          <div
+            key={post.id}
+            className={styles.builderBox}
+            onClick={() => openModal(post)}
+          >
             <div className={styles.buildTitle}>
               {post.comment}
             </div>
-            <h4 className={styles.BuildVersion}>Build 40.0.1</h4>
-            <h4 className={styles.Pick}>Youtuber Pick</h4>
-            <h4 className={styles.job}>좀도둑</h4>
+            <div className={styles.buildTag}>
+              <h4 className={styles.buildVersion}>Build 40.0.1</h4>
+              <h4 className={styles.job}>좀도둑</h4>
+            </div>
           </div>
         ))}
       </div>
+
+
+
+
       {/* 모달 */}
       {isModalOpen && modalData && (
         <Modal

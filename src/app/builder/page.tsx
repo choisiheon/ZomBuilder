@@ -119,48 +119,73 @@ const CustomBuilder: React.FC = () => {
     //빌드 데이터 가져오기
     // 빌드 데이터 가져오기
     useEffect(() => {
-        // 게시글 ID가 변경되면 데이터 요청 플래그를 초기화
-        setIsFetched(false);
-    }, [searchParams.get("id")]);
+        const id = searchParams.get("id");
+        if (!id) return;
 
-    useEffect(() => {
-        if (isFetched) return; // 이미 데이터 요청이 완료되었다면 실행하지 않음
+        fetch(`https://server.zombuilder.com/post/rPosts/${id}`)
+            .then((response) => response.json())
+            .then((data) => {
+                if (!data.success || !data.data) {
+                    console.warn("API 응답이 예상한 형식이 아닙니다.");
+                    return;
+                }
 
-        if (jobs.length > 0 && positiveTraits.length > 0 && negativeTraits.length > 0) {
-            const id = searchParams.get("id");
-            if (!id) return;
+                const { job_id, trait_id, modecheck } = data.data;
 
-            fetch(`https://server.zombuilder.com/post/rPosts/${id}`)
-                .then((response) => response.json())
-                .then((data) => {
-                    if (!data.success || !data.data) {
-                        console.warn("API 응답이 예상한 형식이 아닙니다.");
-                        return;
+                console.log("받아온 modecheck:", modecheck);
+                console.log("받아온 job_id:", job_id);
+                console.log("받아온 trait_id:", trait_id);
+
+                // 모드 설정
+                if (modecheck === "X" || modecheck === "O") {
+                    setCurrentMode(modecheck); // 모드 설정
+                } else {
+                    console.warn("유효하지 않은 modecheck 값:", modecheck);
+                    return;
+                }
+
+                // 모드 데이터 로드 후 직업 및 특성 설정
+                fetchJobs(modecheck); // 모드에 따른 직업 불러오기
+                fetchTraits(modecheck); // 모드에 따른 특성 불러오기
+
+                // 직업 및 특성 데이터가 로드되면 선택
+                const interval = setInterval(() => {
+                    if (jobs.length > 0 && positiveTraits.length > 0 && negativeTraits.length > 0) {
+                        clearInterval(interval); // 데이터 로드 완료 시 타이머 제거
+
+                        // 직업 선택
+                        if (job_id) {
+                            const job = jobs.find((j) => j.id === job_id);
+                            if (job) {
+                                console.log("선택된 직업:", job);
+                                handleJobSelect(job);
+                            } else {
+                                console.warn(`job_id ${job_id}에 해당하는 직업을 찾을 수 없습니다.`);
+                            }
+                        }
+
+                        // 특성 선택
+                        if (trait_id) {
+                            const traitIds = trait_id.split(",").map((id:string) => Number(id.trim()));
+                            traitIds.forEach((traitId :number) => {
+                                const trait =
+                                    positiveTraits.find((t) => t.id === traitId) ||
+                                    negativeTraits.find((t) => t.id === traitId);
+
+                                if (trait) {
+                                    console.log("선택된 특성:", trait);
+                                    handleTraitSelect(trait);
+                                } else {
+                                    console.warn(`trait_id ${traitId}에 해당하는 특성을 찾을 수 없습니다.`);
+                                }
+                            });
+                        }
                     }
+                }, 100); // 100ms 간격으로 데이터 로드 상태 확인
+            })
+            .catch((error) => console.error("Error fetching post data:", error));
+    }, [searchParams.get("id"), jobs.length, positiveTraits.length, negativeTraits.length]);
 
-                    const { job_id, trait_id } = data.data;
-
-                    if (job_id) {
-                        const job = jobs.find((j) => j.id === job_id);
-                        if (job) handleJobSelect(job);
-                    }
-
-                    if (trait_id) {
-                        const traitIds = trait_id.split(",").map((id: string) => Number(id.trim()));
-                        traitIds.forEach((traitId: number) => {
-                            const trait =
-                                positiveTraits.find((t) => t.id === traitId) ||
-                                negativeTraits.find((t) => t.id === traitId);
-
-                            if (trait) handleTraitSelect(trait);
-                        });
-                    }
-
-                    setIsFetched(true); // 데이터 요청 완료 플래그 설정
-                })
-                .catch((error) => console.error("Error fetching post data:", error));
-        }
-    }, [jobs, positiveTraits, negativeTraits, isFetched, searchParams.get("id")]);
 
 
     // effect 데이터 가공
@@ -434,8 +459,8 @@ const CustomBuilder: React.FC = () => {
                 {/* 우측 상단 인디스톤 로고 */}
                 <div className={styles.indieStoneLogo}>
                     <Link href="https://projectzomboid.com/blog/about-us/"
-                        target="_blank"
-                        rel="noopener noreferrer">
+                          target="_blank"
+                          rel="noopener noreferrer">
                         <Image
                             src="/image/logo.png"
                             alt="인디스톤 로고"
