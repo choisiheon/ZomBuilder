@@ -6,10 +6,11 @@ import styles from '../../../styles/Modal_Builder/modal.module.css';
 type ModalProps = {
     job_id: number | null;
     trait_ids: string;
+    mode: string;
     onClose: () => void;
 };
 
-const Modal: React.FC<ModalProps> = ({ job_id, trait_ids, onClose }) => {
+const Modal: React.FC<ModalProps> = ({ job_id, trait_ids, mode, onClose }) => {
     const [comment, setComment] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
@@ -26,6 +27,7 @@ const Modal: React.FC<ModalProps> = ({ job_id, trait_ids, onClose }) => {
                 body: JSON.stringify({
                     job_id,
                     trait_id: trait_ids,
+                    mode: mode,
                     comment,
                     password,
                 }),
