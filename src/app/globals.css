@@ -60,3 +60,19 @@ body {
   font-weight: 800;
   font-style: normal;
 }
+
+/* 이서윤체 */
+@font-face {
+  font-family: 'LeeSeoyun';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/LeeSeoyun.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* 모노플렉스Wide */
+@font-face {
+  font-family: 'MonoplexKRWide-Bold';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_Monoplex-wide@1.0/MonoplexKRWide-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}

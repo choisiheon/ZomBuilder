@@ -83,10 +83,10 @@ export default function Home() {
       {/* NewBuild, Recommend Builder 버튼 */}
       <div className={styles.buttonContainer}>
         <Link href="/builder">
-          <button className={styles.button}>New Build</button>
+          <button className={styles.button}>새로운 빌드 생성</button>
         </Link>
         <Link href="/recommend_builder">
-          <button className={styles.button}>Recommend Builder</button>
+          <button className={styles.button}>추천 빌드</button>
         </Link>
       </div>
 

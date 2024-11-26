@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image'; // next/image에서 Image를 임포트
 import styles from '../../../styles/builderpage/Builder.module.css'; // 스타일을 위한 CSS 모듈 임포트
 import Link from 'next/link';
+import Modal from '../Modal_Builder/page'; // 모달 컴포넌트 임포트
 
 // 직업 데이터 타입 정의
 type Job = {
@@ -56,6 +57,8 @@ const CustomBuilder: React.FC = () => {
     const [isOverLimit, setIsOverLimit] = useState<boolean>(false); // 경고 상태
     const [hoveredTrait, setHoveredTrait] = useState<string | null>(null); // 설명
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 }); // 설명 표시 위치설정
+    const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
+    const [modalData, setModalData] = useState<{ job_id: number | null; trait_ids: string } | null>(null);
 
     const fetchJobs = async (mode: string) => {
         setCurrentMode(mode);
@@ -320,8 +323,21 @@ const CustomBuilder: React.FC = () => {
         setHoveredTrait(null); // 툴팁 내용 초기화
     };
 
-    // 선택된 특성 ID를 추출하여 ','로 연결
-    const traitIds = selectedTraits.map((trait) => trait.id).join(",");
+    const handleShareBuild = () => {
+        if (!selectedJob || selectedTraits.length === 0) {
+            alert("직업과 특성을 선택하세요.");
+            return;
+        }
+
+        const traitIds = selectedTraits.map((trait) => trait.id).join(',');
+        setModalData({ job_id: selectedJob, trait_ids: traitIds });
+        setIsModalOpen(true); // 모달 열기
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setModalData(null);
+    };
 
     // 초기화 핸들러
     const handleReset = () => {
@@ -396,7 +412,7 @@ const CustomBuilder: React.FC = () => {
                     {["X", "O"].map((modeKey) => (
                         <button
                             key={modeKey}
-                            className={styles.modeButton}
+                            className={`${styles.modeButton} ${currentMode === modeKey ? styles.selected : ''}`}
                             onClick={() => {
                                 fetchJobs(modeKey);
                                 fetchTraits(modeKey);
@@ -488,7 +504,7 @@ const CustomBuilder: React.FC = () => {
                                     />
                                     <span className={styles.traitName}>{trait.trait_name}</span>
                                     {/* 0보다 작으면 빨간, 0보다 크면 초록 */}
-                                    <span className={`${styles.traitPoints} ${trait.points > 0 ? styles.positiveTraitPoints : styles.negativeTraitPoints}`}>{trait.points > 0 ? `+ ${trait.points}` : `- ${Math.abs(trait.points)}`}
+                                    <span className={`${styles.traitPoints} ${trait.points > 0 ? styles.negativeTraitPoints : styles.positiveTraitPoints}`}>{trait.points > 0 ? `+ ${trait.points}` : `- ${Math.abs(trait.points)}`}
                                     </span>
                                 </li>
                             ))}
@@ -533,12 +549,27 @@ const CustomBuilder: React.FC = () => {
                     <div className={styles.traitsList}>
                         {majorSkills.map((skill) => (
                             <li key={skill.name} className={styles.skillItem}>
-                                <strong>{skill.name}</strong>: {skill.points}
+                                <img src={`../image/skill/${skill.name}.png`} alt={skill.name} className={styles.traitIcon} />
+                                <span className={styles.skillName}>{skill.name}</span>
+                                <span className={styles.skillPointGroup}>
+                                    {/* 포인트가 2로 나누어 떨어지는 경우, 이미지1 */}
+                                    {Math.floor(skill.points / 2) > 0 &&
+                                        [...Array(Math.min(Math.floor(skill.points / 2), 5))].map((_, index) => (
+                                            <img key={`image1-${index}`} src="../image/skill/nemo2.png" alt="image1" className={styles.skillPointIcon} />
+                                        ))
+                                    }
+
+                                    {/* 포인트가 소수점인 경우, 이미지2 */}
+                                    {skill.points % 2 !== 0 && skill.points < 11 && (
+                                        <img src="../image/skill/nemo1.png" alt="image2" className={styles.skillPointIcon2} />
+                                    )}
+                                </span>
                                 {skill.points > 10 && (
                                     <span className={styles.warningIcon} title="값이 10을 초과했습니다!">
                                         ⚠️
                                     </span>
                                 )}
+                                <span className={styles.skillPoints}>{skill.points}</span>
                             </li>
                         ))}
                     </div>
@@ -553,24 +584,17 @@ const CustomBuilder: React.FC = () => {
                 <button className={styles.button}>캡쳐하기</button>
             </div>
             <div className={styles.buildShareButtonPosition}>
-                <Link
-                    href={{
-                        pathname: "/insertBuild",
-                        query: {
-                            job_id: selectedJob, // 선택된 직업의 ID
-                            trait_ids: traitIds, // 선택된 특성의 ID를 ','로 연결
-                        },
-                    }}
-                    passHref
+                <button
+                    className={styles.buildShareButton}
+                    onClick={handleShareBuild}
+                    disabled={selectedJob === null || selectedTraits.length === 0}
                 >
-                    <button
-                        className={styles.buildShareButton}
-                        disabled={selectedJob === null || selectedTraits.length === 0}
-                    >
-                        내 빌드 공유하기
-                    </button>
-                </Link>
+                    내 빌드 공유하기
+                </button>
             </div>
+            {isModalOpen && modalData && (
+                <Modal job_id={modalData.job_id} trait_ids={modalData.trait_ids} onClose={closeModal} />
+            )}
             {/* 설명 박스 */}
             {hoveredTrait && (
                 <div

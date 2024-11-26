@@ -1,77 +1,197 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Modal from "../Modal_Recommend/page";
 import Image from 'next/image'; // next/image에서 Image를 임포트
 import Link from 'next/link';
 import styles from "../../../styles/recommend_builder/recommend.module.css";
 
-// 각 Trait 아이템의 타입 정의
-type Trait = {
-  name: string;
-  points: number;
-};
-
 // 직업 데이터 타입 정의
 type Job = {
-  job: string;
-  image?: string; // 이미지는 선택적
+  id: number;
+  name: string;
+  description: string;
+  point: number;
+  effect: string;
+  active_trait: string;
+  image: string;
+  mode: string;
 };
 
-// 샘플 데이터 (DB에서 받아올 예정)
-const Jobs: Job[] = [
-  { job: "무직", image: "/image/Job/Unemployed.png" },
-  { job: "소방관", image: "/image/Job/Firefighter.png" },
-  { job: "경찰관", image: "/image/Job/Police.png" },
-  { job: "공원경비원", image: "/image/Job/Sheriff.png" },
-  { job: "건축인부", image: "/image/Job/ConstructionWorker.png" },
-  { job: "목수", image: "/image/Job/Carpenter.png" },
-  { job: "주방장", image: "/image/Job/Chef.png" },
-  { job: "정비사", image: "/image/Job/Mechanic.png" },
-  { job: "농부", image: "/image/Job/Farmer.png" },
-  { job: "어부", image: "/image/Job/Fisherman.png" },
-  { job: "의사", image: "/image/Job/Doctor.png" },
-  { job: "필라테스 강사", image: "/image/Job/FitnessInstructor.png" },
-  { job: "전기공", image: "/image/Job/Electrician.png" },
-  { job: "기술자", image: "/image/Job/Engineer.png" },
-  { job: "용접공", image: "/image/Job/Metalwarker.png" },
-  { job: "자동차 정비사", image: "/image/Job/Repairman.png" },
-  { job: "홈도둑", image: "/image/Job/Burglar.png" },
-  { job: "벌목꾼", image: "/image/Job/Lumberjack.png" },
-  { job: "간호사", image: "/image/Job/Nurse.png" },
-  { job: "햄버거 조리사", image: "/image/Job/BurgerFlipper.png" },
-  { job: "경비원", image: "/image/Job/SecurityGuard.png" },
-];
+// Trait 데이터 타입 정의
+type Trait = {
+  id: number;
+  group: string;
+  trait_name: string;
+  description: string;
+  effect: string;
+  points: number;
+  disabled_traits: string;
+  disabled_jobs: string;
+  mode: string;
+  image: string;
+};
 
-// 기본 Trait 데이터 (예시)
-const positiveTraits: Trait[] = [
-  { name: "속도광", points: -1 },
-  { name: "고양이의 눈", points: -2 },
-  { name: "민첩한", points: -2 },
-  { name: "등산애호가", points: -2 },
-  { name: "속독", points: -2 },
-  { name: "잠이 없는", points: -2 },
-  { name: "강철 위장", points: -3 },
-  { name: "강철 체력", points: -4 },
-  { name: "난사고", points: -4 },
-];
-
-const negativeTraits: Trait[] = [
-  { name: "초보운전", points: -1 },
-  { name: "서투른", points: -2 },
-  { name: "겁쟁이", points: -2 },
-  { name: "덤벙댐", points: -2 },
-  { name: "정독", points: -2 },
-  { name: "짧은 시야", points: -2 },
-  { name: "소음반향", points: -3 },
-  { name: "골초", points: -4 },
-  { name: "광장 공포증", points: -4 },
-];
+// 게시글 데이터 타입 정의
+type Post = {
+  id: number;
+  job_id: number;
+  trait_id: string;
+  comment: string;
+  password: string;
+  created_at: string;
+};
 
 const RecommendBuilder: React.FC = () => {
+  const [jobs, setJobs] = useState<Job[]>([]); // 직업 데이터 상태
+  const [positiveTraits, setPositiveTraits] = useState<Trait[]>([]); // 긍정 특성 상태
+  const [negativeTraits, setNegativeTraits] = useState<Trait[]>([]); // 부정 특성 상태
+  const [currentMode, setCurrentMode] = useState<string>("X"); // 현재 모드
+  const [posts, setPosts] = useState<Post[]>([]); // 게시글 데이터 상태
+  const [hoveredDescription, setHoveredDescription] = useState<string | null>(null); // 현재 설명
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 }); // 설명 위치
+  const [filteredPosts, setFilteredPosts] = useState<Post[]>([]); // 필터링된 게시글
+  const [searchText, setSearchText] = useState<string>(""); // 검색 텍스트 상태 추가
+  const [selectedJobId, setSelectedJobId] = useState<number | null>(null); // 선택한 직업 ID
+  const [selectedTraitIds, setSelectedTraitIds] = useState<number[]>([]); // 선택한 특성 ID
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 
+  const [modalData, setModalData] = useState<{ id: number; jobId: number; traitIds: string; } | null>(null); // 모달
+
   const [youtubeTitleTop, setYoutubeTitleTop] = useState("한국인이 좋아하는 속도 프로젝트 좀보이드 공략");
   const [youtubeTitleBottom, setYoutubeTitleBottom] = useState("영상 하나로 끝내는 프로젝트 좀보이드 공략");
   const [youtubeVideoUrlTop, setYoutubeVideoUrlTop] = useState("https://www.youtube.com/watch?v=0Xa360FLirY");
   const [youtubeVideoUrlBottom, setYoutubeVideoUrlBottom] = useState("https://www.youtube.com/watch?v=q9cyYL8P9O0&t=355s");
+
+  // 직업 데이터를 API에서 가져오기
+  const fetchJobs = async (mode: string) => {
+    try {
+      const response = await fetch(`https://server.zombuilder.com/api/jobs?mode=${mode}`);
+      const data = await response.json();
+      if (data.success) {
+        setJobs(data.data);
+      } else {
+        console.error("Error fetching job data:", data.message);
+      }
+    } catch (error) {
+      console.error("Error fetching job data:", error);
+    }
+  };
+
+  // 특성 데이터를 API에서 가져오기
+  const fetchTraits = async (mode: string) => {
+    try {
+      const positiveUrl =
+        mode === "X"
+          ? "https://server.zombuilder.com/api/vTraits?group=positive"
+          : "https://server.zombuilder.com/api/mTraits?group=positive";
+      const negativeUrl =
+        mode === "X"
+          ? "https://server.zombuilder.com/api/vTraits?group=negative"
+          : "https://server.zombuilder.com/api/mTraits?group=negative";
+
+      const [positiveResponse, negativeResponse] = await Promise.all([
+        fetch(positiveUrl),
+        fetch(negativeUrl),
+      ]);
+
+      const positiveData = await positiveResponse.json();
+      const negativeData = await negativeResponse.json();
+
+      if (positiveData.success) setPositiveTraits(positiveData.data);
+      if (negativeData.success) setNegativeTraits(negativeData.data);
+    } catch (error) {
+      console.error("Error fetching traits data:", error);
+    }
+  };
+
+  // 게시글 데이터를 API에서 가져오기
+  const fetchPosts = async () => {
+    try {
+      const response = await fetch("https://server.zombuilder.com/post/rPosts");
+      const data = await response.json();
+      if (data.success) {
+        // 최신순 정렬
+        const sortedPosts = data.data.sort((a: Post, b: Post) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
+        // 상위 6개만 저장
+        setPosts(sortedPosts.slice(0, 6));
+      }
+    } catch (error) {
+      console.error("Error fetching posts data:", error);
+    }
+  };
+
+  // 게시글 필터링
+  const filterPosts = () => {
+    const filtered = posts.filter((post) => {
+      const traitIds = post.trait_id.split(",").map(Number);
+      const hasJob = selectedJobId === null || post.job_id === selectedJobId;
+      const hasTrait = selectedTraitIds.every((id) => traitIds.includes(id));
+      const matchesSearch = post.comment.toLowerCase().includes(searchText.toLowerCase()); // 검색 텍스트 필터링 추가
+      return hasJob && hasTrait && matchesSearch;
+    });
+    setFilteredPosts(filtered);
+  };
+
+  // 직업 선택 핸들러
+  const handleJobSelect = (jobId: number) => {
+    setSelectedJobId((prev) => (prev === jobId ? null : jobId)); // 동일 클릭 시 선택 해제
+  };
+
+  // 특성 선택 핸들러
+  const handleTraitSelect = (traitId: number) => {
+    setSelectedTraitIds((prev) =>
+      prev.includes(traitId) ? prev.filter((id) => id !== traitId) : [...prev, traitId]
+    );
+  };
+
+  // 모드 변경 시 데이터를 다시 가져옴
+  const handleModeChange = (mode: string) => {
+    setCurrentMode(mode);
+    fetchJobs(mode);
+    fetchTraits(mode);
+    setSelectedJobId(null);
+    setSelectedTraitIds([]);
+  };
+
+  // 기본 모드 데이터 로드
+  useEffect(() => {
+    fetchJobs("X"); // 직업 초기는 값은 바닐라
+    fetchTraits("X"); // 특성 초기는 값은 바닐라
+    fetchPosts(); // 게시글 데이터 로드
+  }, []);
+
+  // 필터링 업데이트
+  useEffect(() => {
+    filterPosts();
+  }, [selectedJobId, selectedTraitIds, posts, searchText]);
+
+  // 설명 툴팁 설정
+  const handleMouseEnter = (description: string, event: React.MouseEvent) => {
+    setHoveredDescription(description);
+    setTooltipPosition({ x: event.clientX + 10, y: event.clientY + 10 }); // 마우스 위치 기준
+  };
+
+  // 설명 툴팁 숨기기
+  const handleMouseLeave = () => {
+    setHoveredDescription(null);
+  };
+
+  // 모달
+  const openModal = (post: Post) => {
+    setModalData({
+      id: post.id,
+      jobId: post.job_id,
+      traitIds: post.trait_id,
+    });
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setModalData(null);
+  };
 
   // 유튜브 URL에서 ID 추출 함수
   const extractVideoId = (url: string) => {
@@ -116,6 +236,7 @@ const RecommendBuilder: React.FC = () => {
         </div>
       </div>
 
+      {/* 메뉴바 설정부분 */}
       <div className={styles.underHeader}>
         <div className={styles.menuTitle}>
           <img src="../image/menuLogo.png" alt="menu" className={styles.menuLogo} />
@@ -130,38 +251,58 @@ const RecommendBuilder: React.FC = () => {
         </div>
       </div>
 
+      {/* 모드 선택창부분 */}
       <div className={styles.modePick}>
         <h3>Mode Pick:</h3>
         <div className={styles.modeButtonGroup}>
-          <button className={styles.modeButton}>
+          <button className={`${styles.modeButton} ${currentMode === "X" ? styles.selected : ""}`}
+            onClick={() => handleModeChange("X")}
+          >
             <img src="../image/modeLogo.png" alt="modeLogo" className={styles.modeLogo} />Vanilla
           </button>
-          <button className={styles.modeButton}>
+          <button className={`${styles.modeButton} ${currentMode === "O" ? styles.selected : ""}`}
+            onClick={() => handleModeChange("O")}
+          >
             <img src="../image/modeLogo.png" alt="modeLogo" className={styles.modeLogo} />More Simple Traits (MST) & Simple Overhaul Traits and Occupations (SOTO)
           </button>
         </div>
       </div>
 
+      {/* 직업 선택창부분 */}
       <div className={styles.jobPick}>
-        {Jobs.map((job, index) => (
-          <button key={index} className={styles.jobButton}>
+        {jobs.map((job) => (
+          <button
+            key={job.id}
+            className={`${styles.jobButton} ${selectedJobId === job.id ? styles.selected : ""
+              }`}
+            onClick={() => handleJobSelect(job.id)}
+          >
             {job.image && (
-              <img src={job.image} alt={job.job} className={styles.jobImage} />
+              <img src={`../image/job/${job.image}`} alt={job.name} className={styles.jobImage} />
             )}
-            <span className={styles.jobName}>{job.job}</span>
+            <span className={styles.jobName}>{job.name}</span>
           </button>
         ))}
       </div>
 
+      {/* 추천빌드 검색창 */}
       <div className={styles.searchContainer}>
         <img src="../image/searchIcon.png" alt="Search Icon" className={styles.searchIcon} />
-        <input type="text" placeholder="Search for a Build" className={styles.searchBuildInput} />
+        <input
+          type="text"
+          placeholder="Search for a Build"
+          className={styles.searchBuildInput}
+          value={searchText} // 입력 값을 상태와 연결
+          onChange={(e) => setSearchText(e.target.value)} // 상태 업데이트
+        />
       </div>
+
 
       <div className={styles.gridMain}>
         <h2 className={styles.youtuberTitle}>유튜브 인기 추천 빌드</h2>
-        <h2 className={styles.positiveTitle}>긍정 특성</h2>
-        <h2 className={styles.negativeTitle}>부정 특성</h2>
+        <h2 className={styles.positiveTitle}>긍정 특성 선택</h2>
+        <h2 className={styles.negativeTitle}>부정 특성 선택</h2>
+
         {/* 유튜버 추천 빌드 */}
         <div className={styles.youtubeRecommendationTop}>
           <img src="../image/youtubeLogo.png" alt="youtubeLogo" className={styles.youtubeLogo} />
@@ -203,12 +344,20 @@ const RecommendBuilder: React.FC = () => {
             )}
           </div>
         </div>
+
         {/* 긍정 특성 */}
         <div className={styles.positiveTraits}>
-          <ul>
-            {positiveTraits.map((trait, index) => (
-              <li key={index} className={styles.trait}>
-                {trait.name} ({trait.points})
+          <ul className={styles.traitsList}>
+            {positiveTraits.map((trait) => (
+              <li
+                key={trait.id}
+                className={`${styles.trait} ${selectedTraitIds.includes(trait.id) ? styles.selected : ""
+                  }`}
+                onClick={() => handleTraitSelect(trait.id)}
+              >
+                <img src={`../image/trait/${trait.image}`} alt={trait.trait_name} className={styles.traitIcon} />
+                <span className={styles.traitName}>{trait.trait_name}</span>
+                <span className={styles.positiveTraitPoints}>{trait.points > 0 ? `+ ${trait.points}` : `- ${Math.abs(trait.points)}`}</span>
               </li>
             ))}
           </ul>
@@ -216,23 +365,73 @@ const RecommendBuilder: React.FC = () => {
 
         {/* 부정 특성 */}
         <div className={styles.negativeTraits}>
-          <ul>
-            {negativeTraits.map((trait, index) => (
-              <li key={index} className={styles.trait}>
-                {trait.name} ({trait.points})
+          <ul className={styles.traitsList}>
+            {negativeTraits.map((trait) => (
+              <li
+                key={trait.id}
+                className={`${styles.trait} ${selectedTraitIds.includes(trait.id) ? styles.selected : ""
+                  }`}
+                onClick={() => handleTraitSelect(trait.id)}
+              >
+                <img
+                  src={`../image/trait/${trait.image}`}
+                  alt={trait.trait_name}
+                  className={styles.traitIcon}
+                />
+                <span className={styles.traitName}>{trait.trait_name}</span>
+                <span className={styles.negativeTraitPoints}>{trait.points > 0 ? `+ ${trait.points}` : `- ${Math.abs(trait.points)}`}</span>
               </li>
             ))}
           </ul>
         </div>
       </div>
+
+      {/* 게시글 표시 */}
       <div className={styles.gridBottom}>
-        <div className={styles.builderBox}></div>
-        <div className={styles.builderBox}></div>
-        <div className={styles.builderBox}></div>
-        <div className={styles.builderBox}></div>
-        <div className={styles.builderBox}></div>
-        <div className={styles.builderBox}></div>
+        {filteredPosts.map((post, index) => (
+          <div
+            key={post.id}
+            className={styles.builderBox}
+            onClick={() => openModal(post)}
+          >
+            <div className={styles.buildTitle}>
+              {post.comment}
+            </div>
+            <div className={styles.buildTag}>
+              <h4 className={styles.buildVersion}>Build 40.0.1</h4>
+              <h4 className={styles.job}>좀도둑</h4>
+            </div>
+          </div>
+        ))}
       </div>
+
+
+
+
+      {/* 모달 */}
+      {isModalOpen && modalData && (
+        <Modal
+          id={modalData.id}
+          jobId={modalData.jobId}
+          traitIds={modalData.traitIds}
+          onClose={closeModal}
+        />
+      )}
+
+      {/* 설명 툴팁 */}
+      {hoveredDescription && (
+        <div
+          className={styles.tooltip}
+          style={{
+            left: `${tooltipPosition.x}px`,
+            top: `${tooltipPosition.y}px`,
+          }}
+        >
+          {
+            hoveredDescription
+          }
+        </div>
+      )}
     </div>
   );
 };
