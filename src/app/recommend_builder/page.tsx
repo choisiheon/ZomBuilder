@@ -57,6 +57,7 @@ const RecommendBuilder: React.FC = () => {
   const [selectedTraitIds, setSelectedTraitIds] = useState<number[]>([]); // 선택한 특성 ID
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 
   const [modalData, setModalData] = useState<{ id: number; jobId: number; traitIds: string; } | null>(null); // 모달
+  const [isBlocked, setIsBlocked] = useState(false);
 
   const [youtubeTitleTop, setYoutubeTitleTop] = useState("한국인이 좋아하는 속도 프로젝트 좀보이드 공략");
   const [youtubeTitleBottom, setYoutubeTitleBottom] = useState("영상 하나로 끝내는 프로젝트 좀보이드 공략");
@@ -179,6 +180,63 @@ const RecommendBuilder: React.FC = () => {
     setHoveredDescription(null);
   };
 
+  const handleSearchClick = () => {
+    if (!job_traitsSearchText.trim()) {
+      alert("검색어를 입력하세요."); // 검색어 미입력 시 알림
+      return;
+    }
+
+    // 직업 검색
+    const matchingJob = jobs.find(
+      (job) => job.name.toLowerCase() === job_traitsSearchText.toLowerCase()
+    );
+    if (matchingJob) {
+      handleJobSelect(matchingJob.id); // 직업 선택
+    }
+
+    // 특성 검색
+    const matchingTrait =
+      positiveTraits.find(
+        (trait) =>
+          trait.trait_name.toLowerCase() === job_traitsSearchText.toLowerCase()
+      ) ||
+      negativeTraits.find(
+        (trait) =>
+          trait.trait_name.toLowerCase() === job_traitsSearchText.toLowerCase()
+      );
+
+    if (matchingTrait) {
+      handleTraitSelect(matchingTrait.id); // 특성 선택
+    }
+
+    if (!matchingJob && !matchingTrait) {
+      alert("일치하는 직업 또는 특성을 찾을 수 없습니다.");
+    }
+
+    setjob_traitsSearchText(""); // 검색창 초기화
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (
+      event.key === "Enter" &&
+      !isBlocked &&
+      event.nativeEvent.isComposing === false
+    ) {
+      if (!job_traitsSearchText.trim()) {
+        alert("검색어를 입력하세요."); // 검색어 미입력 시 알림
+        return;
+      }
+
+      setIsBlocked(true); // 입력 차단 활성화
+      handleSearchClick();
+
+      setTimeout(() => {
+        setIsBlocked(false); // 500ms 후 차단 해제
+      }, 500);
+    }
+  };
+
+
   // 모달
   const openModal = (post: Post) => {
     setModalData({
@@ -250,38 +308,11 @@ const RecommendBuilder: React.FC = () => {
             className={styles.searchInput}
             value={job_traitsSearchText} // 입력 상태와 연결
             onChange={(e) => setjob_traitsSearchText(e.target.value)} // 상태 업데이트
+            onKeyDown={handleKeyDown} // onKeyDown 이벤트 연결
           />
           <button
             className={styles.searchButton}
-            onClick={() => {
-              // 직업 검색
-              const matchingJob = jobs.find((job) =>
-                job.name.toLowerCase() === job_traitsSearchText.toLowerCase()
-              );
-              if (matchingJob) {
-                handleJobSelect(matchingJob.id); // 직업 선택
-              }
-
-              // 특성 검색
-              const matchingTrait =
-                positiveTraits.find((trait) =>
-                  trait.trait_name.toLowerCase() === job_traitsSearchText.toLowerCase()
-                ) ||
-                negativeTraits.find((trait) =>
-                  trait.trait_name.toLowerCase() === job_traitsSearchText.toLowerCase()
-                );
-
-              if (matchingTrait) {
-                handleTraitSelect(matchingTrait.id); // 특성 선택
-              }
-
-              // 결과 없을 경우 알림
-              if (!matchingJob && !matchingTrait) {
-                alert("일치하는 직업 또는 특성을 찾을 수 없습니다.");
-              }
-
-              setjob_traitsSearchText(''); // 검색창 초기화
-            }}
+            onClick={handleSearchClick} // 버튼 클릭 시 실행
           >
             <img
               src="../image/searchIcon.png"

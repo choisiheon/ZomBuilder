@@ -770,6 +770,7 @@ const CustomBuilder: React.FC = () => {
                                 .replace(/자,/g, '자<br />') // "자," 뒤에 자<br /> 추가
                                 .replace(/가,/g, '가<br />') // "가," 뒤에 가<br /> 추가
                                 .replace(/능,/g, '능<br />') // "능," 뒤에 능<br /> 추가
+                                .replace(/소,/g, '소<br />') // "소," 뒤에 소<br /> 추가
                                 .replace(/, \+/g, (match, offset, str) => {
                                     // 괄호 안인지 확인
                                     const isInsideBrackets = str.slice(0, offset).split('(').length > str.slice(0, offset).split(')').length;
