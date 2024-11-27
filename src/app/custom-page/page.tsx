@@ -1,20 +1,13 @@
-"use client";
-
 // src/app/custom-page/page.tsx
-import { useSearchParams } from 'next/navigation'; // next/navigation 사용
-import CustomBuilder from '../builder/page'; // CustomBuilder 컴포넌트 경로 수정
+import React, { Suspense } from 'react';
+import CustomBuilderWrapper from './CustomBuilderWrapper';
 
-const CustomPage: React.FC = () => {
-    const searchParams = useSearchParams();
-    const job_id = searchParams.get('job_id'); // job_id 값 가져오기
-    const trait_ids = searchParams.get('trait_ids'); // trait_ids 값 가져오기
+export default async function CustomPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
+  const resolvedSearchParams = await searchParams;
 
-    return (
-        <CustomBuilder
-            job_id={job_id ? parseInt(job_id, 10) : undefined}
-            trait_ids={trait_ids || ''}
-        />
-    );
-};
-
-export default CustomPage;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CustomBuilderWrapper searchParams={resolvedSearchParams} />
+    </Suspense>
+  );
+}

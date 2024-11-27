@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Modal from "../Modal_Recommend/page";
+import Modal from "../Modal_Recommend/Modal";
 import Image from 'next/image'; // next/image에서 Image를 임포트
 import Link from 'next/link';
 import styles from "../../../styles/recommend_builder/recommend.module.css";
@@ -330,12 +330,12 @@ const RecommendBuilder: React.FC = () => {
           <button className={`${styles.modeButton} ${currentMode === "X" ? styles.selected : ""}`}
             onClick={() => handleModeChange("X")}
           >
-            <img src="../image/modeLogo.png" alt="modeLogo" className={styles.modeLogo} />Vanilla
+            <img src="../image/modeLogo1.png" alt="modeLogo" className={styles.modeLogo} />Vanilla
           </button>
           <button className={`${styles.modeButton} ${currentMode === "O" ? styles.selected : ""}`}
             onClick={() => handleModeChange("O")}
           >
-            <img src="../image/modeLogo.png" alt="modeLogo" className={styles.modeLogo} />More Simple Traits (MST) & Simple Overhaul Traits and Occupations (SOTO)
+            <img src="../image/modeLogo2.png" alt="modeLogo" className={styles.modeLogo} />More Simple Traits (MST) & Simple Overhaul Traits and Occupations (SOTO)
           </button>
         </div>
       </div>

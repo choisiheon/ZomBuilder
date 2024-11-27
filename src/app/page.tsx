@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,6 +8,7 @@ import styles from "../../styles/mainpage/MainPage.module.css";
 export default function Home() {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [count, setCount] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(true); // 모달 상태
 
   useEffect(() => {
     const slider = sliderRef.current;
@@ -28,20 +30,24 @@ export default function Home() {
     { image: "/image/indiestoneimage.png", text: "#좀보이드" },
     { image: "/image/zomboidmoodle.png", text: "#특성" },
     { image: "/image/zomboidimage.png", text: "#좀빌더" },
-    { image: "/image/bloodimage.png", text: "#생존" },
-    { image: "/image/cigarette.png", text: "#전략" },
+    { image: "/image/mainLine/bio.png", text: "#생존" },
+    { image: "/image/mainLine/game.png", text: "#전략" },
+    { image: "/image/mainLine/zombi.png", text: "#좀비" },
+    { image: "/image/mainLine/horror.png", text: "#공포" },
+    { image: "/image/mainLine/energy.png", text: "#스릴" },
   ];
 
   return (
     <div className={styles.background}>
       {/* 배경 이미지 */}
-      <Image
-        src="/image/mainpagebackground.png"
-        alt="메인 배경 이미지"
-        layout="fill"
-        objectFit="cover"
-        objectPosition="center"
-      />
+      <div className={styles.backgroundImage}>
+        <Image
+          src="/image/mainpagebackground.png"
+          alt="메인 배경 이미지"
+          fill
+          style={{ objectFit: "cover", objectPosition: "center" }}
+        />
+      </div>
 
       {/* 좌측 상단 좀빌더 로고 */}
       <div className={styles.zomBuilderLogo}>
@@ -49,7 +55,6 @@ export default function Home() {
           <Image
             src="/image/zomboid-logo.png"
             alt="좀빌더 로고"
-            layout="intrinsic"
             width={250}
             height={100}
             style={{ cursor: "pointer" }}
@@ -67,7 +72,6 @@ export default function Home() {
           <Image
             src="/image/logo.png"
             alt="인디스톤 로고"
-            layout="intrinsic"
             width={100}
             height={100}
             style={{ cursor: "pointer" }}
@@ -93,7 +97,7 @@ export default function Home() {
       {/* 슬라이더 */}
       <div className={styles.sliderContainer}>
         {/* 첫 번째 라인 슬라이더 */}
-        <div className={styles.sliderWrapper} style={{ transform: 'rotate(-25deg)' }}>
+        <div className={styles.sliderWrapper} style={{ transform: "rotate(-25deg)" }}>
           <div
             className={styles.slider}
             ref={sliderRef}
@@ -117,7 +121,7 @@ export default function Home() {
         </div>
 
         {/* 두 번째 라인 슬라이더 */}
-        <div className={styles.sliderWrapper} style={{ transform: 'rotate(20deg)' }}>
+        <div className={styles.sliderWrapper} style={{ transform: "rotate(20deg)" }}>
           <div
             className={styles.slider}
             ref={sliderRef}
