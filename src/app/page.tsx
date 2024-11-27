@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,6 +8,7 @@ import styles from "../../styles/mainpage/MainPage.module.css";
 export default function Home() {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [count, setCount] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(true); // 모달 상태
 
   useEffect(() => {
     const slider = sliderRef.current;

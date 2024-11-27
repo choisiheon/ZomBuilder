@@ -486,6 +486,59 @@ const CustomBuilder: React.FC<CustomBuilderProps> = ({ id }) => {
         setModalData(null);
     };
 
+    // 무작위 선택 핸들러 추가
+    const handleRandomSelection = async () => {
+        try {
+            const response = await fetch("https://server.zombuilder.com/post/rPosts/random");
+            const data = await response.json();
+
+            if (!data.success || !data.data) {
+                console.warn('API 응답이 예상한 형식이 아닙니다.');
+                return;
+            }
+
+            const { job_id, trait_id, modecheck } = data.data;
+
+            // 모드 설정
+            if (modecheck === 'X' || modecheck === 'O') {
+                setCurrentMode(modecheck);
+            } else {
+                console.warn('유효하지 않은 modecheck 값:', modecheck);
+                return;
+            }
+
+            // 모드 데이터 로드 후 직업 및 특성 설정
+            const fetchedJobs = await fetchJobs(modecheck);
+            const fetchedTraits = await fetchTraits(modecheck);
+
+            // 직업 선택
+            const job = fetchedJobs.find((j: Job) => j.id === job_id);
+            if (job) {
+                handleJobSelect(job, fetchedTraits);
+            } else {
+                console.warn(`job_id ${job_id}에 해당하는 직업을 찾을 수 없습니다.`);
+            }
+
+            // 특성 선택
+            if (trait_id) {
+                const traitIds = trait_id.split(',').map((id: string) => Number(id.trim()));
+                traitIds.forEach((traitId: number) => {
+                    const trait =
+                        fetchedTraits.positiveTraits.find((t: Trait) => t.id === traitId) ||
+                        fetchedTraits.negativeTraits.find((t: Trait) => t.id === traitId);
+
+                    if (trait) {
+                        handleTraitSelect(trait);
+                    } else {
+                        console.warn(`trait_id ${traitId}에 해당하는 특성을 찾을 수 없습니다.`);
+                    }
+                });
+            }
+        } catch (error) {
+            console.error('Error during random selection:', error);
+        }
+    };
+
     // 초기화 핸들러
     const handleReset = () => {
         setSelectedJob(null);
@@ -744,7 +797,7 @@ const CustomBuilder: React.FC<CustomBuilderProps> = ({ id }) => {
 
             {/* 하단 버튼모음 */}
             <div className={styles.buttonGroup}>
-                <button className={styles.button}>무작위</button>
+                <button className={styles.button} onClick={handleRandomSelection}>무작위</button>
                 <button className={styles.button} onClick={handleReset}>초기화</button>
                 <button
                     className={styles.buildShareButton}
