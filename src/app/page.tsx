@@ -28,8 +28,11 @@ export default function Home() {
     { image: "/image/indiestoneimage.png", text: "#좀보이드" },
     { image: "/image/zomboidmoodle.png", text: "#특성" },
     { image: "/image/zomboidimage.png", text: "#좀빌더" },
-    { image: "/image/bloodimage.png", text: "#생존" },
-    { image: "/image/cigarette.png", text: "#전략" },
+    { image: "/image/mainLine/bio.png", text: "#생존" },
+    { image: "/image/mainLine/game.png", text: "#전략" },
+    { image: "/image/mainLine/zombi.png", text: "#좀비" },
+    { image: "/image/mainLine/horror.png", text: "#공포" },
+    { image: "/image/mainLine/energy.png", text: "#스릴" },
   ];
 
   return (

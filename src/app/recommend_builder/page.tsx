@@ -330,12 +330,12 @@ const RecommendBuilder: React.FC = () => {
           <button className={`${styles.modeButton} ${currentMode === "X" ? styles.selected : ""}`}
             onClick={() => handleModeChange("X")}
           >
-            <img src="../image/modeLogo.png" alt="modeLogo" className={styles.modeLogo} />Vanilla
+            <img src="../image/modeLogo1.png" alt="modeLogo" className={styles.modeLogo} />Vanilla
           </button>
           <button className={`${styles.modeButton} ${currentMode === "O" ? styles.selected : ""}`}
             onClick={() => handleModeChange("O")}
           >
-            <img src="../image/modeLogo.png" alt="modeLogo" className={styles.modeLogo} />More Simple Traits (MST) & Simple Overhaul Traits and Occupations (SOTO)
+            <img src="../image/modeLogo2.png" alt="modeLogo" className={styles.modeLogo} />More Simple Traits (MST) & Simple Overhaul Traits and Occupations (SOTO)
           </button>
         </div>
       </div>

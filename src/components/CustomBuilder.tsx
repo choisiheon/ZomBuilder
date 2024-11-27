@@ -78,9 +78,13 @@ const CustomBuilder: React.FC<CustomBuilderProps> = ({ id }) => {
 
             if (data.success) {
                 setJobs(data.data);
+                return data.data; // 데이터를 반환합니다.
+            } else {
+                return [];
             }
         } catch (error) {
             console.error('Error fetching job data:', error);
+            return [];
         }
     };
 
@@ -88,7 +92,6 @@ const CustomBuilder: React.FC<CustomBuilderProps> = ({ id }) => {
     const fetchTraits = async (mode: string) => {
         setCurrentMode(mode);
         try {
-            // URL 설정 (mode에 따라 달라짐)
             const positiveUrl =
                 mode === "X"
                     ? "https://server.zombuilder.com/api/vTraits?group=positive"
@@ -98,7 +101,6 @@ const CustomBuilder: React.FC<CustomBuilderProps> = ({ id }) => {
                     ? "https://server.zombuilder.com/api/vTraits?group=negative"
                     : "https://server.zombuilder.com/api/mTraits?group=negative";
 
-            // 두 API 병렬 호출
             const [positiveResponse, negativeResponse] = await Promise.all([
                 fetch(positiveUrl),
                 fetch(negativeUrl),
@@ -107,11 +109,16 @@ const CustomBuilder: React.FC<CustomBuilderProps> = ({ id }) => {
             const positiveData = await positiveResponse.json();
             const negativeData = await negativeResponse.json();
 
-            // 데이터 상태 업데이트
             if (positiveData.success) setPositiveTraits(positiveData.data);
             if (negativeData.success) setNegativeTraits(negativeData.data);
+
+            return {
+                positiveTraits: positiveData.success ? positiveData.data : [],
+                negativeTraits: negativeData.success ? negativeData.data : [],
+            };
         } catch (error) {
             console.error("Error fetching traits:", error);
+            return { positiveTraits: [], negativeTraits: [] };
         }
     };
 
@@ -125,9 +132,11 @@ const CustomBuilder: React.FC<CustomBuilderProps> = ({ id }) => {
     useEffect(() => {
         if (!id) return;
 
-        fetch(`https://server.zombuilder.com/post/rPosts/${id}`)
-            .then((response) => response.json())
-            .then((data) => {
+        const fetchBuildData = async () => {
+            try {
+                const response = await fetch(`https://server.zombuilder.com/post/rPosts/${id}`);
+                const data = await response.json();
+
                 if (!data.success || !data.data) {
                     console.warn('API 응답이 예상한 형식이 아닙니다.');
                     return;
@@ -144,44 +153,39 @@ const CustomBuilder: React.FC<CustomBuilderProps> = ({ id }) => {
                 }
 
                 // 모드 데이터 로드 후 직업 및 특성 설정
-                fetchJobs(modecheck);
-                fetchTraits(modecheck);
+                const fetchedJobs = await fetchJobs(modecheck);
+                const fetchedTraits = await fetchTraits(modecheck);
 
-                // 직업 및 특성 데이터가 로드되면 선택
-                const interval = setInterval(() => {
-                    if (jobs.length > 0 && positiveTraits.length > 0 && negativeTraits.length > 0) {
-                        clearInterval(interval);
+                // 직업 선택
+                const job = fetchedJobs.find((j: Job) => j.id === job_id);
+                if (job) {
+                    handleJobSelect(job, fetchedTraits);
+                } else {
+                    console.warn(`job_id ${job_id}에 해당하는 직업을 찾을 수 없습니다.`);
+                }
 
-                        // 직업 선택
-                        if (job_id) {
-                            const job = jobs.find((j) => j.id === job_id);
-                            if (job) {
-                                handleJobSelect(job);
-                            } else {
-                                console.warn(`job_id ${job_id}에 해당하는 직업을 찾을 수 없습니다.`);
-                            }
+                // 특성 선택
+                if (trait_id) {
+                    const traitIds = trait_id.split(',').map((id: string) => Number(id.trim()));
+                    traitIds.forEach((traitId: number) => {
+                        const trait =
+                            fetchedTraits.positiveTraits.find((t: Trait) => t.id === traitId) ||
+                            fetchedTraits.negativeTraits.find((t: Trait) => t.id === traitId);
+
+                        if (trait) {
+                            handleTraitSelect(trait);
+                        } else {
+                            console.warn(`trait_id ${traitId}에 해당하는 특성을 찾을 수 없습니다.`);
                         }
+                    });
+                }
+            } catch (error) {
+                console.error('Error during job and trait selection:', error);
+            }
+        };
 
-                        // 특성 선택
-                        if (trait_id) {
-                            const traitIds = trait_id.split(',').map((id: string) => Number(id.trim()));
-                            traitIds.forEach((traitId: number) => {
-                                const trait =
-                                    positiveTraits.find((t) => t.id === traitId) ||
-                                    negativeTraits.find((t) => t.id === traitId);
-
-                                if (trait) {
-                                    handleTraitSelect(trait);
-                                } else {
-                                    console.warn(`trait_id ${traitId}에 해당하는 특성을 찾을 수 없습니다.`);
-                                }
-                            });
-                        }
-                    }
-                }, 100);
-            })
-            .catch((error) => console.error('Error fetching post data:', error));
-    }, [id, jobs, positiveTraits, negativeTraits]);
+        fetchBuildData();
+    }, [id]);
 
 
 
@@ -290,7 +294,10 @@ const CustomBuilder: React.FC<CustomBuilderProps> = ({ id }) => {
     };
 
     // 직업 선택 핸들러
-    const handleJobSelect = (job: Job) => {
+    const handleJobSelect = (
+        job: Job,
+        fetchedTraits?: { positiveTraits: Trait[]; negativeTraits: Trait[] }
+    ) => {
         if (selectedJob === job.id) {
             // 이미 선택된 직업 클릭 시 선택 해제
             setSelectedJob(null);
@@ -334,38 +341,36 @@ const CustomBuilder: React.FC<CustomBuilderProps> = ({ id }) => {
 
             activeTraits.forEach((activeTraitName) => {
                 const matchingTrait =
-                    positiveTraits.find((t) => t.trait_name === activeTraitName) ||
-                    negativeTraits.find((t) => t.trait_name === activeTraitName);
+                    (fetchedTraits?.positiveTraits || positiveTraits).find((t) => t.trait_name === activeTraitName) ||
+                    (fetchedTraits?.negativeTraits || negativeTraits).find((t) => t.trait_name === activeTraitName);
 
                 if (matchingTrait) {
                     // 활성화된 특성을 선택 및 잠금
-                    setPositiveTraits((traits) =>
-                        traits.map((t) =>
-                            t.trait_name === activeTraitName
-                                ? { ...t, selected: true, locked: true }
-                                : t
-                        )
-                    );
-                    setNegativeTraits((traits) =>
-                        traits.map((t) =>
-                            t.trait_name === activeTraitName
-                                ? { ...t, selected: true, locked: true }
-                                : t
-                        )
-                    );
+                    if (matchingTrait.group === "긍정") {
+                        setPositiveTraits((traits) =>
+                            traits.map((t) =>
+                                t.trait_name === activeTraitName
+                                    ? { ...t, selected: true, locked: true }
+                                    : t
+                            )
+                        );
+                    } else if (matchingTrait.group === "부정") {
+                        setNegativeTraits((traits) =>
+                            traits.map((t) =>
+                                t.trait_name === activeTraitName
+                                    ? { ...t, selected: true, locked: true }
+                                    : t
+                            )
+                        );
+                    }
 
                     updatedSelectedTraits.push({ ...matchingTrait, selected: true });
                     const disabled = matchingTrait.disabled_traits.split(',').map((t) => t.trim());
                     newDisabledTraits.push(...disabled);
                 }
             });
-
-            setSelectedTraits(updatedSelectedTraits); // 직업 활성 특성을 선택된 특성으로 저장
-            setDisabledTraits((prev) => Array.from(new Set([...prev, ...newDisabledTraits])));
-            updateMajorSkills(job, [...positiveTraits, ...negativeTraits]); // Major Skills 업데이트
-        }
-    };
-
+        };
+    }
 
     // 특성 선택 핸들러
     const handleTraitSelect = (trait: Trait) => {
@@ -553,7 +558,7 @@ const CustomBuilder: React.FC<CustomBuilderProps> = ({ id }) => {
                 </div>
             </div>
 
-            {/* 모드 선택창   */}
+            {/* 모드 선택창 */}
             <div className={styles.modePick}>
                 <h3>Mode Pick:</h3>
                 <div className={styles.modeButtonGroup}>
@@ -575,7 +580,15 @@ const CustomBuilder: React.FC<CustomBuilderProps> = ({ id }) => {
                             }}
                             onMouseLeave={() => setHoveredTrait(null)}
                         >
-                            <img src="../image/modeLogo.png" alt="modeLogo" className={styles.modeLogo} />
+                            <img
+                                src={
+                                    modeKey === "X"
+                                        ? "../image/modeLogo1.png"  // Vanilla 모드 이미지
+                                        : "../image/modeLogo2.png"      // MST 모드 이미지
+                                }
+                                alt={`${modeKey} mode logo`}
+                                className={styles.modeLogo}
+                            />
                             {modeKey === "X" && "Vanilla"}
                             {modeKey === "O" && "More Simple Traits (MST) & Simple Overhaul Traits and Occupations (SOTO)"}
                         </button>
