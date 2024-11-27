@@ -33,7 +33,8 @@
 .youtubeRecommendationBottom,
 .traitName,
 .searchBuildInput,
-.buildTag {
+.buildTag,
+.searchInput {
     font-family: 'GabiaGosran-Regular', sans-serif;
 }
 
@@ -58,7 +59,7 @@
   /* 모든 요소를 수직 중앙 정렬 */
   border-bottom: 2px solid rgba(255, 255, 255, 0.25);
   /* 투명도를 0.25로 설정 */
-  padding: 5px 10px;
+  padding: 5px 0px 5px 10px;
   /* 내부 여백 (위아래 5px, 좌우 10px) */
   margin: 20px 0;
 }
@@ -87,30 +88,6 @@
   margin-top: 30px;
 }
 
-/* 검색 창 */
-.searchGroup {
-  display: flex;
-  flex-direction: column;
-  /* 텍스트와 입력 필드를 세로로 정렬 */
-  align-items: flex-end;
-  /* 전체 그룹을 오른쪽 정렬 */
-  gap: 5px;
-  /* 텍스트와 입력 필드 간 간격 */
-  width: auto;
-  /* 그룹의 너비를 내용에 맞춤 */
-}
-
-.searchLabel {
-  align-self: flex-start;
-  /* 텍스트를 입력 필드의 왼쪽 위에 위치 */
-  color: #fff;
-  /* 텍스트 색상 */
-  font-size: 14px;
-  /* 텍스트 크기 */
-  margin: 0;
-  /* 불필요한 여백 제거 */
-}
-
 .searchInput {
   background-color: #3F4040;
   border: 1px solid #fff;
@@ -129,17 +106,18 @@
   /* 드롭 섀도우 추가 */
 }
 
+.searchButton {
+  background: none;
+  border: none; 
+}
+
 .searchInputGroup {
   display: flex;
-  justify-content: flex-end;
-  /* 아래쪽으로 정렬 */
-  height: 100%;
-  /* 부모의 전체 높이를 사용 */
-  padding-bottom: 10px;
-  /* 아래쪽 여백 추가 (선택 사항) */
-  position: relative;
-  /* 다른 위치 속성과 호환을 위해 설정 */
+  justify-content: flex-end; /* 아래쪽으로 정렬 */
+  height: 100%; /* 부모의 전체 높이를 사용 */
+  position: relative; /* 다른 위치 속성과 호환을 위해 설정 */
   gap: 5px;
+  margin-top: 15px;
 }
 
 /* Mode Pick */

@@ -28,13 +28,13 @@ const Modal: React.FC<ModalProps> = ({ id, jobId, traitIds, onClose }) => {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          password,
+          password, // 비밀번호를 JSON 형태로 전달
         }),
       });
 
       if (response.ok) {
         alert("해당 빌드가 삭제되었습니다!");
-        onClose(); // 모달 닫기
+        onClose(); 
       } else {
         const errorData = await response.json();
         alert(`오류 발생: ${errorData.message || "서버 문제입니다."}`);

@@ -52,10 +52,12 @@ const RecommendBuilder: React.FC = () => {
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 }); // 설명 위치
   const [filteredPosts, setFilteredPosts] = useState<Post[]>([]); // 필터링된 게시글
   const [searchText, setSearchText] = useState<string>(""); // 검색 텍스트 상태 추가
+  const [job_traitsSearchText, setjob_traitsSearchText] = useState<string>("");
   const [selectedJobId, setSelectedJobId] = useState<number | null>(null); // 선택한 직업 ID
   const [selectedTraitIds, setSelectedTraitIds] = useState<number[]>([]); // 선택한 특성 ID
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 
   const [modalData, setModalData] = useState<{ id: number; jobId: number; traitIds: string; } | null>(null); // 모달
+  const [isBlocked, setIsBlocked] = useState(false);
 
   const [youtubeTitleTop, setYoutubeTitleTop] = useState("한국인이 좋아하는 속도 프로젝트 좀보이드 공략");
   const [youtubeTitleBottom, setYoutubeTitleBottom] = useState("영상 하나로 끝내는 프로젝트 좀보이드 공략");
@@ -122,7 +124,7 @@ const RecommendBuilder: React.FC = () => {
     }
   };
 
-  // 게시글 필터링
+  // 직업, 특성, 검색으로 인한 게시글 필터링
   const filterPosts = () => {
     const filtered = posts.filter((post) => {
       const traitIds = post.trait_id.split(",").map(Number);
@@ -177,6 +179,63 @@ const RecommendBuilder: React.FC = () => {
   const handleMouseLeave = () => {
     setHoveredDescription(null);
   };
+
+  const handleSearchClick = () => {
+    if (!job_traitsSearchText.trim()) {
+      alert("검색어를 입력하세요."); // 검색어 미입력 시 알림
+      return;
+    }
+
+    // 직업 검색
+    const matchingJob = jobs.find(
+      (job) => job.name.toLowerCase() === job_traitsSearchText.toLowerCase()
+    );
+    if (matchingJob) {
+      handleJobSelect(matchingJob.id); // 직업 선택
+    }
+
+    // 특성 검색
+    const matchingTrait =
+      positiveTraits.find(
+        (trait) =>
+          trait.trait_name.toLowerCase() === job_traitsSearchText.toLowerCase()
+      ) ||
+      negativeTraits.find(
+        (trait) =>
+          trait.trait_name.toLowerCase() === job_traitsSearchText.toLowerCase()
+      );
+
+    if (matchingTrait) {
+      handleTraitSelect(matchingTrait.id); // 특성 선택
+    }
+
+    if (!matchingJob && !matchingTrait) {
+      alert("일치하는 직업 또는 특성을 찾을 수 없습니다.");
+    }
+
+    setjob_traitsSearchText(""); // 검색창 초기화
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (
+      event.key === "Enter" &&
+      !isBlocked &&
+      event.nativeEvent.isComposing === false
+    ) {
+      if (!job_traitsSearchText.trim()) {
+        alert("검색어를 입력하세요."); // 검색어 미입력 시 알림
+        return;
+      }
+
+      setIsBlocked(true); // 입력 차단 활성화
+      handleSearchClick();
+
+      setTimeout(() => {
+        setIsBlocked(false); // 500ms 후 차단 해제
+      }, 500);
+    }
+  };
+
 
   // 모달
   const openModal = (post: Post) => {
@@ -242,12 +301,25 @@ const RecommendBuilder: React.FC = () => {
           <img src="../image/menuLogo.png" alt="menu" className={styles.menuLogo} />
           <h1>Recommend Builder</h1>
         </div>
-        <div className={styles.searchGroup}>
-          <div className={styles.searchLabel}>All Search</div>
-          <div className={styles.searchInputGroup}>
-            <input type="text" placeholder="" className={styles.searchInput} />
-            <img src="../image/searchIcon.png" alt="search" className={styles.searchInputIcon} />
-          </div>
+        <div className={styles.searchInputGroup}>
+          <input
+            type="text"
+            placeholder="직업 또는 특성 이름을 입력하세요"
+            className={styles.searchInput}
+            value={job_traitsSearchText} // 입력 상태와 연결
+            onChange={(e) => setjob_traitsSearchText(e.target.value)} // 상태 업데이트
+            onKeyDown={handleKeyDown} // onKeyDown 이벤트 연결
+          />
+          <button
+            className={styles.searchButton}
+            onClick={handleSearchClick} // 버튼 클릭 시 실행
+          >
+            <img
+              src="../image/searchIcon.png"
+              alt="search"
+              className={styles.searchInputIcon}
+            />
+          </button>
         </div>
       </div>
 
@@ -404,9 +476,6 @@ const RecommendBuilder: React.FC = () => {
           </div>
         ))}
       </div>
-
-
-
 
       {/* 모달 */}
       {isModalOpen && modalData && (
