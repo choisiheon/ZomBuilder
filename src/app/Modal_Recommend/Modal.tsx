@@ -13,7 +13,7 @@ type ModalProps = {
 
 
 
-const Modal: React.FC<ModalProps> = ({ id, jobId, traitIds, onClose }) => {
+const RecommendModal: React.FC<ModalProps> = ({ id, jobId, traitIds, onClose }) => {
   const [password, setPassword] = useState<string>("");
   const router = useRouter(); // 라우터 객체 생성
 
@@ -83,4 +83,4 @@ const Modal: React.FC<ModalProps> = ({ id, jobId, traitIds, onClose }) => {
   );
 };
 
-export default Modal;
+export default RecommendModal;

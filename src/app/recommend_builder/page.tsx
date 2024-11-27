@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Modal from "../Modal_Recommend/page";
+import Modal from "../Modal_Recommend/Modal";
 import Image from 'next/image'; // next/image에서 Image를 임포트
 import Link from 'next/link';
 import styles from "../../../styles/recommend_builder/recommend.module.css";

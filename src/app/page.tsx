@@ -35,13 +35,14 @@ export default function Home() {
   return (
     <div className={styles.background}>
       {/* 배경 이미지 */}
-      <Image
-        src="/image/mainpagebackground.png"
-        alt="메인 배경 이미지"
-        layout="fill"
-        objectFit="cover"
-        objectPosition="center"
-      />
+      <div className={styles.backgroundImage}>
+        <Image
+          src="/image/mainpagebackground.png"
+          alt="메인 배경 이미지"
+          fill
+          style={{ objectFit: "cover", objectPosition: "center" }}
+        />
+      </div>
 
       {/* 좌측 상단 좀빌더 로고 */}
       <div className={styles.zomBuilderLogo}>
@@ -49,7 +50,6 @@ export default function Home() {
           <Image
             src="/image/zomboid-logo.png"
             alt="좀빌더 로고"
-            layout="intrinsic"
             width={250}
             height={100}
             style={{ cursor: "pointer" }}
@@ -67,7 +67,6 @@ export default function Home() {
           <Image
             src="/image/logo.png"
             alt="인디스톤 로고"
-            layout="intrinsic"
             width={100}
             height={100}
             style={{ cursor: "pointer" }}
@@ -93,7 +92,7 @@ export default function Home() {
       {/* 슬라이더 */}
       <div className={styles.sliderContainer}>
         {/* 첫 번째 라인 슬라이더 */}
-        <div className={styles.sliderWrapper} style={{ transform: 'rotate(-25deg)' }}>
+        <div className={styles.sliderWrapper} style={{ transform: "rotate(-25deg)" }}>
           <div
             className={styles.slider}
             ref={sliderRef}
@@ -117,7 +116,7 @@ export default function Home() {
         </div>
 
         {/* 두 번째 라인 슬라이더 */}
-        <div className={styles.sliderWrapper} style={{ transform: 'rotate(20deg)' }}>
+        <div className={styles.sliderWrapper} style={{ transform: "rotate(20deg)" }}>
           <div
             className={styles.slider}
             ref={sliderRef}
