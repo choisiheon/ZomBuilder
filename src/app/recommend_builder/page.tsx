@@ -113,12 +113,10 @@ const RecommendBuilder: React.FC = () => {
       const response = await fetch("https://server.zombuilder.com/post/rPosts");
       const data = await response.json();
       if (data.success) {
-        // 최신순 정렬
-        const sortedPosts = data.data.sort((a: Post, b: Post) =>
-          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-        );
-        // 상위 6개만 저장
-        setPosts(sortedPosts.slice(0, 6));
+        // 전체 게시글 저장
+        setPosts(data.data);
+      } else {
+        console.error("Error fetching posts:", data.message);
       }
     } catch (error) {
       console.error("Error fetching posts data:", error);
@@ -127,14 +125,18 @@ const RecommendBuilder: React.FC = () => {
 
   // 직업, 특성, 검색으로 인한 게시글 필터링
   const filterPosts = () => {
-    const filtered = posts.filter((post) => {
-      const traitIds = post.trait_id.split(",").map(Number);
-      const hasJob = selectedJobId === null || post.job_id === selectedJobId;
-      const hasTrait = selectedTraitIds.every((id) => traitIds.includes(id));
-      const matchesSearch = post.comment.toLowerCase().includes(searchText.toLowerCase());
-      const matchesMode = post.modecheck === currentMode;
-      return hasJob && hasTrait && matchesSearch && matchesMode;
-    });
+    const filtered = posts
+      .filter((post) => post.modecheck === currentMode) // 현재 모드에 맞는 게시글만 필터링
+      .filter((post) => {
+        const traitIds = post.trait_id.split(",").map(Number);
+        const hasJob = selectedJobId === null || post.job_id === selectedJobId;
+        const hasTrait = selectedTraitIds.every((id) => traitIds.includes(id));
+        const matchesSearch = post.comment.toLowerCase().includes(searchText.toLowerCase());
+        return hasJob && hasTrait && matchesSearch;
+      })
+      .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()) // 최신순 정렬
+      .slice(0, 6); // 상위 6개만 가져오기
+  
     setFilteredPosts(filtered);
   };
 
@@ -157,7 +159,7 @@ const RecommendBuilder: React.FC = () => {
     fetchTraits(mode);
     setSelectedJobId(null);
     setSelectedTraitIds([]);
-    filterPosts(); // 필터링 갱신
+    setSearchText(""); // 검색어 초기화
   };
 
   // 기본 모드 데이터 로드
@@ -333,7 +335,7 @@ const RecommendBuilder: React.FC = () => {
 
       {/* 모드 선택창부분 */}
       <div className={styles.modePick}>
-        <h3>Mode Pick:</h3>
+        <h3>Mode Pick</h3>
         <div className={styles.modeButtonGroup}>
           <button className={`${styles.modeButton} ${currentMode === "X" ? styles.selected : ""}`}
             onClick={() => handleModeChange("X")}
