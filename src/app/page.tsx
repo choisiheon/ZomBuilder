@@ -12,6 +12,21 @@ export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(true); // Modal 상태
 
   useEffect(() => {
+    // localStorage에서 모달 닫힌 상태 확인
+    const modalClosedUntil = localStorage.getItem("modalClosedUntil");
+    if (modalClosedUntil) {
+      const now = new Date();
+      const closedUntilDate = new Date(modalClosedUntil);
+
+      if (now < closedUntilDate) {
+        setIsModalOpen(false); // 오늘은 모달을 표시하지 않음
+        return;
+      }
+    }
+    setIsModalOpen(true); // 모달 표시
+  }, []);
+
+  useEffect(() => {
     const slider = sliderRef.current;
     if (!slider) return;
 
