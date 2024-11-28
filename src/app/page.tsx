@@ -85,7 +85,7 @@ export default function Home() {
         <Link href="/builder">
           <button className={styles.button}>New Build</button>
         </Link>
-        <Link href="/recommend-builder">
+        <Link href="/recommend_builder">
           <button className={styles.button}>Recommend Builder</button>
         </Link>
       </div>
