@@ -71,7 +71,9 @@ export default function Home() {
         <p>
           정보출처: Project Zomboid
           <br/>
-          제작: 대림대학교 응용 S/W전공 (김건우, 안양우, 전주현, 최시헌)
+          제작: 대림대학교 응용 S/W전공 
+          <br/>
+          김건우, 안양우, 전주현, 최시헌
           <br/>
           이메일: kgw3738@gmail.com
         </p>
