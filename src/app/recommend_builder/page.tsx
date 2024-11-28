@@ -40,6 +40,7 @@ type Post = {
   comment: string;
   password: string;
   created_at: string;
+  modecheck: string;
 };
 
 const RecommendBuilder: React.FC = () => {
@@ -130,8 +131,9 @@ const RecommendBuilder: React.FC = () => {
       const traitIds = post.trait_id.split(",").map(Number);
       const hasJob = selectedJobId === null || post.job_id === selectedJobId;
       const hasTrait = selectedTraitIds.every((id) => traitIds.includes(id));
-      const matchesSearch = post.comment.toLowerCase().includes(searchText.toLowerCase()); // 검색 텍스트 필터링 추가
-      return hasJob && hasTrait && matchesSearch;
+      const matchesSearch = post.comment.toLowerCase().includes(searchText.toLowerCase());
+      const matchesMode = post.modecheck === currentMode;
+      return hasJob && hasTrait && matchesSearch && matchesMode;
     });
     setFilteredPosts(filtered);
   };
@@ -155,6 +157,7 @@ const RecommendBuilder: React.FC = () => {
     fetchTraits(mode);
     setSelectedJobId(null);
     setSelectedTraitIds([]);
+    filterPosts(); // 필터링 갱신
   };
 
   // 기본 모드 데이터 로드
@@ -167,7 +170,7 @@ const RecommendBuilder: React.FC = () => {
   // 필터링 업데이트
   useEffect(() => {
     filterPosts();
-  }, [selectedJobId, selectedTraitIds, posts, searchText]);
+  }, [selectedJobId, selectedTraitIds, posts, searchText, currentMode]);
 
   // 설명 툴팁 설정
   const handleMouseEnter = (description: string, event: React.MouseEvent) => {
@@ -216,6 +219,12 @@ const RecommendBuilder: React.FC = () => {
     setjob_traitsSearchText(""); // 검색창 초기화
   };
 
+  // 직업 이름 찾는 헬퍼 함수 추가
+  const getJobNameById = (jobId: number): string => {
+    const job = jobs.find((job) => job.id === jobId);
+    return job ? job.name : "Unknown Job"; // 직업이 없을 경우 기본값으로 "Unknown Job" 설정
+  };
+
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (
       event.key === "Enter" &&
@@ -235,7 +244,6 @@ const RecommendBuilder: React.FC = () => {
       }, 500);
     }
   };
-
 
   // 모달
   const openModal = (post: Post) => {
@@ -379,9 +387,9 @@ const RecommendBuilder: React.FC = () => {
         <div className={styles.youtubeRecommendationTop}>
           <img src="../image/youtubeLogo.png" alt="youtubeLogo" className={styles.youtubeLogo} />
           <h3>{youtubeTitleTop}</h3>
-          <h4 className={styles.youtuberBuildVersion}>Build 40.0.1</h4>
+          <h4 className={styles.youtuberBuildVersion}>Build 41.78.16</h4>
           <h4 className={styles.youtuberPick}>Youtuber Pick</h4>
-          <h4 className={styles.youtuberJob}>좀도둑</h4>
+          <h4 className={styles.youtuberJob}>스피드런</h4>
           <div className={styles.youtubeContent}>
             {videoIdTop ? (
               <iframe
@@ -399,9 +407,9 @@ const RecommendBuilder: React.FC = () => {
         <div className={styles.youtubeRecommendationBottom}>
           <img src="../image/youtubeLogo.png" alt="youtubeLogo" className={styles.youtubeLogo} />
           <h3>{youtubeTitleBottom}</h3>
-          <h4 className={styles.youtuberBuildVersion}>Build 40.0.1</h4>
+          <h4 className={styles.youtuberBuildVersion}>41.78.16</h4>
           <h4 className={styles.youtuberPick}>Youtuber Pick</h4>
-          <h4 className={styles.youtuberJob}>좀도둑</h4>
+          <h4 className={styles.youtuberJob}>공략</h4>
           <div className={styles.youtubeContent}>
             {videoIdBottom ? (
               <iframe
@@ -460,6 +468,7 @@ const RecommendBuilder: React.FC = () => {
 
       {/* 게시글 표시 */}
       <div className={styles.gridBottom}>
+      <div className={styles.gridTitle}><h3>유저빌드 목록</h3></div>
         {filteredPosts.map((post, index) => (
           <div
             key={post.id}
@@ -467,11 +476,11 @@ const RecommendBuilder: React.FC = () => {
             onClick={() => openModal(post)}
           >
             <div className={styles.buildTitle}>
-              {post.comment}
+              - {post.comment}
             </div>
             <div className={styles.buildTag}>
-              <h4 className={styles.buildVersion}>Build 40.0.1</h4>
-              <h4 className={styles.job}>좀도둑</h4>
+              <h4 className={styles.buildVersion}>Build 41.78.16</h4>
+              <h4 className={styles.job}>{getJobNameById(post.job_id)}</h4> {/* 여기서 직업 이름 표시 */}
             </div>
           </div>
         ))}
