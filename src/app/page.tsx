@@ -58,11 +58,12 @@ export default function Home() {
       {/* Modal 컴포넌트 추가 */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <h2>공지사항</h2>
-        <h3>서비스소개,</h3>
+        <h3>서비스소개</h3>
         <p> ZomBuilder는 Project Zomboid의 빌드를 보다 편하게 계산해보고 공유할 수 있도록 제작한 서비스입니다.</p>
-        <h3>버그 및 개선사항,</h3>
+        <h3>버그 및 개선사항</h3>
         <p>
-          추천 빌더 페이지에서 다른 사용자들의 빌드를 가져올 때 취득기술 창이 원할하게 표현되지 않는 버그가 있습니다.
+          추천 빌더 페이지에서 다른 사용자들의 빌드를 가져올 때 취득기술 창이 표현되지 않는 버그가 있습니다.
+          <br/>
           (빌드를 가져오고 임의의 특성을 하나 추가함으로써 해결 할 수 있습니다)
           <br/>
           추가적인 버그 및 개선해야할 사항을 발견시 아래의 이메일로 제보해주세요.
@@ -70,9 +71,11 @@ export default function Home() {
         <p>
           정보출처: Project Zomboid
           <br/>
-          제작: 대림대학교 응용 S/W전공
+          제작: 대림대학교 응용 S/W전공 
           <br/>
-          이메일: wya00010@gmail.com
+          김건우, 안양우, 전주현, 최시헌
+          <br/>
+          이메일: kgw3738@gmail.com
         </p>
       </Modal>
       {/* 배경 이미지 */}
