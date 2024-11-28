@@ -224,7 +224,7 @@ const RecommendBuilder: React.FC = () => {
   // 직업 이름 찾는 헬퍼 함수 추가
   const getJobNameById = (jobId: number): string => {
     const job = jobs.find((job) => job.id === jobId);
-    return job ? job.name : "Unknown Job"; // 직업이 없을 경우 기본값으로 "Unknown Job" 설정
+    return job ? job.name : "직업 없음"; // 직업이 없을 경우
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
