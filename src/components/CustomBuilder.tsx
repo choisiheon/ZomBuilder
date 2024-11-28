@@ -328,12 +328,6 @@ const CustomBuilder: React.FC<CustomBuilderProps> = ({ id }) => {
             setDisabledTraits([]);
             setSelectedTraits([]);
 
-            // 획득 기술 초기화
-            setMajorSkills([
-                { name: "체력", points: 5 },
-                { name: "근력", points: 5 },
-            ]);
-
             // 활성 특성 처리
             const activeTraits = job.active_trait.split(',').map((trait) => trait.trim());
             const newDisabledTraits: string[] = [];
@@ -369,8 +363,14 @@ const CustomBuilder: React.FC<CustomBuilderProps> = ({ id }) => {
                     newDisabledTraits.push(...disabled);
                 }
             });
-        };
-    }
+
+            setDisabledTraits(newDisabledTraits);
+            setSelectedTraits(updatedSelectedTraits);
+
+            // **여기에서 바로 MajorSkills 업데이트**
+            updateMajorSkills(job, updatedSelectedTraits);
+        }
+    };
 
     // 특성 선택 핸들러
     const handleTraitSelect = (trait: Trait) => {

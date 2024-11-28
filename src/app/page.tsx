@@ -27,9 +27,9 @@ export default function Home() {
   }, []);
 
   const sliderData = [
-    { image: "/image/indiestoneimage.png", text: "#좀보이드" },
-    { image: "/image/zomboidmoodle.png", text: "#특성" },
-    { image: "/image/zomboidimage.png", text: "#좀빌더" },
+    { image: "/image/mainLine/indiestoneimage.png", text: "#좀보이드" },
+    { image: "/image/mainLine/zomboidmoodle.png", text: "#특성" },
+    { image: "/image/mainLine/zomboidimage.png", text: "#좀빌더" },
     { image: "/image/mainLine/bio.png", text: "#생존" },
     { image: "/image/mainLine/game.png", text: "#전략" },
     { image: "/image/mainLine/zombi.png", text: "#좀비" },
@@ -48,37 +48,37 @@ export default function Home() {
           style={{ objectFit: "cover", objectPosition: "center" }}
         />
       </div>
+      <div className={styles.mainHeader}>
+        {/* 좌측 상단 좀빌더 로고 */}
+        <div className={styles.zomBuilderLogo}>
+          <Link href="/">
+            <Image
+              src="/image/zomboid-logo.png"
+              alt="좀빌더 로고"
+              width={250}
+              height={120}
+              style={{ cursor: "pointer" }}
+            />
+          </Link>
+        </div>
 
-      {/* 좌측 상단 좀빌더 로고 */}
-      <div className={styles.zomBuilderLogo}>
-        <Link href="/">
-          <Image
-            src="/image/zomboid-logo.png"
-            alt="좀빌더 로고"
-            width={250}
-            height={100}
-            style={{ cursor: "pointer" }}
-          />
-        </Link>
+        {/* 우측 상단 인디스톤 로고 */}
+        <div className={styles.indieStoneLogo}>
+          <Link
+            href="https://projectzomboid.com/blog/about-us/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image
+              src="/image/logo.png"
+              alt="인디스톤 로고"
+              width={100}
+              height={120}
+              style={{ cursor: "pointer" }}
+            />
+          </Link>
+        </div>
       </div>
-
-      {/* 우측 상단 인디스톤 로고 */}
-      <div className={styles.indieStoneLogo}>
-        <Link
-          href="https://projectzomboid.com/blog/about-us/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            src="/image/logo.png"
-            alt="인디스톤 로고"
-            width={100}
-            height={100}
-            style={{ cursor: "pointer" }}
-          />
-        </Link>
-      </div>
-
       {/* 중앙 텍스트 */}
       <div className={styles.centerText}>
         "이것은 당신의 죽음에 관한 이야기이다"
