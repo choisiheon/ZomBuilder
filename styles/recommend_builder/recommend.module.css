@@ -25,7 +25,7 @@
 .youtuberTitle,
 .positiveTitle,
 .negativeTitle,
-.buildTitle {
+.gridTitle {
   font-family: 'Paperlogy-8ExtraBold', sans-serif;
 }
 
@@ -35,7 +35,11 @@
 .searchBuildInput,
 .buildTag,
 .searchInput {
-    font-family: 'GabiaGosran-Regular', sans-serif;
+  font-family: 'GabiaGosran-Regular', sans-serif;
+}
+
+.buildTitle {
+  font-family: 'Giants-Inline', sans-serif;
 }
 
 /* 좌우측 상단 로고 */
@@ -289,7 +293,7 @@
   grid-template-rows: auto;
   gap: 10px 50px;
   /* 그리드 간격 */
-  margin: 30px 0 70px 0;
+  margin: 30px 0 0 0;
 }
 
 /* 상단 텍스트 */
@@ -480,11 +484,19 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   /* 가로 2칸 */
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-rows: 50px repeat(3, 1fr);
   /* 세로 3칸 */
   gap: 50px 100px;
   /* 박스 간 간격 */
   margin-bottom: 40px;
+}
+
+.gridTitle {
+  grid-column: 1 / -1; /* 그리드의 모든 열을 차지 */
+  text-align: left;
+  font-size: 24px;
+  color: white; /* 글자 색상 */
+  margin-top: 30px;
 }
 
 .builderBox {
@@ -498,7 +510,7 @@
   display: flex; /* Flexbox 활성화 */
   flex-direction: column; /* 자식 요소들을 수직으로 정렬 */
   justify-content: space-between; /* 자식 요소들 사이에 공간을 균등하게 배분 */
-
+  cursor: pointer;
   position: relative;
   background-image: url('/image/mainpagebackground.png'); /* 각 builderBox에 배경 이미지 설정 */
   background-position: center 15%; /* 배경 이미지 위치 설정 */
@@ -508,6 +520,7 @@
 
 .buildTitle {
   font-size: 30px;
+  padding-left: 10px;
 }
 
 .buildTag {
