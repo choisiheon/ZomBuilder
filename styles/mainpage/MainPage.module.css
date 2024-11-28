@@ -1,6 +1,19 @@
+/* 글꼴 지정 */
+.centerText {
+  font-family: 'YESMyoungjo-Regular', sans-serif;
+  opacity: 0.8;
+}
+
+.sliderWrapper {
+  font-family: 'LeeSeoyun', sans-serif;
+}
+
+.button {
+  font-family: 'GabiaGosran-Regular', sans-serif;
+}
+
 /* 전체 배경 스타일 */
 .background {
-  position: relative;
   width: 100vw;
   height: 100vh;
   background-color: white;
@@ -68,6 +81,8 @@
   border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  /* 드롭 섀도우 추가 */
 }
 
 .button:hover {
@@ -77,39 +92,77 @@
 
 /* 슬라이더 텍스트 포함 컨테이너 */
 .sliderContainer {
-  position: absolute;
-  top: 70%;
+  position: fixed;
+  /* 고정 위치로 변경 */
+  top: 50%;
+  /* 화면의 중간으로 설정 */
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100%; /* 컨테이너 너비 */
-  height: 150px; /* 높이 */
-  overflow: hidden; /* 텍스트 넘침 방지 */
+  width: 100vw;
+  /* 뷰포트 전체 너비 */
+  height: 100vh;
+  /* 뷰포트 전체 높이 */
+  overflow: hidden;
+  /* 넘치는 내용 숨기기 */
   z-index: 20;
   display: flex;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0); /* 투명 배경 */
+  flex-direction: column;
+  /* 수직 정렬 */
+  justify-content: space-between;
+  /* 위아래 간격 조정 */
+  pointer-events: none;
+  /* 상호작용 비활성화 (필요 시 제거) */
 }
 
-/* 슬라이더 텍스트 */
+/* 슬라이더 각 라인을 감싸는 컨테이너 */
+.sliderWrapper {
+  width: 100%;
+  /* 화면 전체 너비 */
+  position: absolute;
+}
+
+/* 첫 번째 라인의 위치 조정 */
+.sliderWrapper:first-of-type {
+  top: 75%;
+  /* 화면 위쪽에 배치 */
+}
+
+/* 두 번째 라인의 위치 조정 */
+.sliderWrapper:last-of-type {
+  bottom: -10%;
+  /* 화면 아래쪽에 배치 */
+}
+
+/* 슬라이더 공통 스타일 */
 .slider {
   display: flex;
-  white-space: nowrap; /* 텍스트가 한 줄로 이어지게 */
-  gap: 50px; /* 텍스트 간 간격 */
+  white-space: nowrap;
+  /* 텍스트가 한 줄로 이어지게 */
+  gap: 15px;
+  /* 텍스트 간 간격 */
   align-items: center;
 }
 
+/* 슬라이더 아이템 */
 .sliderItem {
   display: flex;
   align-items: center;
-  gap: 10px; /* 이미지와 텍스트 간 간격 */
+  gap: 5px;
+  /* 이미지와 텍스트 간 간격 */
 }
 
 .sliderItem span {
-  font-size: 40px;
+  font-size: 25px;
   font-weight: bold;
-  color: rgba(255, 255, 255, 0.7); /* 반투명 텍스트 */
+  color: rgba(255, 255, 255, 0.1);
+  /* 반투명 텍스트 */
 }
 
 .sliderItem img {
-  border-radius: 0%; /* 이미지를 둥글게 */
+  border-radius: 0%;
+  /* 이미지를 둥글게 */
+  opacity: 0.3;
+  /* 이미지 투명도 설정 (0.0 ~ 1.0) */
+  transition: opacity 0.3s ease;
+  /* 부드러운 투명도 변경 */
 }

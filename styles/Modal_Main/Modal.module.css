@@ -1,0 +1,76 @@
+/* Modal.module.css */
+
+.modalContent h2,
+.modalContent h3,
+.closeButton {
+    font-family: 'Paperlogy-8ExtraBold', sans-serif;
+}
+
+.modalContent p {
+    font-family: 'omyu_pretty', sans-serif;
+}
+
+/* Modal 배경 스타일 */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  
+  /* Modal 컨텐츠 스타일 */
+  .modalContent {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative; /* 중요: infoBox의 absolute 기준점 */
+  }
+  
+  .modalContent h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #555; /* 구분선 */
+    padding-bottom: 10px;
+  }
+  
+  .modalContent h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .modalContent p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  
+  .closeButton {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #555; /* 닫기 버튼 배경 */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .closeButton:hover {
+    background-color: #777; /* 닫기 버튼 호버 효과 */
+  }

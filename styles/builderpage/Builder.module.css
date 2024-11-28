@@ -1,131 +1,432 @@
+.builderpage {
+    max-width: 1920px;
+    /* 최대 너비를 1920px로 제한 */
+    margin: 0 auto;
+    position: relative;
+    /* 자식 요소의 절대 위치를 기준으로 설정 */
+}
+
+.menuTitle,
+.modePick h3,
+.modeButton {
+    font-family: 'GangwonEduPowerExtraBoldA', sans-serif;
+}
+
+.jobTitle,
+.positiveTitle,
+.selectedTraitsTitle,
+.negativeTitle,
+.totalPoints,
+.acquiredSkillsTitle {
+    font-family: 'Paperlogy-8ExtraBold', sans-serif;
+}
+
+.button,
+.buildShareButton,
+.jobName,
+.traitName,
+.skillName,
+.searchInput {
+    font-family: 'GabiaGosran-Regular', sans-serif;
+}
+
 /* 좌우측 상단 로고 */
 .mainHeader {
-    display: flex; /* Flexbox로 자식 요소 배치 */
-    justify-content: space-between; /* 양쪽 끝으로 배치 */
-    align-items: center; /* 모든 요소를 수직 중앙 정렬 */
+    display: flex;
+    /* Flexbox로 자식 요소 배치 */
+    justify-content: space-between;
+    /* 양쪽 끝으로 배치 */
+    align-items: center;
+    /* 모든 요소를 수직 중앙 정렬 */
     margin: 20px 20px 0;
 }
 
 /* 헤더 영역 */
 .underHeader {
-    display: flex; /* Flexbox로 자식 요소 배치 */
-    justify-content: space-between; /* 양쪽 끝으로 배치 */
-    align-items: center; /* 모든 요소를 수직 중앙 정렬 */
-    border-bottom: 4px solid rgba(255, 255, 255, 0.4); /* 투명도를 0.4로 설정 */
-    padding: 5px 10px; /* 내부 여백 (위아래 5px, 좌우 10px) */
-    margin: 60px 20px 0;
+    display: flex;
+    /* Flexbox로 자식 요소 배치 */
+    justify-content: space-between;
+    /* 양쪽 끝으로 배치 */
+    align-items: center;
+    /* 모든 요소를 수직 중앙 정렬 */
+    border-bottom: 2px solid rgba(255, 255, 255, 0.25);
+    /* 투명도를 0.25로 설정 */
+    padding: 5px 0 5px 10px;
+    /* 내부 여백 (위아래 5px, 좌우 10px) */
+    margin: 20px 20px 0;
 }
 
 .menuLogo {
-    margin-left: -5px; /* 왼쪽으로 10px 이동 */
+    width: 40px;
+    height: 40px;
+    margin-left: -5px;
+    margin-top: 20px;
 }
 
 .menuTitle {
-    display: flex; /* 로고와 제목을 한 줄로 배치 */
-    align-items: center; /* 수직 중앙 정렬 */
-    gap: 10px; /* 로고와 제목 간격 */
-}
-  
-.menuTitle h1 {
-    margin: 0; /* 기본 여백 제거 */
-    line-height: 1; /* 텍스트의 줄 간격 조정 */
-}
-
-/* 검색 창 */
-.searchGroup {
     display: flex;
-    flex-direction: column; /* 텍스트와 입력 필드를 세로로 정렬 */
-    align-items: flex-end; /* 전체 그룹을 오른쪽 정렬 */
-    gap: 5px; /* 텍스트와 입력 필드 간 간격 */
-    width: auto; /* 그룹의 너비를 내용에 맞춤 */
+    /* 로고와 제목을 한 줄로 배치 */
+    align-items: center;
+    /* 수직 중앙 정렬 */
+    gap: 5px;
+    /* 로고와 제목 간격 */
 }
 
-.searchLabel {
-    align-self: flex-start; /* 텍스트를 입력 필드의 왼쪽 위에 위치 */
-    color: #fff; /* 텍스트 색상 */
-    font-size: 14px; /* 텍스트 크기 */
-    margin: 0; /* 불필요한 여백 제거 */
+.menuTitle h1 {
+    margin: 0;
+    /* 기본 여백 제거 */
+    line-height: 1;
+    /* 텍스트의 줄 간격 조정 */
+    margin-top: 30px;
 }
 
 .searchInput {
     background-color: #3F4040;
-    border: 1px solid #fff; /* 테두리 색상 */
-    border-radius: 4px; /* 둥근 모서리 */
-    padding: 5px 10px; /* 내부 여백 */
-    color: #fff; /* 텍스트 색상 */
-    font-size: 14px; /* 입력 텍스트 크기 */
-    width: 400px; /* 고정 너비 설정 */
+    border: 1px solid #fff;
+    /* 테두리 색상 */
+    border-radius: 5px;
+    /* 둥근 모서리 */
+    padding: 5px 10px;
+    /* 내부 여백 */
+    color: #fff;
+    /* 텍스트 색상 */
+    font-size: 14px;
+    /* 입력 텍스트 크기 */
+    width: 400px;
+    /* 고정 너비 설정 */
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    /* 드롭 섀도우 추가 */
+}
+
+.searchButton {
+    background: none;
+    border: none; 
+}
+
+.searchInputGroup {
+    display: flex;
+    justify-content: flex-end; /* 아래쪽으로 정렬 */
+    height: 100%; /* 부모의 전체 높이를 사용 */
+    position: relative; /* 다른 위치 속성과 호환을 위해 설정 */
+    gap: 5px;
+    margin-top: 15px;
 }
 
 /* Mode Pick */
 .modePick {
     display: flex;
-    flex-direction: column; /* 제목과 버튼 그룹을 세로로 정렬 */
-    gap: 10px; /* 제목과 버튼 간 간격 */
-    background-color: #3F4040; /* 배경색 */
-    border-radius: 4px; /* 둥근 모서리 */
-    padding: 10px 10px; /* 위아래 여백 줄임 */
-    margin : 10px 20px; /* 위아래 간격 */
+    flex-direction: column;
+    /* 제목과 버튼 그룹을 세로로 정렬 */
+    gap: 10px;
+    /* 제목과 버튼 간 간격 */
+    background-color: #3F4040;
+    /* 배경색 */
+    border-radius: 10px;
+    /* 둥근 모서리 */
+    padding: 10px 10px;
+    /* 위아래 여백 줄임 */
+    margin: 10px 20px;
+    /* 위아래 간격 */
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    /* 드롭 섀도우 추가 */
 }
 
 .modePick h3 {
-    margin: 0; /* 제목 기본 마진 제거 */
+    margin: 0;
+    /* 제목 기본 마진 제거 */
 }
 
 .modeButtonGroup {
-    display: flex; /* 버튼들을 한 줄로 정렬 */
-    gap: 80px; /* 버튼 간 간격 */
+    display: flex;
+    /* 버튼들을 한 줄로 정렬 */
+    gap: 80px;
+    /* 버튼 간 간격 */
 }
 
 .modeButton {
     display: inline-flex;
-    align-items: center;
+    align-items: flex-end;
     cursor: pointer;
-    gap: 5px; /* 텍스트와 아이콘 간 간격 */
-    background-color: #3F4040; /* 버튼 배경색 */
-    color: #fff; /* 글자 색 */
-    border: none; /* 테두리 제거 */
+    gap: 5px;
+    /* 텍스트와 아이콘 간 간격 */
+    background-color: #3F4040;
+    /* 버튼 배경색 */
+    color: #fff;
+    /* 글자 색 */
+    border: none;
+    /* 테두리 제거 */
 }
 
 .modeLogo {
-    width: 25px; 
-    height: 25px; 
-    object-fit: contain; /* 이미지 비율 유지 */
+    width: 25px;
+    height: 25px;
+    object-fit: contain;
+    /* 이미지 비율 유지 */
 }
 
 /* 레이아웃 및 주요 영역 */
 .grid {
     display: grid;
-    grid-template-columns: repeat(3, 4fr); /* 3열 그리드 */
-    grid-template-rows: auto; /* 행 높이 자동 조정 */
-    gap: 96px; /* 열 간격 유지 */
-    row-gap: 5px; /* 행 간격 제거 */
-    margin-top: 47px;
-    margin-right: 72px;
-    margin-left: 72px;
+    grid-template-columns: 1fr 0.9fr 0.9fr;
+    grid-template-rows: auto;
+    gap: 10px 94px;
+    margin: 99px 122px 0 122px;
 }
 
-.title {
-    font-size: 20px;
-    margin: 0px;
+.jobTitle,
+.positiveTitle,
+.selectedTraitsTitle,
+.negativeTitle,
+.acquiredSkillsTitle {
+    height: 10px;
 }
 
 .occupations {
-    padding: 10px; /* 내부 여백 감소 */
-    border-radius: 5px;
+    grid-column: 1 / 2;
+    grid-row: 2 / 5;
+    padding: 10px;
+    border-radius: 8px;
     border: 1px solid white;
-    grid-row: span 3;
-    width: 530px;
-    height: 828px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    color: white;
+    height: 855px; 
+    overflow-y: auto;
+    /* 세로 스크롤 활성화 */
+    overflow-x: hidden;
+    /* 가로 스크롤 숨김 */
 }
 
-.traits, .chosenTraits, .majorSkills {
-    padding: 15px;
-    border-radius: 5px;
+.positiveTraits,
+.negativeTraits,
+.chosenTraits,
+.majorSkills {
+    padding: 10px;
+    border-radius: 8px;
     border: 1px solid white;
-    width: 474px;
-    height: 354px;
-    margin-bottom: 40px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    color: white;
+    height: 380px;
+    overflow-y: auto;
+    /* 세로 스크롤 활성화 */
+    overflow-x: hidden;
+    /* 가로 스크롤 숨김 */
+}
+
+/* 스크롤바 숨기기 */
+.occupations::-webkit-scrollbar,
+.positiveTraits::-webkit-scrollbar,
+.negativeTraits::-webkit-scrollbar,
+.chosenTraits::-webkit-scrollbar,
+.majorSkills::-webkit-scrollbar {
+    display: none;
+    /* 스크롤바 숨기기 */
+}
+
+/* Firefox 전용 스크롤바 숨기기 */
+.positiveTraits {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    scrollbar-width: none;
+    /* 스크롤바 숨기기 */
+}
+
+.chosenTraits {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+    scrollbar-width: none;
+}
+
+.negativeTraits {
+    grid-column: 2 / 3;
+    grid-row: 4 / 5;
+}
+
+.majorSkills {
+    grid-column: 3 / 4;
+    grid-row: 4 / 5;
+    scrollbar-width: none;
+}
+
+.occupationsList {
+    list-style: none;
+    /* 기본 리스트 스타일 제거 */
+    padding: 0;
+    /* 기본 여백 제거 */
+    margin: 0;
+    /* 기본 마진 제거 */
+}
+
+/* Traits 목록 스타일 */
+.traitsList {
+    list-style: none;
+    /* 기본 리스트 스타일 제거 */
+    padding: 0;
+    /* 기본 여백 제거 */
+    margin: 0;
+    /* 기본 마진 제거 */
+}
+
+.traitsList > li {
+    display: flex;
+    margin-bottom: 3px;
+}
+
+.occupationsList > li {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+/* 각각의 Trait 아이템 */
+.traitItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    transition: background-color 0.2s ease;
+    /* 호버 효과 */
+}
+
+.traitItem:hover {
+    background-color: #3f3f3f;
+    /* 호버 시 배경색 변경 */
+}
+
+.jobIcon {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.jobName {
+    font-size: 20px;
+    line-height: 30px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+/* Trait 아이콘 */
+.traitIcon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+/* Trait 이름 */
+.traitName {
+    flex: 1;
+    /* 이름 부분 확장 */
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Trait 점수 */
+.positiveTraitPoints {
+    font-size: 16px;
+    font-weight: bold;
+    color: #ff4747;
+    /* 빨간색 점수 */
+}
+
+.negativeTraitPoints {
+    font-size: 16px;
+    font-weight: bold;
+    color: #24CB61;
+    /* 빨간색 점수 */
+}
+
+.skillItem {
+    display: flex;
+}
+
+.skillName {
+    width: 259px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.skillPointGroup {
+    margin-right: auto;
+}
+
+.skillPoints {
+    margin-left: auto;
+    font-size: 16px;
+    color: #5b91eb;
+    font-weight: bold;
+    margin-top: 2px;
+}
+
+.skillPointIcon {
+    margin-right: auto;
+    width: 23px;
+    height: 23px;
+}
+
+.skillPointIcon2 {
+    width: 11.5px;
+    height: 23px;
+}
+
+.warningIcon  {
+    margin-top: -3px;
+    margin-left: 3px;
+}
+
+/* 선택한 특성 섹션 헤더 */
+.selectedTraitsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0px;
+}
+
+/* 총 점수 스타일 */
+.totalPoints {
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #9c9c9c;
+}
+
+/* 선택된 항목 스타일 */
+.selected {
+    opacity: 0.5; /* 반투명 처리 */
+}
+
+/* 비활성화된 Trait 스타일 */
+.disabled {
+    opacity: 0.5;
+    /* 반투명 처리 */
+    pointer-events: none;
+    /* 클릭 불가능 */
+    cursor: not-allowed;
+    /* 마우스 커서 변경 */
+}
+
+/* 설명 박스 (Tooltip) */
+/* 툴팁 스타일 */
+.tooltip {
+    position: fixed;
+    /* 화면의 특정 위치에 고정 */
+    background-color: rgba(0, 0, 0, 0.8);
+    /* 어두운 반투명 배경 */
+    color: white;
+    /* 텍스트 색상 */
+    padding: 8px 12px;
+    /* 내부 여백 */
+    border-radius: 8px;
+    /* 둥근 모서리 */
+    font-size: 14px;
+    /* 텍스트 크기 */
+    font-weight: bold;
+    z-index: 1000;
+    /* 상단 배치 */
+    pointer-events: none;
+    /* 마우스 이벤트 비활성화 */
+    white-space: nowrap;
+    /* 텍스트 한 줄 유지 */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    /* 그림자 추가 */
 }
 
 /* 버튼 */
@@ -133,18 +434,20 @@
     background-color: #3F4040;
     color: #fff;
     padding: 10px 15px;
-    border: 1px solid #fff; /* 테두리 색상 */
+    border: 1px solid #fff;
+    /* 테두리 색상 */
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 5px;
     cursor: pointer;
-    width: 120px;
+    width: 110px;
     height: 40px;
 }
 
 .buttonGroup {
     display: flex;
     justify-content: flex-end;
-    margin: -20px 72px 20px 0;
-    gap: 74px;
+    margin: 20px 122px 20px 0;
+    gap: 36.5px;
 }
 
 .buildShareButton {
@@ -154,12 +457,12 @@
     border: 1px solid #fff;
     border-radius: 5px;
     cursor: pointer;
-    width: 200px;
+    width: 180px;
     height: 40px;
 }
 
-.buildShareButtonPosition {
-    display: flex;
-    justify-content: flex-end;
-    margin-right: 72px;
+.button:hover,
+.buildShareButton:hover {
+    background-color: #555;
+    transform: scale(1.05);
 }
