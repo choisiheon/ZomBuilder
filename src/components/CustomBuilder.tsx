@@ -613,7 +613,7 @@ const CustomBuilder: React.FC<CustomBuilderProps> = ({ id }) => {
 
             {/* 모드 선택창 */}
             <div className={styles.modePick}>
-                <h3>Mode Pick:</h3>
+                <h3>Mode Pick</h3>
                 <div className={styles.modeButtonGroup}>
                     {["X", "O"].map((modeKey) => (
                         <button
