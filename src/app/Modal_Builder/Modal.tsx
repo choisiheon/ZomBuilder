@@ -14,9 +14,22 @@ const Modal: React.FC<ModalProps> = ({ job_id, trait_ids, mode, onClose }) => {
     const [comment, setComment] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
+    // 금지된 단어 목록
+    const forbiddenWords = ["노", "무현", "대림", "머림", "재명", "응디", "좆", "부랄", "할카스", "디시", "부랄"];
+
     const handlePost = async () => {
         if (!job_id || !trait_ids || !comment || !password) {
             alert("빌드 제목과 비밀번호를 모두 입력해주세요!");
+            return;
+        }
+
+        // 댓글에 금지어 포함 여부 확인
+        const hasForbiddenWord = forbiddenWords.some((word) =>
+            comment.includes(word)
+        );
+        if (hasForbiddenWord) {
+            alert("입력한 제목에 금지된 단어가 포함되어 있습니다. 필드가 초기화됩니다.");
+            setComment(''); // 제목 필드 초기화
             return;
         }
 
@@ -46,6 +59,20 @@ const Modal: React.FC<ModalProps> = ({ job_id, trait_ids, mode, onClose }) => {
         }
     };
 
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { value } = e.target;
+
+        // 금지된 단어 실시간 확인
+        const hasForbiddenWord = forbiddenWords.some((word) => value.includes(word));
+        if (hasForbiddenWord) {
+            alert("금지된 단어를 입력할 수 없습니다.");
+            setComment(''); // 필드 초기화
+            return;
+        }
+
+        setComment(value); // 금지된 단어가 없을 경우만 상태 업데이트
+    };
+
     return (
         <div className={styles.modalOverlay}>
             <div className={styles.modalContainer}>
@@ -54,7 +81,7 @@ const Modal: React.FC<ModalProps> = ({ job_id, trait_ids, mode, onClose }) => {
                     type="text"
                     placeholder="빌드 제목 입력"
                     value={comment}
-                    onChange={(e) => setComment(e.target.value)}
+                    onChange={handleInputChange} // 입력값 변경 처리
                     className={styles.modalInput}
                 />
                 <input
