@@ -59,7 +59,11 @@ export default function Home() {
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <h2>공지사항</h2>
         <h3>서비스소개</h3>
-        <p> ZomBuilder는 Project Zomboid의 빌드를 보다 편하게 계산해보고 공유할 수 있도록 제작한 서비스입니다.</p>
+        <p> 
+          ZomBuilder는 Project Zomboid의 빌드를 보다 편하게 계산해보고 공유할 수 있도록 제작한 서비스입니다.
+          <br/>
+          + 본 사이트는 Google Analytics가 방문자 데이터를 수집하며, 이는 웹사이트 개선 목적에만 사용됩니다.
+        </p>
         <h3>버그 및 개선사항</h3>
         <p>
           추천 빌더 페이지에서 다른 사용자들의 빌드를 가져올 때 취득기술 창이 표현되지 않는 버그가 있습니다.
